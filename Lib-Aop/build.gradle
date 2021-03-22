@@ -1,0 +1,25 @@
+apply from: "../lib_base_config.gradle"
+
+android {
+    resourcePrefix "lib_aop_"
+    defaultConfig {
+        //指定room.schemaLocation生成的文件路径
+        //解决room编译警告
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+                arg("room.incremental", "true")
+                arg("room.expandProjection", "true")
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    api "org.aspectj:aspectjrt:1.9.5"
+    api rootProject.ext.dependencies.arouterApi
+    kapt rootProject.ext.dependencies.arouterCompiler
+    api project(':Lib-Base')
+    api rootProject.ext.dependencies.xxPermissions
+}

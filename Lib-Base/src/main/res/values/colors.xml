@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lib_base_colorPrimary">#36C1BC</color>
+    <color name="lib_base_colorPrimaryDark">#00574B</color>
+    <color name="lib_base_colorAccent">#36C1BC</color>
+
+    <color name="lib_base_black">#000000</color>
+    <color name="lib_base_main">#ffffff</color>
+    <color name="lib_base_dividerColor">#E6E3E3</color>
+    <color name="lib_base_main_dark">#FFD3D3D3</color>
+    <color name="lib_base_bg">#ffffff</color>
+    <color name="lib_base_main_text">#36C1BC</color>
+    <color name="lib_base_main_text_light">#80D5D1</color>
+    <color name="lib_base_bg_common">#F4F3F6</color>
+    <color name="lib_base_no_transparent_10_percent">#1a000000</color>
+
+
+    <color name="lib_base_tab">#ff1744</color>
+    <color name="lib_base_tab_light">#ff616f</color>
+    <color name="lib_base_tab_dark">#c4001d</color>
+    <color name="lib_base_red">#f44336</color>
+    <color name="lib_base_tab_text">#D4D4D4</color>
+
+    <color name="lib_base_sub_btn_background">#424a52</color>
+    <color name="lib_base_sub_btn_line">#00c68c</color>
+    <color name="lib_base_sub_btn_ripple">#eff0f2</color>
+    <color name="lib_base_sub_btn_tick">#eff0f2</color>
+    <color name="lib_base_white">#ffffff</color>
+    <color name="lib_base_gray">#627676</color>
+    <color name="lib_base_yellow">#eef26c</color>
+    <color name="lib_base_chat_bubble_left_normal">#D8F7FF</color>
+    <color name="lib_base_chat_bubble_left_press">#CDEBF3</color>
+    <color name="lib_base_chat_bubble_right_normal">#F4F5FA</color>
+    <color name="lib_base_chat_bubble_right_press">#EEEFF4</color>
+
+
+    <color name="lib_base_default_inactive_shape_color">#e5e5e5</color>
+    <color name="lib_base_default_inactive_color">#212121</color>
+    <color name="lib_base_default_shape_inactive_color">#888888</color>
+    <color name="lib_base_default_badge_background_color">#f44336</color>
+    <color name="lib_base_default_badge_text_color">#ffffff</color>
+
+
+    <color name="lib_base_guillotine_background">#FFFFFF</color>
+    <color name="lib_base_guillotine_background_dark">#F4F3F6</color>
+
+
+    <!--首页底部tab-->
+    <color name="lib_base_bg_main_tab">#ffffff</color>
+    <!--首页底部tab-->
+    <color name="lib_base_text_color">#151515</color>
+
+
+</resources>

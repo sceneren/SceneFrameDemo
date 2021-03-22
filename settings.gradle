@@ -1,0 +1,8 @@
+include ':Lib-Aop'
+include ':Lib-Common'
+include ':Lib-Network'
+include ':Lib-DB'
+include ':Lib-Base'
+include ':Module-Web'
+include ':app'
+rootProject.name = "My Application"

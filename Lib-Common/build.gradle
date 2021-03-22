@@ -1,0 +1,15 @@
+apply from: "../lib_base_config.gradle"
+
+android {
+    resourcePrefix "lib_common_"
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.annotation:annotation:1.1.0'
+
+    api 'com.dylanc:viewbinding-ktx:1.1.0'
+    api 'com.dylanc:viewbinding-nonreflection-ktx:1.1.0'
+    api 'com.dylanc:viewbinding-base-ktx:1.1.0'
+    api 'com.dylanc:viewbinding-brvah-ktx:1.1.0'
+}
