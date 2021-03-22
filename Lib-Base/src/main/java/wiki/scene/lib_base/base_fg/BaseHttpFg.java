@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import org.jetbrains.annotations.NotNull;
+
 import wiki.scene.lib_base.base_api.viewmodel.BaseViewModel;
 
 import java.lang.reflect.ParameterizedType;
@@ -26,7 +28,7 @@ public abstract class BaseHttpFg<VM extends BaseViewModel> extends BaseFg {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }

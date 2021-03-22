@@ -26,8 +26,8 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
         setRightImg(R.mipmap.ic_more_menu)
         url = intent.getStringExtra("webUrl")
         LogUtil.show("webUrl=$url")
-        AgentWeb.with(this)
-            .setAgentWebParent(binding!!.parent, LinearLayout.LayoutParams(-1, -1))
+        val agentWeb = AgentWeb.with(this)
+            .setAgentWebParent(binding.parent, LinearLayout.LayoutParams(-1, -1))
             .useDefaultIndicator()
             .setWebChromeClient(mWebChromeClient)
             .setWebViewClient(mWebViewClient)
@@ -39,14 +39,14 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
             .createAgentWeb()
             .ready()
             .go(url)
-        binding?.rlClose?.setOnClickListener { finish() }
-        binding?.llRight?.setOnClickListener {
+        binding.rlClose.setOnClickListener { finish() }
+        binding.llRight.setOnClickListener {
 
             BottomMenu.show(arrayOf("刷新", "使用浏览器打开"))
                 .setOnMenuItemClickListener { _, _, index ->
                     when (index) {
                         0 -> {
-
+                            agentWeb.urlLoader.reload()
                         }
                         1 -> {
                             val i = Intent(Intent.ACTION_VIEW)

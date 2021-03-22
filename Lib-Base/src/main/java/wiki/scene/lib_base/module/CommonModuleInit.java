@@ -8,11 +8,11 @@ import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.tencent.mmkv.MMKV;
-import com.zlx.library_db.manager.DbUtil;
 import wiki.scene.lib_base.BaseApplication;
 import wiki.scene.lib_base.loadsir.EmptyCallback;
 import wiki.scene.lib_base.loadsir.ErrorCallback;
 import wiki.scene.lib_base.loadsir.LoadingCallback;
+import wiki.scene.lib_db.manager.DbUtil;
 
 /**
  * Created by zlx on 2020/9/22 14:28

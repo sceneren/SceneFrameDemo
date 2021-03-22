@@ -14,12 +14,13 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
+
+import org.jetbrains.annotations.NotNull;
+
 import wiki.scene.lib_base.R;
 import wiki.scene.lib_base.base_util.LogUtils;
 import wiki.scene.lib_base.loadsir.LoadingCallback;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by zlx on 2017/5/23.
@@ -29,13 +30,12 @@ public abstract class BaseFg extends Fragment {
 
     protected View view;
     private ViewGroup parent;
-    protected Unbinder unbinder;
     protected Context context;
-    private LoadService loadService;
+    private LoadService<?> loadService;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(getLayoutId(), container, false);
         }
@@ -43,9 +43,7 @@ public abstract class BaseFg extends Fragment {
         if (parent != null) {
             parent.removeView(view);
         }
-        unbinder = ButterKnife.bind(this, view);
         initImmersionBar();
-
 
         initViews();
         return view;
@@ -106,11 +104,4 @@ public abstract class BaseFg extends Fragment {
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (unbinder != null) {
-            unbinder.unbind();
-        }
-    }
 }

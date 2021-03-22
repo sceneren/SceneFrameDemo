@@ -21,7 +21,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/image"
             android:layout_width="0dp"
             android:layout_height="120dp"
