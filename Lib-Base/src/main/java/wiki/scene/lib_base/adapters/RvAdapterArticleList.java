@@ -6,7 +6,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import wiki.scene.lib_common.R;
+import wiki.scene.lib_base.R;
 import wiki.scene.lib_base.base_api.res_data.ArticleBean;
 import wiki.scene.lib_base.base_util.GlideUtil;
 import wiki.scene.lib_base.constant.C;

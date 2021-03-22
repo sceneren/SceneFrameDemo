@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import wiki.scene.lib_base.base_api.res_data.RankListRes;
 import wiki.scene.lib_base.base_api.res_data.UserInfo;
-import com.zlx.module_network.bean.ApiResponse;
+import wiki.scene.lib_network.bean.ApiResponse;
 
 import retrofit2.http.GET;
 import retrofit2.http.Path;

@@ -69,13 +69,20 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
     override fun beforeOnCreate() {}
     override fun afterOnCreate() {}
+
     override fun initEvents() {
-        tvTitle = findViewById<View>(R.id.tvTitle) as TextView
-        ivLeft = findViewById<View>(R.id.ivLeft) as ImageView
-        ivRight = findViewById<View>(R.id.ivRight) as ImageView
-        if (ivLeft != null) {
-            ivLeft!!.setOnClickListener { view: View? -> finish() }
+
+
+        if (findViewById<View>(R.id.tvTitle) != null) {
+            tvTitle = findViewById<View>(R.id.tvTitle) as TextView
         }
+        if (findViewById<View>(R.id.ivRight) != null) {
+            ivLeft = findViewById<View>(R.id.ivLeft) as ImageView
+        }
+        if (findViewById<View>(R.id.ivRight) != null) {
+            ivRight = findViewById<View>(R.id.ivRight) as ImageView
+        }
+        ivLeft?.setOnClickListener { finish() }
     }
 
     protected fun setOnRightImgClickListener(listener: View.OnClickListener?) {
@@ -86,28 +93,28 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
     override fun showLoading() {
         if (loadService == null) {
-            loadService = LoadSir.getDefault().register(this) { v: View? -> onRetryBtnClick() }
+            loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
         }
         loadService!!.showCallback(LoadingCallback::class.java)
     }
 
     override fun showLoading(view: View) {
         if (loadService == null) {
-            loadService = LoadSir.getDefault().register(view) { v: View? -> onRetryBtnClick() }
+            loadService = LoadSir.getDefault().register(view) { onRetryBtnClick() }
         }
         loadService!!.showCallback(LoadingCallback::class.java)
     }
 
     override fun showEmpty() {
         if (loadService == null) {
-            loadService = LoadSir.getDefault().register(this) { v: View? -> onRetryBtnClick() }
+            loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
         }
         loadService!!.showCallback(EmptyCallback::class.java)
     }
 
     override fun showSuccess() {
         if (loadService == null) {
-            loadService = LoadSir.getDefault().register(this) { v: View? -> onRetryBtnClick() }
+            loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
         }
         loadService!!.showSuccess()
     }
@@ -125,9 +132,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
                 R.style.Theme_AppCompat_Empty
             ) {
                 override fun applyOverrideConfiguration(overrideConfiguration: Configuration) {
-                    if (overrideConfiguration != null) {
-                        overrideConfiguration.setTo(configuration)
-                    }
+                    overrideConfiguration.setTo(configuration)
                     super.applyOverrideConfiguration(overrideConfiguration)
                 }
             }
@@ -195,9 +200,12 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         if (touchHideSoft()) {
             if (ev.action == MotionEvent.ACTION_DOWN) {
                 val v = currentFocus
-                if (isShouldHideKeyboard(v, ev)) {
-                    hideKeyboard(v.windowToken)
+                v?.let {
+                    if (isShouldHideKeyboard(v, ev)) {
+                        hideKeyboard(v.windowToken)
+                    }
                 }
+
             }
         }
         return super.dispatchTouchEvent(ev)

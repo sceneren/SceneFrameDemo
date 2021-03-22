@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import wiki.scene.lib_base.base_api.res_data.ArticleListRes;
 import wiki.scene.lib_base.base_api.res_data.ProjectListRes;
-import com.zlx.module_network.bean.ApiResponse;
+import wiki.scene.lib_network.bean.ApiResponse;
 
 import java.util.List;
 

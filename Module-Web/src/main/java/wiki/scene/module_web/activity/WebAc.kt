@@ -43,6 +43,7 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
         binding.llRight.setOnClickListener {
 
             BottomMenu.show(arrayOf("刷新", "使用浏览器打开"))
+                .setCancelButton("取消")
                 .setOnMenuItemClickListener { _, _, index ->
                     when (index) {
                         0 -> {
@@ -61,7 +62,7 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
 
     private val mWebViewClient: WebViewClient = object : WebViewClient() {
 
-        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap) {
+        override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         }
     }
     private val mWebChromeClient: WebChromeClient = object : WebChromeClient() {

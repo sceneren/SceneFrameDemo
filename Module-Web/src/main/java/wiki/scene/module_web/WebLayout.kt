@@ -12,16 +12,16 @@ import com.just.agentweb.IWebLayout
  * Description:
  */
 class WebLayout(activity: Activity) : IWebLayout<WebView, ViewGroup> {
-    private lateinit var mWebView: WebView
+
+    private val mWebView by lazy {
+        LayoutInflater.from(activity).inflate(R.layout.module_web_layout_web, null) as WebView
+    }
+
     override fun getLayout(): ViewGroup {
         return mWebView
     }
 
     override fun getWebView(): WebView {
         return mWebView
-    }
-
-    init {
-        LayoutInflater.from(activity).inflate(R.layout.module_web_layout_web, null) as WebView
     }
 }

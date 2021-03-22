@@ -10,6 +10,7 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas".toString())
                 arg("room.incremental", "true")
                 arg("room.expandProjection", "true")
+
             }
         }
     }
@@ -19,6 +20,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api rootProject.ext.dependencies.appcompat
     api rootProject.ext.dependencies.arouterApi
+    kapt rootProject.ext.dependencies.arouterCompiler
 
     api rootProject.ext.dependencies.fastJson
     api rootProject.ext.dependencies.work

@@ -13,11 +13,12 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
+
     }
 
     buildTypes {
@@ -43,15 +44,16 @@ android {
         }
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
     }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation project(':library-base')
-    implementation project(':library-widget')
-    implementation project(':library-network')
-    implementation project(':library-aop')
+    implementation project(':Lib-Base')
+//    implementation project(':library-widget')
+    implementation project(':Lib-Network')
+    implementation project(':Lib-Aop')
+    kapt rootProject.ext.dependencies.arouterCompiler
 }

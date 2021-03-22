@@ -1,67 +1,54 @@
-package wiki.scene.lib_base.base_fg;
+package wiki.scene.lib_base.base_fg
 
-import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import wiki.scene.lib_base.base_util.LogUtils;
-
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import android.content.Context
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
+import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 
 /**
  * Created by zlx on 2017/5/23.
  */
+abstract class BaseNavFg<VB : ViewBinding> : Fragment() {
+    private var mRootView: View? = null
+    private var parent: ViewGroup? = null
+    protected var mContext: Context? = null
 
-public abstract class BaseNavFg extends Fragment {
+    private var _binding: VB? = null
+    val binding: VB get() = _binding!!
 
-    private View view;
-    private ViewGroup parent;
-    protected Unbinder unbinder;
-    protected Context context;
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LogUtils.e("--------" + (view == null));
-        if (view == null) {
-            view = inflater.inflate(getLayoutId(), container, false);
-        }
-        parent = (ViewGroup) view.getParent();
-        if (parent != null) {
-            parent.removeView(view);
-        }
-        unbinder = ButterKnife.bind(this, view);
-        initViews();
-        return view;
+        _binding = inflateBindingWithGeneric(layoutInflater)
+        mRootView = binding.root
+
+        parent = mRootView!!.parent as ViewGroup
+        parent?.removeView(mRootView)
+
+        initViews()
+        return mRootView
     }
 
-    protected void initViews() {
+    protected fun initViews() {}
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mContext = getContext()
     }
 
-    protected abstract int getLayoutId();
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        context = getContext();
+    override fun getView(): View? {
+        return mRootView
     }
 
-    @Nullable
-    @Override
-    public View getView() {
-        return view;
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
