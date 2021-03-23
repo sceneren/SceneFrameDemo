@@ -45,9 +45,12 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     protected var ivLeft: ImageView? = null
     protected var ivRight: ImageView? = null
     private var loadService: LoadService<*>? = null
+    protected lateinit var  mContext: AppCompatActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         beforeOnCreate()
         super.onCreate(savedInstanceState)
+        mContext = this
         ActivityUtil.addActivity(this)
         afterOnCreate()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //竖屏
@@ -71,7 +74,6 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     override fun afterOnCreate() {}
 
     override fun initEvents() {
-
 
         if (findViewById<View>(R.id.tvTitle) != null) {
             tvTitle = findViewById<View>(R.id.tvTitle) as TextView
@@ -186,7 +188,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         }
     }
 
-    protected fun fullScreen(): Boolean {
+    open fun fullScreen(): Boolean {
         return false
     }
 
@@ -214,7 +216,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     /**
      * 是否触摸edittext以外的隐藏软键盘
      */
-    protected fun touchHideSoft(): Boolean {
+    open fun touchHideSoft(): Boolean {
         return true
     }
 
@@ -260,13 +262,13 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         }
     }
 
-    protected fun canSwipeBack(): Boolean {
+    open fun canSwipeBack(): Boolean {
         return true
     }
 
     override fun initViews() {}
     private val mTheme: Int
-         get() = R.style.AppTheme
+        get() = R.style.AppTheme
 
     @SuppressLint("CheckResult")
     fun requestPermissions(vararg permissions: String?) {
@@ -300,7 +302,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
             LogUtils.i("Base--->getPermissionFail")
         }
     private var doubleClickExitDetector: DoubleClickExitDetector? = null
-    val isDoubleClickExit: Boolean
+    private val isDoubleClickExit: Boolean
         get() = false
 
     override fun onBackPressed() {

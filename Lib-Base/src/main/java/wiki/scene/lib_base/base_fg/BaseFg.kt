@@ -26,7 +26,7 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
     private var loadService: LoadService<*>? = null
 
     private var _binding: VB? = null
-    val binding: VB get() = _binding!!
+    private val binding: VB get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +44,7 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
         return rootView
     }
 
-    protected fun initViews() {}
+    open fun initViews() {}
     private fun initImmersionBar() {
         if (immersionBar()) {
             ImmersionBar.with(this)
@@ -71,13 +71,13 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
         }
     }
 
-    protected fun immersionBar(): Boolean {
+    open fun immersionBar(): Boolean {
         return false
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mContext = getContext()
+        mContext = context
     }
 
     override fun getView(): View? {
