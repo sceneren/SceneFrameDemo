@@ -62,15 +62,25 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         binding = this.inflateBindingWithGeneric(layoutInflater)
         setContentView(binding.root)
 
-        initToolBarView()
         initEvents()
+
+        initToolBarView()
+
+        beforeInitView()
+
         initViews()
+
         doubleClickExitDetector = DoubleClickExitDetector(this, "再按一次退出", 2000)
+
         if (canSwipeBack()) {
             //开启滑动返回
             SlideBack.create()
                 .attachToActivity(this)
         }
+    }
+
+    override fun beforeInitView() {
+
     }
 
     private fun initStatusBarMode() {

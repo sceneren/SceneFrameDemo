@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import wiki.scene.demo.databinding.ActivityMainBinding
 import wiki.scene.lib_base.base_ac.BaseAc
+import wiki.scene.lib_base.base_api.util.ApiUtil
 import wiki.scene.lib_base.base_util.RouterUtil
+import wiki.scene.lib_network.livedata.BaseObserver
 
 class MainActivity : BaseAc<ActivityMainBinding>() {
     override fun initViews() {
@@ -28,5 +30,7 @@ class MainActivity : BaseAc<ActivityMainBinding>() {
         }
 
     }
+
+
 
 }

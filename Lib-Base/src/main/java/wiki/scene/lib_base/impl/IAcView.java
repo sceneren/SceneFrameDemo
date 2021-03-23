@@ -7,8 +7,14 @@ package wiki.scene.lib_base.impl;
  */
 public interface IAcView {
     void initToolBarView();
+
     void initViews();
+
     void initEvents();
+
     void beforeOnCreate();
+
     void afterOnCreate();
+
+    void beforeInitView();
 }

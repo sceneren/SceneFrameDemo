@@ -36,8 +36,16 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
         parent = rootView!!.parent as ViewGroup
         parent?.removeView(rootView)
 
-        initViews()
         return rootView
+    }
+
+    open fun beforeCreateView() {
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
     }
 
     open fun initViews() {}
