@@ -19,6 +19,7 @@ abstract class FastObserver<T> : BaseObserverCallBack<ApiResponse<T>>(),
                 }
             }
         }
+        onFinish()
     }
 
 
