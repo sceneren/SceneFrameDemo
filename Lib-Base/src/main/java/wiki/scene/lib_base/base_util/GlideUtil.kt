@@ -20,14 +20,14 @@ object GlideUtil {
     /**
      * 加载普通图片
      */
-    fun loadImage(iv: ImageView, url: String?) {
+    fun loadImage(iv: ImageView, url: String) {
         Glide.with(iv.context)
             .load(url)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(iv)
     }
 
-    fun loadImage(iv: ImageView, url: String?, drawable: Drawable?) {
+    fun loadImage(iv: ImageView, url: String, drawable: Drawable) {
         Glide.with(iv.context)
             .load(url)
             .apply(RequestOptions.errorOf(drawable).placeholder(drawable))
@@ -35,7 +35,7 @@ object GlideUtil {
             .into(iv)
     }
 
-    fun loadImage(iv: ImageView, url: String?, drawable: Int) {
+    fun loadImage(iv: ImageView, url: String, drawable: Int) {
         Glide.with(iv.context)
             .load(url)
             .apply(RequestOptions.errorOf(drawable).placeholder(drawable))
@@ -46,7 +46,7 @@ object GlideUtil {
     /**
      * 加载圆角图片
      */
-    fun loadRoundImage(iv: ImageView, url: String?, round: Int) {
+    fun loadRoundImage(iv: ImageView, url: String, round: Int) {
         Glide.with(iv.context)
             .load(url)
             .transform(CenterCrop(), RoundedCorners(round))
@@ -56,7 +56,7 @@ object GlideUtil {
     /**
      * 加载圆形图片
      */
-    fun loadCircleImage(iv: ImageView, url: String?) {
+    fun loadCircleImage(iv: ImageView, url: String) {
         Glide.with(iv.context)
             .load(url)
             .transition(DrawableTransitionOptions().crossFade())
