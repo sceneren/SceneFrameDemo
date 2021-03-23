@@ -57,7 +57,7 @@ dependencies {
     api 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
     api 'com.scwang.smart:refresh-header-two-level:2.0.1'   //二级刷新头
 
-    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4"
+    api "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6"
     api 'me.wangyuwei:ParticleView:1.0.4'
 
     api 'com.kongzue.dialogx:DialogX:0.0.34'
@@ -65,4 +65,5 @@ dependencies {
 
     api project(':Lib-DB')
     api project(':Lib-Network')
+    api 'com.blankj:utilcodex:1.30.6'
 }
