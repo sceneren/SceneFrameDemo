@@ -45,7 +45,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     protected var ivLeft: ImageView? = null
     protected var ivRight: ImageView? = null
     private var loadService: LoadService<*>? = null
-    protected lateinit var  mContext: AppCompatActivity
+    protected lateinit var mContext: AppCompatActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         beforeOnCreate()
@@ -75,22 +75,6 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
     override fun initEvents() {
 
-        if (findViewById<View>(R.id.tvTitle) != null) {
-            tvTitle = findViewById<View>(R.id.tvTitle) as TextView
-        }
-        if (findViewById<View>(R.id.ivRight) != null) {
-            ivLeft = findViewById<View>(R.id.ivLeft) as ImageView
-        }
-        if (findViewById<View>(R.id.ivRight) != null) {
-            ivRight = findViewById<View>(R.id.ivRight) as ImageView
-        }
-        ivLeft?.setOnClickListener { finish() }
-    }
-
-    protected fun setOnRightImgClickListener(listener: View.OnClickListener?) {
-        if (ivRight != null) {
-            ivRight!!.setOnClickListener(listener)
-        }
     }
 
     override fun showLoading() {
@@ -122,6 +106,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     }
 
     override fun onRetryBtnClick() {}
+
     override fun attachBaseContext(newBase: Context) {
         if (shouldSupportMultiLanguage()) {
             val context = LanguageUtil.attachBaseContext(newBase)
@@ -144,37 +129,15 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         }
     }
 
-    protected fun shouldSupportMultiLanguage(): Boolean {
+    open fun shouldSupportMultiLanguage(): Boolean {
         return true
-    }
-
-    protected fun setRightImg(bg: Int) {
-        if (ivRight != null) {
-            if (bg <= 0) {
-                ivRight!!.visibility = View.GONE
-            } else {
-                ivRight!!.visibility = View.VISIBLE
-                ivRight!!.setImageResource(bg)
-            }
-        }
-    }
-
-    protected fun setLeftImg(bg: Int) {
-        if (ivLeft != null) {
-            if (bg <= 0) {
-                ivLeft!!.visibility = View.GONE
-            } else {
-                ivLeft!!.visibility = View.VISIBLE
-                ivLeft!!.setImageResource(bg)
-            }
-        }
     }
 
     override fun initImmersionBar() {
         if (!fullScreen()) {
             ImmersionBar.with(this)
-                .statusBarView(R.id.statusBarView)
-                .statusBarDarkFont(true)
+                .statusBarView(immersionBarView())
+                .statusBarDarkFont(statusBarDarkMode())
                 .transparentBar()
                 .keyboardEnable(true)
                 .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
@@ -188,14 +151,16 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         }
     }
 
-    open fun fullScreen(): Boolean {
-        return false
+    open fun immersionBarView(): View? {
+        return null
     }
 
-    protected fun setAcTitle(title: String?) {
-        if (tvTitle != null) {
-            tvTitle!!.text = title
-        }
+    open fun statusBarDarkMode(): Boolean {
+        return true
+    }
+
+    open fun fullScreen(): Boolean {
+        return false
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
@@ -252,6 +217,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     /**
      * 悬浮窗设置
      */
+    @Suppress("DEPRECATION")
     private fun setSuspension() {
         val mParams = window.attributes
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -307,8 +273,8 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
     override fun onBackPressed() {
         if (isDoubleClickExit) {
-            val isExit = doubleClickExitDetector!!.click()
-            if (isExit) {
+            val isExit = doubleClickExitDetector?.click()
+            if (isExit != null && isExit) {
                 super.onBackPressed()
             }
         } else {

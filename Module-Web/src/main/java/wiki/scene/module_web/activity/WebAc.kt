@@ -3,6 +3,7 @@ package wiki.scene.module_web.activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.view.View
 import android.webkit.WebView
 import android.widget.LinearLayout
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -20,13 +21,13 @@ import wiki.scene.module_web.databinding.ModuleWebAcWebBinding
 
 @Route(path = RouterActivityPath.Web.PAGER_WEB)
 class WebAc : BaseAc<ModuleWebAcWebBinding>() {
+    private var agentWeb: AgentWeb? = null
     private var url: String? = null
     override fun initViews() {
         super.initViews()
-        setRightImg(R.mipmap.ic_more_menu)
         url = intent.getStringExtra("webUrl")
         LogUtil.show("webUrl=$url")
-        val agentWeb = AgentWeb.with(this)
+        agentWeb = AgentWeb.with(this)
             .setAgentWebParent(binding.parent, LinearLayout.LayoutParams(-1, -1))
             .useDefaultIndicator()
             .setWebChromeClient(mWebChromeClient)
@@ -39,6 +40,10 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
             .createAgentWeb()
             .ready()
             .go(url)
+
+        binding.ivBack.setOnClickListener {
+            backOrFinish()
+        }
         binding.rlClose.setOnClickListener { finish() }
         binding.llRight.setOnClickListener {
 
@@ -47,7 +52,7 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
                 .setOnMenuItemClickListener { _, _, index ->
                     when (index) {
                         0 -> {
-                            agentWeb.urlLoader.reload()
+                            this.agentWeb!!.urlLoader.reload()
                         }
                         1 -> {
                             val i = Intent(Intent.ACTION_VIEW)
@@ -68,7 +73,27 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
     private val mWebChromeClient: WebChromeClient = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView, title: String) {
             super.onReceivedTitle(view, title)
-            setAcTitle(title)
+            binding.tvTitle.text = title
+        }
+    }
+
+    override fun immersionBarView(): View {
+        return binding.includeStatusView.statusBarView
+    }
+
+    override fun onBackPressed() {
+        backOrFinish()
+    }
+
+    private fun backOrFinish() {
+        if (agentWeb == null) {
+            finish()
+        } else {
+            if (agentWeb!!.webCreator.webView.canGoBack()) {
+                agentWeb!!.back()
+            } else {
+                finish()
+            }
         }
     }
 }
