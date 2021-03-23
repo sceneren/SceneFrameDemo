@@ -7,12 +7,12 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.hjq.bar.TitleBar
-        android:id="@+id/titleBar"
+    <com.aries.ui.view.title.TitleBarView
+        android:id="@+id/tvTitleBar"
+        app:title_titleMainText="首页"
+        app:title_leftTextDrawable="@mipmap/ic_back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="首页"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="50dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

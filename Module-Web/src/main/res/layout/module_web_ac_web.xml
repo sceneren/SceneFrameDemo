@@ -1,93 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lib_base_main_text"
     android:orientation="vertical"
+    tools:context=".activity.WebAc"
     tools:ignore="MissingDefaultResource">
 
-   <include
-       android:id="@+id/includeStatusView"
-       layout="@layout/lib_base_status_view"/>
-
-    <LinearLayout
+    <com.aries.ui.view.title.TitleBarView
+        android:id="@+id/titleBarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/lib_base_white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <ImageView
-            android:id="@+id/ivBack"
-            android:src="@mipmap/ic_back"
-            android:layout_width="30dp"
-            android:scaleType="centerInside"
-            android:layout_height="30dp"/>
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="@string/app_name"
-            android:textColor="@color/lib_base_black"
-            android:textSize="20sp" />
-
-        <LinearLayout
-            android:id="@+id/llRight"
-            android:layout_width="100dp"
-            android:background="@drawable/module_web_bg_web_title"
-            android:layout_height="30dp">
-
-            <RelativeLayout
-                android:id="@+id/rlMore"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/module_web_bg_title_left">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/ic_web_more" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="#E6E3E3" />
-
-            <RelativeLayout
-                android:id="@+id/rlClose"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/module_web_bg_title_right">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/ic_web_close" />
-            </RelativeLayout>
-
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="@dimen/lib_base_toolbar_height"
+        android:background="@color/white"
+        app:title_dividerHeight="0.5dp"
+        app:title_dividerVisible="true"
+        app:title_dividerBackground="#CCCCCC"
+        app:title_leftTextDrawable="@mipmap/ic_back" />
 
     <LinearLayout
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical" />
 
-    </LinearLayout>
 </LinearLayout>

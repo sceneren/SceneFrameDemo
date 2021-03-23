@@ -71,5 +71,5 @@ dependencies {
 
     api 'com.blankj:utilcodex:1.30.6'
 
-    api 'com.hjq:titlebar:8.5'
+    api 'com.github.AriesHoo.UIWidget:widget-core:3.2.25'
 }

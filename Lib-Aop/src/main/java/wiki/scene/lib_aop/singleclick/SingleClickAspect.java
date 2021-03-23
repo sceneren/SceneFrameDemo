@@ -15,12 +15,11 @@ import java.lang.reflect.Method;
 import wiki.scene.lib_aop.singleclick.annotation.SingleClick;
 
 /**
-* date: 2019\10\10 0010
-* author: zlx
-* email: 1170762202@qq.com
-* description: 防止重复点击注解
-*
-*/
+ * date: 2019\10\10 0010
+ * author: zlx
+ * email: 1170762202@qq.com
+ * description: 防止重复点击注解
+ */
 @Aspect
 public class SingleClickAspect {
     private static long mLastClickTime;
@@ -34,6 +33,7 @@ public class SingleClickAspect {
 
     private static final String POINTCUT_SINGLE_CLICK =
             "execution(@wiki.scene.lib_aop.singleclick.annotation.SingleClick * *(..))";
+
     @Pointcut(POINTCUT_METHOD)
     public void methodPointcut() {
 
@@ -50,7 +50,7 @@ public class SingleClickAspect {
     }
 
     @Pointcut(POINTCUT_SINGLE_CLICK)
-    public void singleClickPointcut(){
+    public void singleClickPointcut() {
 
     }
 

@@ -12,14 +12,12 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.viewbinding.ViewBinding
+import com.alibaba.android.arouter.launcher.ARouter
+import com.aries.ui.util.StatusBarUtil
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
-import com.gyf.immersionbar.BarHide
-import com.gyf.immersionbar.ImmersionBar
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.kingja.loadsir.core.LoadService
@@ -41,15 +39,19 @@ import wiki.scene.lib_base.widget.slideback.SlideBack
  */
 abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView {
     lateinit var binding: VB
-    protected var tvTitle: TextView? = null
-    protected var ivLeft: ImageView? = null
-    protected var ivRight: ImageView? = null
+
     private var loadService: LoadService<*>? = null
     protected lateinit var mContext: AppCompatActivity
+
+    private var isDarkMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         beforeOnCreate()
         super.onCreate(savedInstanceState)
+
+        initStatusBarMode()
+
+        ARouter.getInstance().inject(this)
         mContext = this
         ActivityUtil.addActivity(this)
         afterOnCreate()
@@ -59,7 +61,8 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         //绑定viewBinding
         binding = this.inflateBindingWithGeneric(layoutInflater)
         setContentView(binding.root)
-        initImmersionBar()
+
+        initToolBarView()
         initEvents()
         initViews()
         doubleClickExitDetector = DoubleClickExitDetector(this, "再按一次退出", 2000)
@@ -70,8 +73,27 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         }
     }
 
-    override fun beforeOnCreate() {}
+    private fun initStatusBarMode() {
+        if (isDarkMode) {
+            StatusBarUtil.setStatusBarDarkMode(this)
+        } else {
+            StatusBarUtil.setStatusBarLightMode(this)
+        }
+    }
+
+    override fun beforeOnCreate() {
+
+    }
+
     override fun afterOnCreate() {}
+
+    override fun initToolBarView() {
+
+    }
+
+    open fun isDarkMode(isDarkMode: Boolean) {
+        this.isDarkMode = isDarkMode
+    }
 
     override fun initEvents() {
 
@@ -131,24 +153,6 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
     open fun shouldSupportMultiLanguage(): Boolean {
         return true
-    }
-
-    override fun initImmersionBar() {
-        if (!fullScreen()) {
-            ImmersionBar.with(this)
-                .statusBarView(immersionBarView())
-                .statusBarDarkFont(statusBarDarkMode())
-                .transparentBar()
-                .keyboardEnable(true)
-                .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
-                .init()
-        } else {
-            ImmersionBar.with(this)
-                .fullScreen(true)
-                .keyboardEnable(true)
-                .hideBar(BarHide.FLAG_HIDE_BAR)
-                .init()
-        }
     }
 
     open fun immersionBarView(): View? {

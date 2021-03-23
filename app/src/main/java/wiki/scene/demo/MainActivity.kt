@@ -2,7 +2,6 @@ package wiki.scene.demo
 
 import android.graphics.Color
 import android.util.TypedValue
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import wiki.scene.demo.databinding.ActivityMainBinding
@@ -28,10 +27,6 @@ class MainActivity : BaseAc<ActivityMainBinding>() {
             RouterUtil.launchWeb("http://www.baidu.com")
         }
 
-    }
-
-    override fun immersionBarView(): View? {
-        return  binding.titleBar
     }
 
 }

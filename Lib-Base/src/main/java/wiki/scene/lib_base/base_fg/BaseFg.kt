@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
-import com.gyf.immersionbar.BarHide
-import com.gyf.immersionbar.ImmersionBar
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
-import wiki.scene.lib_base.R
 import wiki.scene.lib_base.base_util.LogUtils
 import wiki.scene.lib_base.loadsir.LoadingCallback
 
@@ -20,9 +17,9 @@ import wiki.scene.lib_base.loadsir.LoadingCallback
  * Created by zlx on 2017/5/23.
  */
 abstract class BaseFg<VB : ViewBinding> : Fragment() {
-    protected var rootView: View? = null
+    var rootView: View? = null
     private var parent: ViewGroup? = null
-    protected var mContext: Context? = null
+    var mContext: Context? = null
     private var loadService: LoadService<*>? = null
 
     private var _binding: VB? = null
@@ -40,21 +37,10 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
         parent?.removeView(rootView)
 
         initViews()
-        initImmersionBar()
         return rootView
     }
 
     open fun initViews() {}
-    private fun initImmersionBar() {
-        if (immersionBar()) {
-            ImmersionBar.with(this)
-                .titleBar(R.id.statusBarView, false)
-                .statusBarDarkFont(true)
-                .keyboardEnable(true)
-                .hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
-                .init()
-        }
-    }
 
     protected fun showLoading(view: View?) {
         if (loadService == null) {
@@ -69,10 +55,6 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
         if (loadService != null) {
             loadService!!.showSuccess()
         }
-    }
-
-    open fun immersionBar(): Boolean {
-        return false
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
