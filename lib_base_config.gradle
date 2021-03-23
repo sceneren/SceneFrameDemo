@@ -12,6 +12,9 @@ android {
         kapt {
             arguments {
                 arg("AROUTER_MODULE_NAME", project.getName())
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+                arg("room.incremental", "true")
+                arg("room.expandProjection", "true")
             }
         }
     }
@@ -31,8 +34,8 @@ android {
         jvmTarget = '1.8'
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding = true
     }
 }
 

@@ -1,338 +1,355 @@
-package wiki.scene.lib_network.util;
+package wiki.scene.lib_network.util
 
-import android.os.Build;
-import android.os.StatFs;
-import android.text.TextUtils;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.CharArrayWriter;
-import java.io.Closeable;
-import java.io.File;
-import java.io.Flushable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Build
+import android.os.StatFs
+import android.text.TextUtils
+import java.io.*
+import java.nio.charset.Charset
+import java.util.*
 
 /**
  * ================================================
  * 修订历史：
  * ================================================
  */
-public class IOUtils {
-
-    public static void closeQuietly(Closeable closeable) {
-        if (closeable == null) return;
+object IOUtils {
+    fun closeQuietly(closeable: Closeable?) {
+        if (closeable == null) return
         try {
-            closeable.close();
-        } catch (Exception e) {
+            closeable.close()
+        } catch (e: Exception) {
         }
     }
 
-    public static void flushQuietly(Flushable flushable) {
-        if (flushable == null) return;
+    fun flushQuietly(flushable: Flushable?) {
+        if (flushable == null) return
         try {
-            flushable.flush();
-        } catch (Exception e) {
+            flushable.flush()
+        } catch (e: Exception) {
         }
     }
 
-    public static InputStream toInputStream(CharSequence input) {
-        return new ByteArrayInputStream(input.toString().getBytes());
+    fun toInputStream(input: CharSequence): InputStream {
+        return ByteArrayInputStream(input.toString().toByteArray())
     }
 
-    public static InputStream toInputStream(CharSequence input, String encoding) throws UnsupportedEncodingException {
-        byte[] bytes = input.toString().getBytes(encoding);
-        return new ByteArrayInputStream(bytes);
+    @Throws(UnsupportedEncodingException::class)
+    fun toInputStream(input: CharSequence, encoding: String?): InputStream {
+        val bytes = input.toString().toByteArray(charset(encoding!!))
+        return ByteArrayInputStream(bytes)
     }
 
-    public static BufferedInputStream toBufferedInputStream(InputStream inputStream) {
-        return inputStream instanceof BufferedInputStream ? (BufferedInputStream) inputStream : new BufferedInputStream(inputStream);
+    fun toBufferedInputStream(inputStream: InputStream): BufferedInputStream {
+        return if (inputStream is BufferedInputStream) inputStream else BufferedInputStream(
+            inputStream
+        )
     }
 
-    public static BufferedOutputStream toBufferedOutputStream(OutputStream outputStream) {
-        return outputStream instanceof BufferedOutputStream ? (BufferedOutputStream) outputStream : new BufferedOutputStream(outputStream);
+    fun toBufferedOutputStream(outputStream: OutputStream?): BufferedOutputStream {
+        return if (outputStream is BufferedOutputStream) outputStream else BufferedOutputStream(
+            outputStream
+        )
     }
 
-    public static BufferedReader toBufferedReader(Reader reader) {
-        return reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
+    fun toBufferedReader(reader: Reader?): BufferedReader {
+        return if (reader is BufferedReader) reader else BufferedReader(reader)
     }
 
-    public static BufferedWriter toBufferedWriter(Writer writer) {
-        return writer instanceof BufferedWriter ? (BufferedWriter) writer : new BufferedWriter(writer);
+    fun toBufferedWriter(writer: Writer?): BufferedWriter {
+        return if (writer is BufferedWriter) writer else BufferedWriter(writer)
     }
 
-    public static String toString(InputStream input) throws IOException {
-        return new String(toByteArray(input));
+    @Throws(IOException::class)
+    fun toString(input: InputStream): String {
+        return String(toByteArray(input))
     }
 
-    public static String toString(InputStream input, String encoding) throws IOException {
-        return new String(toByteArray(input), encoding);
+    @Throws(IOException::class)
+    fun toString(input: InputStream, encoding: String): String {
+        return String(toByteArray(input), Charset.forName(encoding))
     }
 
-    public static String toString(Reader input) throws IOException {
-        return new String(toByteArray(input));
+    @Throws(IOException::class)
+    fun toString(input: Reader): String {
+        return String(toByteArray(input))
     }
 
-    public static String toString(Reader input, String encoding) throws IOException {
-        return new String(toByteArray(input), encoding);
+    @Throws(IOException::class)
+    fun toString(input: Reader, encoding: String): String {
+        return String(toByteArray(input), Charset.forName(encoding))
     }
 
-    public static String toString(byte[] byteArray) {
-        return new String(byteArray);
+    fun toString(byteArray: ByteArray?): String {
+        return String(byteArray!!)
     }
 
-    public static String toString(byte[] byteArray, String encoding) {
-        try {
-            return new String(byteArray, encoding);
-        } catch (UnsupportedEncodingException e) {
-            return new String(byteArray);
+    fun toString(byteArray: ByteArray, encoding: String): String {
+        return try {
+            String(byteArray, Charset.forName(encoding))
+        } catch (e: UnsupportedEncodingException) {
+            String(byteArray)
         }
     }
 
-    public static byte[] toByteArray(Object input) {
-        ByteArrayOutputStream baos = null;
-        ObjectOutputStream oos = null;
+    fun toByteArray(input: Any): ByteArray? {
+        var baos: ByteArrayOutputStream? = null
+        var oos: ObjectOutputStream? = null
         try {
-            baos = new ByteArrayOutputStream();
-            oos = new ObjectOutputStream(baos);
-            oos.writeObject(input);
-            oos.flush();
-            return baos.toByteArray();
-        } catch (IOException e) {
+            baos = ByteArrayOutputStream()
+            oos = ObjectOutputStream(baos)
+            oos.writeObject(input)
+            oos.flush()
+            return baos.toByteArray()
+        } catch (e: IOException) {
         } finally {
-            IOUtils.closeQuietly(oos);
-            IOUtils.closeQuietly(baos);
+            closeQuietly(oos)
+            closeQuietly(baos)
         }
-        return null;
+        return null
     }
 
-    public static Object toObject(byte[] input) {
-        if (input == null) return null;
-        ByteArrayInputStream bais = null;
-        ObjectInputStream ois = null;
+    fun toObject(input: ByteArray?): Any? {
+        if (input == null) return null
+        var bais: ByteArrayInputStream? = null
+        var ois: ObjectInputStream? = null
         try {
-            bais = new ByteArrayInputStream(input);
-            ois = new ObjectInputStream(bais);
-            return ois.readObject();
-        } catch (Exception e) {
+            bais = ByteArrayInputStream(input)
+            ois = ObjectInputStream(bais)
+            return ois.readObject()
+        } catch (e: Exception) {
         } finally {
-            IOUtils.closeQuietly(ois);
-            IOUtils.closeQuietly(bais);
+            closeQuietly(ois)
+            closeQuietly(bais)
         }
-        return null;
+        return null
     }
 
-    public static byte[] toByteArray(CharSequence input) {
-        if (input == null) return new byte[0];
-        return input.toString().getBytes();
+    fun toByteArray(input: CharSequence?): ByteArray {
+        return input?.toString()?.toByteArray() ?: ByteArray(0)
     }
 
-    public static byte[] toByteArray(CharSequence input, String encoding) throws UnsupportedEncodingException {
-        if (input == null) return new byte[0];
-        else return input.toString().getBytes(encoding);
+    @Throws(UnsupportedEncodingException::class)
+    fun toByteArray(input: CharSequence?, encoding: String?): ByteArray {
+        return input?.toString()?.toByteArray(
+            charset(
+                encoding!!
+            )
+        )
+            ?: ByteArray(0)
     }
 
-    public static byte[] toByteArray(InputStream input) throws IOException {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        write(input, output);
-        output.close();
-        return output.toByteArray();
+    @Throws(IOException::class)
+    fun toByteArray(input: InputStream): ByteArray {
+        val output = ByteArrayOutputStream()
+        write(input, output)
+        output.close()
+        return output.toByteArray()
     }
 
-    public static byte[] toByteArray(Reader input) throws IOException {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        write(input, output);
-        output.close();
-        return output.toByteArray();
+    @Throws(IOException::class)
+    fun toByteArray(input: Reader): ByteArray {
+        val output = ByteArrayOutputStream()
+        write(input, output)
+        output.close()
+        return output.toByteArray()
     }
 
-    public static byte[] toByteArray(Reader input, String encoding) throws IOException {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        write(input, output, encoding);
-        output.close();
-        return output.toByteArray();
+    @Throws(IOException::class)
+    fun toByteArray(input: Reader, encoding: String?): ByteArray {
+        val output = ByteArrayOutputStream()
+        write(input, output, encoding)
+        output.close()
+        return output.toByteArray()
     }
 
-    public static char[] toCharArray(CharSequence input) throws IOException {
-        CharArrayWriter output = new CharArrayWriter();
-        write(input, output);
-        return output.toCharArray();
+    @Throws(IOException::class)
+    fun toCharArray(input: CharSequence?): CharArray {
+        val output = CharArrayWriter()
+        write(input, output)
+        return output.toCharArray()
     }
 
-    public static char[] toCharArray(InputStream input) throws IOException {
-        CharArrayWriter output = new CharArrayWriter();
-        write(input, output);
-        return output.toCharArray();
+    @Throws(IOException::class)
+    fun toCharArray(input: InputStream?): CharArray {
+        val output = CharArrayWriter()
+        write(input, output)
+        return output.toCharArray()
     }
 
-    public static char[] toCharArray(InputStream input, String encoding) throws IOException {
-        CharArrayWriter output = new CharArrayWriter();
-        write(input, output, encoding);
-        return output.toCharArray();
+    @Throws(IOException::class)
+    fun toCharArray(input: InputStream?, encoding: String?): CharArray {
+        val output = CharArrayWriter()
+        write(input, output, encoding)
+        return output.toCharArray()
     }
 
-    public static char[] toCharArray(Reader input) throws IOException {
-        CharArrayWriter output = new CharArrayWriter();
-        write(input, output);
-        return output.toCharArray();
+    @Throws(IOException::class)
+    fun toCharArray(input: Reader): CharArray {
+        val output = CharArrayWriter()
+        write(input, output)
+        return output.toCharArray()
     }
 
-    public static List<String> readLines(InputStream input, String encoding) throws IOException {
-        Reader reader = new InputStreamReader(input, encoding);
-        return readLines(reader);
+    @Throws(IOException::class)
+    fun readLines(input: InputStream?, encoding: String?): List<String> {
+        val reader: Reader = InputStreamReader(input, encoding)
+        return readLines(reader)
     }
 
-    public static List<String> readLines(InputStream input) throws IOException {
-        Reader reader = new InputStreamReader(input);
-        return readLines(reader);
+    @Throws(IOException::class)
+    fun readLines(input: InputStream?): List<String> {
+        val reader: Reader = InputStreamReader(input)
+        return readLines(reader)
     }
 
-    public static List<String> readLines(Reader input) throws IOException {
-        BufferedReader reader = toBufferedReader(input);
-        List<String> list = new ArrayList<String>();
-        String line = reader.readLine();
+    @Throws(IOException::class)
+    fun readLines(input: Reader?): List<String> {
+        val reader = toBufferedReader(input)
+        val list: MutableList<String> = ArrayList()
+        var line = reader.readLine()
         while (line != null) {
-            list.add(line);
-            line = reader.readLine();
+            list.add(line)
+            line = reader.readLine()
         }
-        return list;
+        return list
     }
 
-    public static void write(byte[] data, OutputStream output) throws IOException {
-        if (data != null) output.write(data);
+    @Throws(IOException::class)
+    fun write(data: ByteArray?, output: OutputStream) {
+        if (data != null) output.write(data)
     }
 
-    public static void write(byte[] data, Writer output) throws IOException {
-        if (data != null) output.write(new String(data));
+    @Throws(IOException::class)
+    fun write(data: ByteArray?, output: Writer) {
+        if (data != null) output.write(String(data))
     }
 
-    public static void write(byte[] data, Writer output, String encoding) throws IOException {
-        if (data != null) output.write(new String(data, encoding));
+    @Throws(IOException::class)
+    fun write(data: ByteArray?, output: Writer, encoding: String?) {
+        if (data != null) output.write(String(data, Charset.forName(encoding)))
     }
 
-    public static void write(char[] data, Writer output) throws IOException {
-        if (data != null) output.write(data);
+    @Throws(IOException::class)
+    fun write(data: CharArray?, output: Writer) {
+        if (data != null) output.write(data)
     }
 
-    public static void write(char[] data, OutputStream output) throws IOException {
-        if (data != null) output.write(new String(data).getBytes());
+    @Throws(IOException::class)
+    fun write(data: CharArray?, output: OutputStream) {
+        if (data != null) output.write(String(data).toByteArray())
     }
 
-    public static void write(char[] data, OutputStream output, String encoding) throws IOException {
-        if (data != null) output.write(new String(data).getBytes(encoding));
+    @Throws(IOException::class)
+    fun write(data: CharArray?, output: OutputStream, encoding: String?) {
+        if (data != null) output.write(String(data).toByteArray(charset(encoding!!)))
     }
 
-    public static void write(CharSequence data, Writer output) throws IOException {
-        if (data != null) output.write(data.toString());
+    @Throws(IOException::class)
+    fun write(data: CharSequence?, output: Writer) {
+        if (data != null) output.write(data.toString())
     }
 
-    public static void write(CharSequence data, OutputStream output) throws IOException {
-        if (data != null) output.write(data.toString().getBytes());
+    @Throws(IOException::class)
+    fun write(data: CharSequence?, output: OutputStream) {
+        if (data != null) output.write(data.toString().toByteArray())
     }
 
-    public static void write(CharSequence data, OutputStream output, String encoding) throws IOException {
-        if (data != null) output.write(data.toString().getBytes(encoding));
+    @Throws(IOException::class)
+    fun write(data: CharSequence?, output: OutputStream, encoding: String?) {
+        if (data != null) output.write(data.toString().toByteArray(charset(encoding!!)))
     }
 
-    public static void write(InputStream inputStream, OutputStream outputStream) throws IOException {
-        int len;
-        byte[] buffer = new byte[4096];
-        while ((len = inputStream.read(buffer)) != -1) outputStream.write(buffer, 0, len);
+    @Throws(IOException::class)
+    fun write(inputStream: InputStream, outputStream: OutputStream) {
+        var len: Int
+        val buffer = ByteArray(4096)
+        while (inputStream.read(buffer).also { len = it } != -1) outputStream.write(buffer, 0, len)
     }
 
-    public static void write(Reader input, OutputStream output) throws IOException {
-        Writer out = new OutputStreamWriter(output);
-        write(input, out);
-        out.flush();
+    @Throws(IOException::class)
+    fun write(input: Reader, output: OutputStream?) {
+        val out: Writer = OutputStreamWriter(output)
+        write(input, out)
+        out.flush()
     }
 
-    public static void write(InputStream input, Writer output) throws IOException {
-        Reader in = new InputStreamReader(input);
-        write(in, output);
+    @Throws(IOException::class)
+    fun write(input: InputStream?, output: Writer) {
+        val `in`: Reader = InputStreamReader(input)
+        write(`in`, output)
     }
 
-    public static void write(Reader input, OutputStream output, String encoding) throws IOException {
-        Writer out = new OutputStreamWriter(output, encoding);
-        write(input, out);
-        out.flush();
+    @Throws(IOException::class)
+    fun write(input: Reader, output: OutputStream?, encoding: String?) {
+        val out: Writer = OutputStreamWriter(output, encoding)
+        write(input, out)
+        out.flush()
     }
 
-    public static void write(InputStream input, OutputStream output, String encoding) throws IOException {
-        Reader in = new InputStreamReader(input, encoding);
-        write(in, output);
+    @Throws(IOException::class)
+    fun write(input: InputStream?, output: OutputStream?, encoding: String?) {
+        val `in`: Reader = InputStreamReader(input, encoding)
+        write(`in`, output)
     }
 
-    public static void write(InputStream input, Writer output, String encoding) throws IOException {
-        Reader in = new InputStreamReader(input, encoding);
-        write(in, output);
+    @Throws(IOException::class)
+    fun write(input: InputStream?, output: Writer, encoding: String?) {
+        val `in`: Reader = InputStreamReader(input, encoding)
+        write(`in`, output)
     }
 
-    public static void write(Reader input, Writer output) throws IOException {
-        int len;
-        char[] buffer = new char[4096];
-        while (-1 != (len = input.read(buffer))) output.write(buffer, 0, len);
+    @Throws(IOException::class)
+    fun write(input: Reader, output: Writer) {
+        var len: Int
+        val buffer = CharArray(4096)
+        while (-1 != input.read(buffer).also { len = it }) output.write(buffer, 0, len)
     }
 
-    public static boolean contentEquals(InputStream input1, InputStream input2) throws IOException {
-        input1 = toBufferedInputStream(input1);
-        input2 = toBufferedInputStream(input2);
-
-        int ch = input1.read();
+    @Throws(IOException::class)
+    fun contentEquals(input1: InputStream, input2: InputStream): Boolean {
+        val newInput1 = toBufferedInputStream(input1)
+        val newInput2 = toBufferedInputStream(input2)
+        var ch = newInput1.read()
         while (-1 != ch) {
-            int ch2 = input2.read();
+            val ch2 = newInput2.read()
             if (ch != ch2) {
-                return false;
+                return false
             }
-            ch = input1.read();
+            ch = newInput1.read()
         }
-
-        int ch2 = input2.read();
-        return ch2 == -1;
+        val ch2 = newInput2.read()
+        return ch2 == -1
     }
 
-    public static boolean contentEquals(Reader input1, Reader input2) throws IOException {
-        input1 = toBufferedReader(input1);
-        input2 = toBufferedReader(input2);
-
-        int ch = input1.read();
+    @Throws(IOException::class)
+    fun contentEquals(input1: Reader, input2: Reader): Boolean {
+        var input1 = input1
+        var input2 = input2
+        input1 = toBufferedReader(input1)
+        input2 = toBufferedReader(input2)
+        var ch = input1.read()
         while (-1 != ch) {
-            int ch2 = input2.read();
+            val ch2 = input2.read()
             if (ch != ch2) {
-                return false;
+                return false
             }
-            ch = input1.read();
+            ch = input1.read()
         }
-
-        int ch2 = input2.read();
-        return ch2 == -1;
+        val ch2 = input2.read()
+        return ch2 == -1
     }
 
-    public static boolean contentEqualsIgnoreEOL(Reader input1, Reader input2) throws IOException {
-        BufferedReader br1 = toBufferedReader(input1);
-        BufferedReader br2 = toBufferedReader(input2);
-
-        String line1 = br1.readLine();
-        String line2 = br2.readLine();
-        while ((line1 != null) && (line2 != null) && (line1.equals(line2))) {
-            line1 = br1.readLine();
-            line2 = br2.readLine();
+    @Throws(IOException::class)
+    fun contentEqualsIgnoreEOL(input1: Reader?, input2: Reader?): Boolean {
+        val br1 = toBufferedReader(input1)
+        val br2 = toBufferedReader(input2)
+        var line1 = br1.readLine()
+        var line2 = br2.readLine()
+        while (line1 != null && line2 != null && line1 == line2) {
+            line1 = br1.readLine()
+            line2 = br2.readLine()
         }
-        return line1 != null && (line2 == null || line1.equals(line2));
+        return line1 != null && (line2 == null || line1 == line2)
     }
 
     /**
@@ -341,31 +358,36 @@ public class IOUtils {
      * @param path path.
      * @return space size.
      */
-    public static long getDirSize(String path) {
-        StatFs stat;
-        try {
-            stat = new StatFs(path);
-        } catch (Exception e) {
-            return 0;
+    fun getDirSize(path: String?): Long {
+        val stat: StatFs
+        stat = try {
+            StatFs(path)
+        } catch (e: Exception) {
+            return 0
         }
-        if (Build.VERSION.SDK_INT >= 18) return getStatFsSize(stat, "getBlockSizeLong", "getAvailableBlocksLong");
-        else return getStatFsSize(stat, "getBlockSize", "getAvailableBlocks");
+        return if (Build.VERSION.SDK_INT >= 18) getStatFsSize(
+            stat,
+            "getBlockSizeLong",
+            "getAvailableBlocksLong"
+        ) else getStatFsSize(stat, "getBlockSize", "getAvailableBlocks")
     }
 
-    private static long getStatFsSize(StatFs statFs, String blockSizeMethod, String availableBlocksMethod) {
+    private fun getStatFsSize(
+        statFs: StatFs,
+        blockSizeMethod: String,
+        availableBlocksMethod: String
+    ): Long {
         try {
-            Method getBlockSizeMethod = statFs.getClass().getMethod(blockSizeMethod);
-            getBlockSizeMethod.setAccessible(true);
-
-            Method getAvailableBlocksMethod = statFs.getClass().getMethod(availableBlocksMethod);
-            getAvailableBlocksMethod.setAccessible(true);
-
-            long blockSize = (Long) getBlockSizeMethod.invoke(statFs);
-            long availableBlocks = (Long) getAvailableBlocksMethod.invoke(statFs);
-            return blockSize * availableBlocks;
-        } catch (Throwable e) {
+            val getBlockSizeMethod = statFs.javaClass.getMethod(blockSizeMethod)
+            getBlockSizeMethod.isAccessible = true
+            val getAvailableBlocksMethod = statFs.javaClass.getMethod(availableBlocksMethod)
+            getAvailableBlocksMethod.isAccessible = true
+            val blockSize = getBlockSizeMethod.invoke(statFs) as Long
+            val availableBlocks = getAvailableBlocksMethod.invoke(statFs) as Long
+            return blockSize * availableBlocks
+        } catch (e: Throwable) {
         }
-        return 0;
+        return 0
     }
 
     /**
@@ -374,8 +396,8 @@ public class IOUtils {
      * @param path path.
      * @return True: success, or false: failure.
      */
-    public static boolean canWrite(String path) {
-        return new File(path).canWrite();
+    fun canWrite(path: String?): Boolean {
+        return File(path).canWrite()
     }
 
     /**
@@ -384,8 +406,8 @@ public class IOUtils {
      * @param path path.
      * @return True: success, or false: failure.
      */
-    public static boolean canRead(String path) {
-        return new File(path).canRead();
+    fun canRead(path: String?): Boolean {
+        return File(path).canRead()
     }
 
     /**
@@ -394,12 +416,12 @@ public class IOUtils {
      * @param folderPath folder path.
      * @return True: success, or false: failure.
      */
-    public static boolean createFolder(String folderPath) {
+    fun createFolder(folderPath: String?): Boolean {
         if (!TextUtils.isEmpty(folderPath)) {
-            File folder = new File(folderPath);
-            return createFolder(folder);
+            val folder = File(folderPath)
+            return createFolder(folder)
         }
-        return false;
+        return false
     }
 
     /**
@@ -408,13 +430,12 @@ public class IOUtils {
      * @param targetFolder folder path.
      * @return True: success, or false: failure.
      */
-    public static boolean createFolder(File targetFolder) {
+    fun createFolder(targetFolder: File): Boolean {
         if (targetFolder.exists()) {
-            if (targetFolder.isDirectory()) return true;
-            //noinspection ResultOfMethodCallIgnored
-            targetFolder.delete();
+            if (targetFolder.isDirectory) return true
+            targetFolder.delete()
         }
-        return targetFolder.mkdirs();
+        return targetFolder.mkdirs()
     }
 
     /**
@@ -423,8 +444,8 @@ public class IOUtils {
      * @param folderPath folder path.
      * @return True: success, or false: failure.
      */
-    public static boolean createNewFolder(String folderPath) {
-        return delFileOrFolder(folderPath) && createFolder(folderPath);
+    fun createNewFolder(folderPath: String): Boolean {
+        return delFileOrFolder(folderPath) && createFolder(folderPath)
     }
 
     /**
@@ -433,8 +454,8 @@ public class IOUtils {
      * @param targetFolder folder path.
      * @return True: success, or false: failure.
      */
-    public static boolean createNewFolder(File targetFolder) {
-        return delFileOrFolder(targetFolder) && createFolder(targetFolder);
+    fun createNewFolder(targetFolder: File): Boolean {
+        return delFileOrFolder(targetFolder) && createFolder(targetFolder)
     }
 
     /**
@@ -443,12 +464,12 @@ public class IOUtils {
      * @param filePath file path.
      * @return True: success, or false: failure.
      */
-    public static boolean createFile(String filePath) {
+    fun createFile(filePath: String): Boolean {
         if (!TextUtils.isEmpty(filePath)) {
-            File file = new File(filePath);
-            return createFile(file);
+            val file = File(filePath)
+            return createFile(file)
         }
-        return false;
+        return false
     }
 
     /**
@@ -457,15 +478,15 @@ public class IOUtils {
      * @param targetFile file.
      * @return True: success, or false: failure.
      */
-    public static boolean createFile(File targetFile) {
+    fun createFile(targetFile: File): Boolean {
         if (targetFile.exists()) {
-            if (targetFile.isFile()) return true;
-            delFileOrFolder(targetFile);
+            if (targetFile.isFile) return true
+            delFileOrFolder(targetFile)
         }
-        try {
-            return targetFile.createNewFile();
-        } catch (IOException e) {
-            return false;
+        return try {
+            targetFile.createNewFile()
+        } catch (e: IOException) {
+            false
         }
     }
 
@@ -475,12 +496,12 @@ public class IOUtils {
      * @param filePath file path.
      * @return True: success, or false: failure.
      */
-    public static boolean createNewFile(String filePath) {
+    fun createNewFile(filePath: String): Boolean {
         if (!TextUtils.isEmpty(filePath)) {
-            File file = new File(filePath);
-            return createNewFile(file);
+            val file = File(filePath)
+            return createNewFile(file)
         }
-        return false;
+        return false
     }
 
     /**
@@ -489,12 +510,12 @@ public class IOUtils {
      * @param targetFile file.
      * @return True: success, or false: failure.
      */
-    public static boolean createNewFile(File targetFile) {
-        if (targetFile.exists()) delFileOrFolder(targetFile);
-        try {
-            return targetFile.createNewFile();
-        } catch (IOException e) {
-            return false;
+    fun createNewFile(targetFile: File): Boolean {
+        if (targetFile.exists()) delFileOrFolder(targetFile)
+        return try {
+            targetFile.createNewFile()
+        } catch (e: IOException) {
+            false
         }
     }
 
@@ -503,11 +524,12 @@ public class IOUtils {
      *
      * @param path path.
      * @return is succeed.
-     * @see #delFileOrFolder(File)
+     * @see .delFileOrFolder
      */
-    public static boolean delFileOrFolder(String path) {
-        if (TextUtils.isEmpty(path)) return false;
-        return delFileOrFolder(new File(path));
+    fun delFileOrFolder(path: String): Boolean {
+        return if (TextUtils.isEmpty(path)) false else delFileOrFolder(
+            File(path)
+        )
     }
 
     /**
@@ -515,24 +537,22 @@ public class IOUtils {
      *
      * @param file file.
      * @return is succeed.
-     * @see #delFileOrFolder(String)
+     * @see .delFileOrFolder
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static boolean delFileOrFolder(File file) {
+    fun delFileOrFolder(file: File?): Boolean {
         if (file == null || !file.exists()) {
             // do nothing
-        } else if (file.isFile()) {
-            file.delete();
-        } else if (file.isDirectory()) {
-            File[] files = file.listFiles();
+        } else if (file.isFile) {
+            file.delete()
+        } else if (file.isDirectory) {
+            val files = file.listFiles()
             if (files != null) {
-                for (File sonFile : files) {
-                    delFileOrFolder(sonFile);
+                for (sonFile in files) {
+                    delFileOrFolder(sonFile)
                 }
             }
-            file.delete();
+            file.delete()
         }
-        return true;
+        return true
     }
 }
-

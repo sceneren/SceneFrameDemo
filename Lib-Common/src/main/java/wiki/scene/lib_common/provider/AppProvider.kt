@@ -1,9 +1,7 @@
-package wiki.scene.lib_common.provier;
+package wiki.scene.lib_common.provider
 
-import android.annotation.SuppressLint;
-import android.app.Application;
-import android.util.Log;
-
+import android.app.Application
+import android.util.Log
 
 /**
  * FileName: AppProvider
@@ -11,33 +9,25 @@ import android.util.Log;
  * Email: 1170762202@qq.com
  * Description:
  */
-public class AppProvider {
-    public static final String TAG = "AppProvider";
-    @SuppressLint("StaticFieldLeak")
-    private Application app;
+class AppProvider(val app: Application) {
 
-    private static AppProvider INSTANCE;
-
-    public AppProvider(Application app) {
-        this.app = app;
-    }
-
-    public static void init(Application application) {
-        if (INSTANCE == null) {
-            Log.i(TAG, "init: AppProvider=contentprovider获取");
-            INSTANCE = new AppProvider(application);
+    companion object {
+        const val TAG = "AppProvider"
+        private var INSTANCE: AppProvider? = null
+        fun init(application: Application) {
+            if (INSTANCE == null) {
+                Log.i(TAG, "init: AppProvider=contentprovider获取")
+                INSTANCE = AppProvider(application)
+            }
         }
-    }
 
-    public static AppProvider getInstance() {
-        if (INSTANCE == null) {
-            Log.i(TAG, "init: AppProvider=反射获取");
-            INSTANCE = new AppProvider(AppBridge.getApplicationByReflect());
-        }
-        return INSTANCE;
-    }
-
-    public Application getApp() {
-        return app;
+        val instance: AppProvider
+            get() {
+                if (INSTANCE == null) {
+                    Log.i(TAG, "init: AppProvider=反射获取")
+                    INSTANCE = AppProvider(AppBridge.applicationByReflect!!)
+                }
+                return INSTANCE!!
+            }
     }
 }

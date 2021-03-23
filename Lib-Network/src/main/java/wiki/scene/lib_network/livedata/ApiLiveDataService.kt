@@ -1,10 +1,9 @@
-package wiki.scene.lib_network.api1.livedata;
+package wiki.scene.lib_network.livedata
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.LiveData
+import retrofit2.http.POST
 
-import retrofit2.http.POST;
-
-public interface ApiLiveDataService {
+interface ApiLiveDataService {
     @POST
-    LiveData<String> post();
+    fun post(): LiveData<String>
 }

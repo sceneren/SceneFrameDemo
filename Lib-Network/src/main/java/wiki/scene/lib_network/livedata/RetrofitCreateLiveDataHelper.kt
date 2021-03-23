@@ -1,81 +1,76 @@
-package wiki.scene.lib_network.api1.livedata;
+package wiki.scene.lib_network.livedata
 
-import androidx.annotation.NonNull;
-
-import com.franmontiel.persistentcookiejar.ClearableCookieJar;
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import wiki.scene.lib_common.provier.AppProvider;
-import wiki.scene.lib_network.interceptor.LogInterceptor;
-
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.franmontiel.persistentcookiejar.ClearableCookieJar
+import com.franmontiel.persistentcookiejar.PersistentCookieJar
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import wiki.scene.lib_common.provider.AppProvider
+import wiki.scene.lib_network.interceptor.LogInterceptor
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Zlx on 2017/12/12.
  */
-public class RetrofitCreateLiveDataHelper {
-    private static final int TIMEOUT_READ = 60;
-    private static final int TIMEOUT_CONNECTION = 60;
-
-    private static RetrofitCreateLiveDataHelper instance;
-
-    public static RetrofitCreateLiveDataHelper getInstance() {
-        if (instance == null) {
-            synchronized (RetrofitCreateLiveDataHelper.class) {
-                instance = new RetrofitCreateLiveDataHelper();
-            }
-        }
-        return instance;
+class RetrofitCreateLiveDataHelper private constructor() {
+    fun <T> create(baseURL: String, service: Class<T>): T {
+        return initRetrofitWithLiveData(baseURL, initOkHttp()).create(service)
     }
 
-    private RetrofitCreateLiveDataHelper() {
-    }
-
-
-    public <T> T create(String baseURL, Class<T> service) {
-        return initRetrofitWithLiveData(baseURL, initOkHttp()).create(service);
-    }
     /**
      * 初始化Retrofit
      */
-    @NonNull
-    private Retrofit initRetrofitWithLiveData(String baseURL,OkHttpClient client) {
-        return new Retrofit.Builder()
-                .client(client)
-                .baseUrl(baseURL)
-                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    private fun initRetrofitWithLiveData(baseURL: String, client: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .client(client)
+            .baseUrl(baseURL)
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     /**
      * 初始化okhttp
      */
-    @NonNull
-    private OkHttpClient initOkHttp() {
-        return new OkHttpClient().newBuilder()
-                .readTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)//设置读取超时时间
-                .connectTimeout(TIMEOUT_READ, TimeUnit.SECONDS)//设置请求超时时间
-                .writeTimeout(TIMEOUT_READ, TimeUnit.SECONDS)//设置写入超时时间
-                .retryOnConnectionFailure(true)//设置出现错误进行重新连接。
-                //失败重连
-                .retryOnConnectionFailure(true)
-                .cookieJar(getCookieJar())
-                .addInterceptor(new LogInterceptor())//添加打印拦截器
-                .build();
+    private fun initOkHttp(): OkHttpClient {
+        return OkHttpClient().newBuilder()
+            .readTimeout(TIMEOUT_CONNECTION.toLong(), TimeUnit.SECONDS) //设置读取超时时间
+            .connectTimeout(TIMEOUT_READ.toLong(), TimeUnit.SECONDS) //设置请求超时时间
+            .writeTimeout(TIMEOUT_READ.toLong(), TimeUnit.SECONDS) //设置写入超时时间
+            .retryOnConnectionFailure(true) //设置出现错误进行重新连接。
+            //失败重连
+            .retryOnConnectionFailure(true)
+            .cookieJar(cookieJar!!)
+            .addInterceptor(LogInterceptor()) //添加打印拦截器
+            .build()
     }
-    private ClearableCookieJar cookieJar;
 
-    public ClearableCookieJar getCookieJar() {
-        if (cookieJar == null) {
-            cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(AppProvider.getInstance().getApp()));
+    var cookieJar: ClearableCookieJar? = null
+        get() {
+            if (field == null) {
+                field = PersistentCookieJar(
+                    SetCookieCache(),
+                    SharedPrefsCookiePersistor(AppProvider.instance?.app)
+                )
+            }
+            return field
         }
-        return cookieJar;
-    }
+        private set
 
+    companion object {
+        private const val TIMEOUT_READ = 60
+        private const val TIMEOUT_CONNECTION = 60
+        var instance: RetrofitCreateLiveDataHelper? = null
+            get() {
+                if (field == null) {
+                    synchronized(RetrofitCreateLiveDataHelper::class.java) {
+                        field = RetrofitCreateLiveDataHelper()
+                    }
+                }
+                return field
+            }
+            private set
+    }
 }

@@ -1,21 +1,12 @@
-package wiki.scene.lib_network.interceptor;
+package wiki.scene.lib_network.interceptor
 
-import android.util.Log;
-
-
-import wiki.scene.lib_network.util.LogUtil;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Locale;
-
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okio.Buffer;
-
+import android.util.Log
+import okhttp3.*
+import okio.Buffer
+import wiki.scene.lib_network.util.LogUtil
+import java.io.IOException
+import java.nio.charset.Charset
+import java.util.*
 
 /**
  * date: 2019\6\11 0011
@@ -23,43 +14,46 @@ import okio.Buffer;
  * email: 1170762202@qq.com
  * description: log 拦截
  */
-public class LogInterceptor implements Interceptor {
-    private String TAG = "LogInterceptor";
-
-    @Override
-    public Response intercept(Chain chain) throws IOException {
-        Request request = chain.request();
-        Log.w(TAG, "request:" + request.toString());
-        printParams(request.body());
-        long t1 = System.nanoTime();
-        okhttp3.Response response = chain.proceed(chain.request());
-        long t2 = System.nanoTime();
-        Log.i(TAG, String.format(Locale.getDefault(), "Received response for %s in %.1fms%n%s",
-                response.request().url(), (t2 - t1) / 1e6d, response.headers()));
-        MediaType mediaType = response.body().contentType();
-        String content = response.body().string();
-        LogUtil.show("response body:" + content);
+class LogInterceptor : Interceptor {
+    private val TAG = "LogInterceptor"
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request: Request = chain.request()
+        Log.w(TAG, "request:$request")
+        printParams(request.body)
+        val t1 = System.nanoTime()
+        val response: Response = chain.proceed(chain.request())
+        val t2 = System.nanoTime()
+        Log.i(
+            TAG, String.format(
+                Locale.getDefault(), "Received response for %s in %.1fms%n%s",
+                response.request.url, (t2 - t1) / 1e6, response.headers
+            )
+        )
+        val mediaType = response.body!!.contentType()
+        val content = response.body!!.string()
+        LogUtil.show("response body:$content")
         return response.newBuilder()
-                .body(okhttp3.ResponseBody.create(mediaType, content))
-                .build();
+            .body(ResponseBody.create(mediaType, content))
+            .build()
     }
 
-    private void printParams(RequestBody body) {
+    private fun printParams(body: RequestBody?) {
         if (body == null) {
-            return;
+            return
         }
-        Buffer buffer = new Buffer();
+        val buffer = Buffer()
         try {
-            body.writeTo(buffer);
-            Charset charset = Charset.forName("UTF-8");
-            MediaType contentType = body.contentType();
+            body.writeTo(buffer)
+            var charset = Charset.forName("UTF-8")
+            val contentType = body.contentType()
             if (contentType != null) {
-                charset = contentType.charset(charset);
+                charset = contentType.charset(charset)
             }
-            String params = buffer.readString(charset);
-            Log.e(TAG, "请求参数： | " + params);
-        } catch (IOException e) {
-            e.printStackTrace();
+            val params = buffer.readString(charset!!)
+            Log.e(TAG, "请求参数： | $params")
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
 }

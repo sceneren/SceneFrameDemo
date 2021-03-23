@@ -2,22 +2,11 @@ apply from: "../lib_base_config.gradle"
 
 android {
     resourcePrefix "lib_db_"
-    defaultConfig {
-        //指定room.schemaLocation生成的文件路径
-        //解决room编译警告
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
-                arg("room.incremental", "true")
-                arg("room.expandProjection", "true")
-            }
-        }
-    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api rootProject.ext.dependencies.room
-    annotationProcessor rootProject.ext.dependencies.roomCompiler
+    kapt rootProject.ext.dependencies.roomCompiler
     debugApi 'com.amitshekhar.android:debug-db:1.0.6'
 }

@@ -1,54 +1,27 @@
-package wiki.scene.lib_network.api2;
+package wiki.scene.lib_network.api2
 
-import android.util.Log;
+import androidx.lifecycle.LifecycleObserver
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import wiki.scene.lib_network.bean.ApiResponse
+import wiki.scene.lib_network.util.RxExceptionUtil
 
-
-import androidx.lifecycle.LifecycleObserver;
-
-import wiki.scene.lib_network.util.RxExceptionUtil;
-import wiki.scene.lib_network.bean.ApiResponse;
-
-import java.util.Objects;
-
-import io.reactivex.Observer;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-
-public class NetHelperObserver <T extends ApiResponse> implements Observer<T>, LifecycleObserver {
-
-    private NetCallback<T> mCallback;
-
-    public NetHelperObserver(NetCallback<T> callback) {
-        mCallback = callback;
-    }
-
-    @Override
-    public void onSubscribe(@NonNull Disposable d) {
-
-    }
-
-    @Override
-    public void onNext(@NonNull T t) {
+class NetHelperObserver<T : ApiResponse<T>>(private val mCallback: NetCallback<T>?) : Observer<T>,
+    LifecycleObserver {
+    override fun onSubscribe(d: Disposable) {}
+    override fun onNext(t: T) {
         if (mCallback != null) {
-            if (t.isSuccess()) {
-                mCallback.onSuccess(t);
+            if (t.isSuccess) {
+                mCallback.onSuccess(t)
             } else {
-                mCallback.onFail(t.getErrorMsg());
+                mCallback.onFail(t.errorMsg)
             }
         }
     }
 
-    @Override
-    public void onError(@NonNull Throwable t) {
-        Log.e("请求错误", Objects.requireNonNull(t.getMessage()));
-        if (mCallback != null) {
-            mCallback.onFail(RxExceptionUtil.exceptionHandler(t));
-        }
+    override fun onError(t: Throwable) {
+        mCallback?.onFail(RxExceptionUtil.exceptionHandler(t))
     }
 
-    @Override
-    public void onComplete() {
-
-    }
-
+    override fun onComplete() {}
 }

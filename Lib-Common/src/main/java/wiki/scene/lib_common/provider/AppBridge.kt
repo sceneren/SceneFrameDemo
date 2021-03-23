@@ -1,6 +1,6 @@
-package wiki.scene.lib_common.provier;
+package wiki.scene.lib_common.provider
 
-import android.app.Application;
+import android.app.Application
 
 /**
  * FileName: AppBridge
@@ -8,9 +8,7 @@ import android.app.Application;
  * Email: 1170762202@qq.com
  * Description:
  */
-public class AppBridge {
-
-    public static Application getApplicationByReflect() {
-        return ActivityLifecycleImpl.INSTANCE.getApplicationByReflect();
-    }
+object AppBridge {
+    val applicationByReflect: Application?
+        get() = ActivityLifecycleImpl.INSTANCE.applicationByReflect
 }

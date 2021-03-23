@@ -1,4 +1,4 @@
-apply from: "../lib_base_config.gradle"
+apply from: "../module_base_config.gradle"
 
 android {
     resourcePrefix "module_web_"

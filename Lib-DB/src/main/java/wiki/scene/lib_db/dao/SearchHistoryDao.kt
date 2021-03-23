@@ -1,13 +1,10 @@
-package wiki.scene.lib_db.dao;
+package wiki.scene.lib_db.dao
 
-import androidx.room.Dao;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-
-import wiki.scene.lib_db.entity.SearchHistoryEntity;
-
-import java.util.List;
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import wiki.scene.lib_db.entity.SearchHistoryEntity
 
 /**
  * Created by zlx on 2020/9/23 10:32
@@ -15,20 +12,16 @@ import java.util.List;
  * Description:
  */
 @Dao
-public interface SearchHistoryDao {
-
-
+interface SearchHistoryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long insertPerson(SearchHistoryEntity entity);
-
+    fun insertPerson(entity: SearchHistoryEntity): Long
 
     @Query("select * from SearchHistoryEntity")
-    public List<SearchHistoryEntity> selectHis();
-
+    fun selectHis(): List<SearchHistoryEntity>
 
     @Query("delete from SearchHistoryEntity where id= :id")
-    void deleteById(long id);
+    fun deleteById(id: Long)
 
     @Query("delete from SearchHistoryEntity")
-    void deleteAll();
+    fun deleteAll()
 }

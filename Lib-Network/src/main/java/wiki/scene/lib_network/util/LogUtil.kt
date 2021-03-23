@@ -1,35 +1,32 @@
-package wiki.scene.lib_network.util;
+package wiki.scene.lib_network.util
 
-import android.util.Log;
-
-import wiki.scene.lib_network.BuildConfig;
-
+import android.util.Log
+import wiki.scene.lib_network.BuildConfig
 
 /**
  * Created by Zlx on 2017/5/3.
  */
-public class LogUtil {
-    private static final String TAG = "LogUtil";
-    public final static int logSubLenth = 3000;//每行log长度
-
-    public static void show(String content) {
+object LogUtil {
+    private const val TAG = "LogUtil"
+    const val logSubLenth = 3000 //每行log长度
+    fun show(content: String) {
         if (BuildConfig.DEBUG) {
-            logSplit(TAG, content, 1);
+            logSplit(TAG, content, 1)
         }
     }
 
-    public static void logSplit(String explain, String message, int i) {
+    fun logSplit(explain: String, message: String, i: Int) {
         //TODO 添加非debug下不打印日志
         //        if (!BuildConfig.DEBUG) return;
-        if (i > 10) return;
-        if (message.length() <= logSubLenth) {
-            Log.i(explain, explain + i + "：     " + message);
-            return;
+        var i = i
+        if (i > 10) return
+        if (message.length <= logSubLenth) {
+            Log.i(explain, "$explain$i：     $message")
+            return
         }
-
-        String msg1 = message.substring(0, logSubLenth);
-        Log.i(explain, explain + i + "：     " + msg1);
-        String msg2 = message.substring(logSubLenth);
-        logSplit(explain, msg2, ++i);
+        val msg1 = message.substring(0, logSubLenth)
+        Log.i(explain, "$explain$i：     $msg1")
+        val msg2 = message.substring(logSubLenth)
+        logSplit(explain, msg2, ++i)
     }
 }

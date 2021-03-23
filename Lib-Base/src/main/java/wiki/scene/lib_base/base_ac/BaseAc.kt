@@ -265,8 +265,8 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     }
 
     override fun initViews() {}
-    protected val mTheme: Int
-        protected get() = R.style.AppTheme
+    private val mTheme: Int
+         get() = R.style.AppTheme
 
     @SuppressLint("CheckResult")
     fun requestPermissions(vararg permissions: String?) {

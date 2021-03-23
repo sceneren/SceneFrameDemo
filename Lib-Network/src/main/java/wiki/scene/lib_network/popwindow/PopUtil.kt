@@ -1,36 +1,27 @@
-package wiki.scene.lib_network.widget.popwindow;
+package wiki.scene.lib_network.popwindow
 
-import android.os.Handler;
-import android.os.Looper;
+import android.os.Handler
+import android.os.Looper
 
 /**
  * Created by zlx on 2020/9/28 9:34
  * Email: 1170762202@qq.com
  * Description: 全局通用弹窗工具类
  */
-public class PopUtil {
-
-    public static void show(String msg) {
-        show(msg, null);
-    }
-
-    public static void show(String msg, OnPopCallBack onPopCallBack) {
-        CommonPop commonPop = new CommonPop(msg);
-        commonPop.showPopupWindow();
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (commonPop != null && commonPop.isShowing()) {
-                    commonPop.dismiss();
-                }
-                if (onPopCallBack != null) {
-                    onPopCallBack.dismiss();
-                }
+object PopUtil {
+    @JvmOverloads
+    fun show(msg: String, onPopCallBack: OnPopCallBack? = null) {
+        val commonPop = CommonPop(msg)
+        commonPop.showPopupWindow()
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (commonPop != null && commonPop.isShowing) {
+                commonPop.dismiss()
             }
-        }, 2000);
+            onPopCallBack?.dismiss()
+        }, 2000)
     }
 
-    public interface OnPopCallBack {
-        void dismiss();
+    interface OnPopCallBack {
+        fun dismiss()
     }
 }

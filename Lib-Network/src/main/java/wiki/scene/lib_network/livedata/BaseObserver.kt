@@ -1,31 +1,24 @@
-package wiki.scene.lib_network.api1.livedata;
+package wiki.scene.lib_network.livedata
 
-import wiki.scene.lib_network.bean.ApiResponse;
-import wiki.scene.lib_network.widget.popwindow.PopUtil;
+import wiki.scene.lib_network.bean.ApiResponse
+import wiki.scene.lib_network.popwindow.PopUtil
 
-public class BaseObserver<T> implements IBaseObserver<T> {
-
-    private BaseObserverCallBack<T> baseObserverCallBack;
-
-    public BaseObserver(BaseObserverCallBack<T> baseObserverCallBack) {
-        this.baseObserverCallBack = baseObserverCallBack;
-    }
-
-    @Override
-    public void onChanged(T t) {
-        if (t instanceof ApiResponse) {
-            ApiResponse apiResponse = (ApiResponse) t;
-            if (apiResponse.isSuccess()) {
-                baseObserverCallBack.onSuccess(t);
+class BaseObserver<T>(private val baseObserverCallBack: BaseObserverCallBack<T>) :
+    IBaseObserver<T> {
+    override fun onChanged(t: T) {
+        if (t is ApiResponse<*>) {
+            val apiResponse = t as ApiResponse<*>
+            if (apiResponse.isSuccess) {
+                baseObserverCallBack.onSuccess(t)
             } else {
-                baseObserverCallBack.onFail(apiResponse.getErrorMsg());
+                baseObserverCallBack.onFail(apiResponse.errorMsg)
                 if (baseObserverCallBack.showErrorMsg()) {
-                    PopUtil.show(apiResponse.getErrorMsg());
+                    PopUtil.show(apiResponse.errorMsg)
                 }
             }
         } else {
-            baseObserverCallBack.onFail("系统繁忙!");
+            baseObserverCallBack.onFail("系统繁忙!")
         }
-        baseObserverCallBack.onFinish();
+        baseObserverCallBack.onFinish()
     }
 }

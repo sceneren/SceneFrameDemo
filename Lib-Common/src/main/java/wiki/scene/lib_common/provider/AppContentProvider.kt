@@ -1,65 +1,59 @@
-package wiki.scene.lib_common.provier;
+package wiki.scene.lib_common.provider
 
-import android.app.Application;
-import android.content.ContentProvider;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import android.app.Application
+import android.content.ContentProvider
+import android.content.ContentValues
+import android.database.Cursor
+import android.net.Uri
 
 /**
  * Created by zlx on 2020/9/28 10:00
  * Email: 1170762202@qq.com
  * Description:
  */
-public class AppContentProvider extends ContentProvider {
-
-    @Override
-    public boolean onCreate() {
-        Context context = getContext();
-        if (context == null) return false;
-        context = context.getApplicationContext();
-        if (context instanceof Application) {
-            AppProvider.init((Application) context);
-            return true;
-        } else {
-            return false;
+class AppContentProvider : ContentProvider() {
+    override fun onCreate(): Boolean {
+        var mContext = context
+        if (context == null) {
+            return false
+        }
+        mContext= mContext!!.applicationContext
+        return if(mContext is Application){
+            AppProvider.init(context as Application)
+            true
+        }else{
+            false
         }
     }
 
-    @Nullable
-    @Override
-    public Cursor query(@NonNull Uri uri,
-                        @Nullable String[] projection,
-                        @Nullable String selection,
-                        @Nullable String[] selectionArgs,
-                        @Nullable String sortOrder) {
-        return null;
+    override fun query(
+        uri: Uri,
+        projection: Array<String>?,
+        selection: String?,
+        selectionArgs: Array<String>?,
+        sortOrder: String?
+    ): Cursor? {
+        return null
     }
 
-    @Nullable
-    @Override
-    public String getType(@NonNull Uri uri) {
-        return null;
+    override fun getType(uri: Uri): String? {
+        return null
     }
 
-    @Nullable
-    @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        return null;
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        return null
     }
 
-    @Override
-    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
+        return 0
     }
 
-    @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+    override fun update(
+        uri: Uri,
+        values: ContentValues?,
+        selection: String?,
+        selectionArgs: Array<String>?
+    ): Int {
+        return 0
     }
 }

@@ -1,11 +1,8 @@
-package wiki.scene.lib_network.api2;
+package wiki.scene.lib_network.api2
 
+import wiki.scene.lib_network.bean.ApiResponse
 
-import wiki.scene.lib_network.bean.ApiResponse;
-
-public interface NetCallback<T extends ApiResponse> {
-
-    void onSuccess(T response);
-
-    void onFail(String msg);
+interface NetCallback<T : ApiResponse<T>> {
+    fun onSuccess(response: T)
+    fun onFail(msg: String)
 }

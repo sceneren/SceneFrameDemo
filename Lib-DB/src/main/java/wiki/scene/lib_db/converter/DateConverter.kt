@@ -1,25 +1,23 @@
-package wiki.scene.lib_db.converter;
+package wiki.scene.lib_db.converter
 
-import android.util.Log;
+import android.util.Log
+import androidx.room.TypeConverter
+import java.util.*
 
-import androidx.room.TypeConverter;
-
-
-import java.util.Date;
-
-public class DateConverter {
+class DateConverter {
 
     @TypeConverter
-    public static Date revertDate(long value) {
-        return new Date(value);
+    fun revertDate(value: Long): Date {
+        return Date(value)
     }
 
     @TypeConverter
-    public static long converterDate(Date value) {
-        if (value == null) {
-            value = new Date();
+    fun converterDate(value: Date?): Long {
+        var newValue = value
+        if (newValue == null) {
+            newValue = Date()
         }
-        Log.i("DateConverter", "converterDate=" + value.getTime() + "");
-        return value.getTime();
+        Log.i("DateConverter", "converterDate=" + newValue.time + "")
+        return newValue.time
     }
 }

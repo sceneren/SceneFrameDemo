@@ -2,17 +2,6 @@ apply from: "../lib_base_config.gradle"
 
 android {
     resourcePrefix "lib_aop_"
-    defaultConfig {
-        //指定room.schemaLocation生成的文件路径
-        //解决room编译警告
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
-                arg("room.incremental", "true")
-                arg("room.expandProjection", "true")
-            }
-        }
-    }
 }
 
 dependencies {

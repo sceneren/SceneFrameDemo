@@ -1,12 +1,6 @@
-package wiki.scene.lib_network.scheduler;
+package wiki.scene.lib_network.scheduler
 
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
-public class IoMainScheduler<T> extends BaseScheduler<T> {
-
-    public IoMainScheduler() {
-        super(Schedulers.io(), AndroidSchedulers.mainThread());
-    }
-}
+class IoMainScheduler<T> : BaseScheduler<T>(Schedulers.io(), AndroidSchedulers.mainThread())

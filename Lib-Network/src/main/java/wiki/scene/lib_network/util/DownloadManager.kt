@@ -1,103 +1,65 @@
-package wiki.scene.lib_network.util;
+package wiki.scene.lib_network.util
 
-import android.text.TextUtils;
-import android.util.Log;
-
-
-import androidx.annotation.NonNull;
-
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import android.text.TextUtils
+import okhttp3.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
 
 /**
  * Created by heavyrainlee on 20/02/2018.
  */
+class DownloadManager private constructor() {
+    private val okHttpClient: OkHttpClient = OkHttpClient()
 
-public class DownloadManager {
-
-    private final String TAG = getClass().getSimpleName();
-    private static DownloadManager downloadManager;
-    private final OkHttpClient okHttpClient;
-
-    public static DownloadManager get() {
-        if (downloadManager == null) {
-            downloadManager = new DownloadManager();
-        }
-        return downloadManager;
-    }
-
-    private DownloadManager() {
-        okHttpClient = new OkHttpClient();
-    }
-
-    public void download(final String url, final String saveDir, final OnDownloadListener listener) {
-        download(url, saveDir, listener);
-    }
-
-    public void download(final String url, final String saveDir, String name, final OnDownloadListener listener) {
-        Request request = new Request.Builder().url(url).build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+    fun download(url: String, saveDir: String, name: String?, listener: OnDownloadListener) {
+        val request: Request = Request.Builder().url(url).build()
+        okHttpClient.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
                 // 下载失败
-                listener.onFail();
+                listener.onFail()
             }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                InputStream is = null;
-                FileOutputStream fos = null;
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+                var inputStream: InputStream? = null
+                var fos: FileOutputStream? = null
                 try {
-                    byte[] buf = new byte[2048];
-                    int len = 0;
+                    val buf = ByteArray(2048)
+                    var len = 0
                     // 储存下载文件的目录
-                    String savePath = isExistDir(saveDir);
-
-                    String fileName = TextUtils.isEmpty(name) ? getNameFromUrl(url) : name;
-                    is = response.body().byteStream();
-                    long total = response.body().contentLength();
-                    File file = new File(savePath, fileName);
-                    fos = new FileOutputStream(file);
-                    long sum = 0;
-                    while ((len = is.read(buf)) != -1) {
-                        fos.write(buf, 0, len);
-                        sum += len;
-                        int progress = (int) (sum * 1.0f / total * 100);
+                    val savePath = isExistDir(saveDir)
+                    val fileName = if (TextUtils.isEmpty(name)) getNameFromUrl(url) else name!!
+                    inputStream = response.body!!.byteStream()
+                    val total = response.body!!.contentLength()
+                    val file = File(savePath, fileName)
+                    fos = FileOutputStream(file)
+                    var sum: Long = 0
+                    while (inputStream.read(buf).also { len = it } != -1) {
+                        fos.write(buf, 0, len)
+                        sum += len.toLong()
+                        val progress = (sum * 1.0f / total * 100).toInt()
                         // 下载中
-                        listener.onProgress(progress);
+                        listener.onProgress(progress)
                     }
-                    fos.flush();
+                    fos.flush()
                     // 下载完成
-                    listener.onSuccess(file);
-                } catch (Exception e) {
-                    Log.i(TAG, "onResponse: ");
-                    listener.onFail();
-
+                    listener.onSuccess(file)
+                } catch (e: Exception) {
+                    listener.onFail()
                 } finally {
                     try {
-                        if (is != null) {
-                            is.close();
-                        }
-                    } catch (IOException e) {
+                        inputStream?.close()
+                    } catch (e: IOException) {
                     }
                     try {
-                        if (fos != null) {
-                            fos.close();
-                        }
-                    } catch (IOException e) {
+                        fos?.close()
+                    } catch (e: IOException) {
                     }
                 }
             }
-        });
+        })
     }
 
     /**
@@ -105,38 +67,49 @@ public class DownloadManager {
      * @return
      * @throws IOException 判断下载目录是否存在
      */
-    private String isExistDir(String saveDir) throws IOException {
+    @Throws(IOException::class)
+    private fun isExistDir(saveDir: String): String {
         // 下载位置
-        File downloadFile = new File(saveDir);
+        val downloadFile = File(saveDir)
         if (!downloadFile.mkdirs()) {
-            downloadFile.createNewFile();
+            downloadFile.createNewFile()
         }
-        return downloadFile.getAbsolutePath();
+        return downloadFile.absolutePath
     }
 
     /**
      * @param url
      * @return 从下载连接中解析出文件名
      */
-    @NonNull
-    private String getNameFromUrl(String url) {
-        return url.substring(url.lastIndexOf("/") + 1);
+    private fun getNameFromUrl(url: String): String {
+        return url.substring(url.lastIndexOf("/") + 1)
     }
 
-    public interface OnDownloadListener {
+    interface OnDownloadListener {
         /**
          * 下载成功
          */
-        void onSuccess(File file);
+        fun onSuccess(file: File?)
 
         /**
          * @param progress 下载进度
          */
-        void onProgress(int progress);
+        fun onProgress(progress: Int)
 
         /**
          * 下载失败
          */
-        void onFail();
+        fun onFail()
     }
+
+    companion object {
+        private var downloadManager: DownloadManager? = null
+        fun get(): DownloadManager? {
+            if (downloadManager == null) {
+                downloadManager = DownloadManager()
+            }
+            return downloadManager
+        }
+    }
+
 }

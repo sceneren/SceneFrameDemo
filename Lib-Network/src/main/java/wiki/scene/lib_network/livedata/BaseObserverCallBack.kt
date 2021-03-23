@@ -1,4 +1,4 @@
-package wiki.scene.lib_network.api1.livedata;
+package wiki.scene.lib_network.livedata
 
 /**
  * Copyright (C)
@@ -8,20 +8,12 @@ package wiki.scene.lib_network.api1.livedata;
  * Date: 2020/9/17 10:30
  * Description:
  */
-public abstract class BaseObserverCallBack<T> {
-
-    public abstract void onSuccess(T data);
-
-    public boolean showErrorMsg() {
-        return false;
+abstract class BaseObserverCallBack<T> {
+    abstract fun onSuccess(data: T)
+    fun showErrorMsg(): Boolean {
+        return false
     }
 
-    public void onFail(String msg) {
-
-    }
-
-    public void onFinish() {
-
-    }
-
+    fun onFail(msg: String?) {}
+    fun onFinish() {}
 }

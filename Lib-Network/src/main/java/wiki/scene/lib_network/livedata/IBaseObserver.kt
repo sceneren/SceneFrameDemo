@@ -1,7 +1,5 @@
-package wiki.scene.lib_network.api1.livedata;
+package wiki.scene.lib_network.livedata
 
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.Observer
 
-public interface IBaseObserver<T> extends Observer<T> {
-
-}
+interface IBaseObserver<T> : Observer<T>

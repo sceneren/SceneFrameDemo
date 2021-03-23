@@ -1,4 +1,4 @@
-package wiki.scene.lib_network.bean;
+package wiki.scene.lib_network.bean
 
 /**
  * @date: 2020\7\24 0024
@@ -6,64 +6,31 @@ package wiki.scene.lib_network.bean;
  * @email: 1170762202@qq.com
  * @description:
  */
-public class ApiResponse<T> {
+class ApiResponse<T> {
+    var errorCode //状态码
+            : Int
+    var errorMsg //信息
+            : String
+    var data //数据
+            : T?
 
-    public static final int CODE_SUCCESS = 0;
-    public static final int CODE_ERROR = 1;
-
-    private int errorCode; //状态码
-    private String errorMsg; //信息
-    private T data; //数据
-
-    public ApiResponse(int code, String msg) {
-        this.errorCode = code;
-        this.errorMsg = msg;
-        this.data = null;
+    constructor(code: Int, msg: String) {
+        errorCode = code
+        errorMsg = msg
+        data = null
     }
 
-    public ApiResponse(int code, String msg, T data) {
-        this.errorCode = code;
-        this.errorMsg = msg;
-        this.data = data;
+    constructor(code: Int, msg: String, data: T) {
+        errorCode = code
+        errorMsg = msg
+        this.data = data
     }
 
-    public static int getCodeSuccess() {
-        return CODE_SUCCESS;
-    }
+    val isSuccess: Boolean
+        get() = errorCode == 0
 
-    public static int getCodeError() {
-        return CODE_ERROR;
-    }
-
-    public int getErrorCode() {
-        return errorCode;
-    }
-
-    public void setErrorCode(int errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public boolean isSuccess() {
-        if (errorCode == 0) {
-            return true;
-        } else {
-            return false;
-        }
+    companion object {
+        const val codeSuccess = 0
+        const val codeError = 1
     }
 }

@@ -1,13 +1,10 @@
-package wiki.scene.lib_db.manager;
+package wiki.scene.lib_db.manager
 
-import android.content.Context;
-import android.text.TextUtils;
-
-import androidx.room.Room;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
-
-
+import android.content.Context
+import android.text.TextUtils
+import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 /**
  * @date: 2019\9\4 0004
@@ -15,65 +12,60 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
  * @email: 1170762202@qq.com
  * @description:
  */
-public class DbUtil {
-    private AppDataBase appDataBase;
-
-    private static DbUtil instance;
-    private Context context;
-
-    private String dbName;
-
-    public static DbUtil getInstance() {
-        if (instance == null) {
-            instance = new DbUtil();
-        }
-        return instance;
+class DbUtil {
+    private var appDataBase: AppDataBase? = null
+    private var context: Context? = null
+    private var dbName: String? = null
+    fun init(context: Context, dbName: String?) {
+        this.context = context.applicationContext
+        this.dbName = dbName
+        appDataBase = null
     }
 
-    public void init(Context context,String dbName) {
-        this.context =context.getApplicationContext();
-        this.dbName = dbName;
-        appDataBase = null;
-    }
-
-
-    public AppDataBase getAppDataBase() {
+    fun getAppDataBase(): AppDataBase {
         if (appDataBase == null) {
             if (TextUtils.isEmpty(dbName)) {
-                throw new NullPointerException("dbName is null");
+                throw NullPointerException("dbName is null")
             }
-            appDataBase = Room.databaseBuilder(context, AppDataBase.class, dbName)
-                    .allowMainThreadQueries()
-                    .enableMultiInstanceInvalidation()
-//                    .addMigrations(MIGRATION_1_2)
-                    .build();
+            appDataBase = Room.databaseBuilder(context!!, AppDataBase::class.java, dbName!!)
+                .allowMainThreadQueries()
+                .enableMultiInstanceInvalidation() //                    .addMigrations(MIGRATION_1_2)
+                .build()
         }
-        return appDataBase;
+        return appDataBase!!
     }
 
+    companion object {
+        @JvmStatic
+        var instance: DbUtil? = null
+            get() {
+                if (field == null) {
+                    field = DbUtil()
+                }
+                return field
+            }
+            private set
 
-    /**
-     * 数据库版本 1->2 user表格新增了age列
-     */
-    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
-        @Override
-        public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `book` (`bookId` INTEGER PRIMARY KEY autoincrement, `bookName` TEXT , `user_id` INTEGER, 'time' INTEGER)");
-
+        /**
+         * 数据库版本 1->2 user表格新增了age列
+         */
+        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `book` (`bookId` INTEGER PRIMARY KEY autoincrement, `bookName` TEXT , `user_id` INTEGER, 'time' INTEGER)"
+                )
+            }
         }
-    };
 
-    /**
-     * 数据库版本 2->3 新增book表格
-     */
-    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
-        @Override
-        public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL(
-                    "CREATE TABLE IF NOT EXISTS `book` (`bookId` INTEGER PRIMARY KEY autoincrement, `bookName` TEXT , `user_id` INTEGER, 'time' INTEGER)");
+        /**
+         * 数据库版本 2->3 新增book表格
+         */
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `book` (`bookId` INTEGER PRIMARY KEY autoincrement, `bookName` TEXT , `user_id` INTEGER, 'time' INTEGER)"
+                )
+            }
         }
-    };
-
-
+    }
 }

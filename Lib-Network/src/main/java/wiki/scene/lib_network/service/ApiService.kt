@@ -1,65 +1,39 @@
-package wiki.scene.lib_network.service;
+package wiki.scene.lib_network.service
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.LiveData
+import io.reactivex.Observable
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.http.*
 
-
-import java.util.List;
-import java.util.Map;
-
-import io.reactivex.Observable;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
-import retrofit2.http.POST;
-import retrofit2.http.Part;
-import retrofit2.http.QueryMap;
-import retrofit2.http.Url;
-
-public interface ApiService {
-
+interface ApiService {
     @GET
-    Observable<String> get(@Url String url, @QueryMap Map<String, Object> map);
+    operator fun get(@Url url: String, @QueryMap map: Map<String, Any>): Observable<String>
 
     @FormUrlEncoded
     @POST
-    Observable<String> post(@Url String url, @FieldMap Map<String, Object> map);
+    fun post(@Url url: String, @FieldMap map: Map<String, Any>): Observable<String>
 
     @GET
-    LiveData<String> getWithLiveData(@Url String url, @QueryMap Map<String, Object> map);
+    fun getWithLiveData(@Url url: String, @QueryMap map: Map<String, Any>): LiveData<String>
 
     @Multipart
-    @POST()
-    Observable<String> uploadOneFile(@Url String url, @Part List<MultipartBody.Part> partList);
-
-    @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST
-    Observable<String> postWithJson(@Url String url, @Body RequestBody body);
+    fun uploadOneFile(@Url url: String, @Part partList: List<Part>): Observable<String>
+
+    @Headers("Content-Type: application/json", "Accept: application/json")
+    @POST
+    fun postWithJson(@Url url: String, @Body body: RequestBody): Observable<String>
 
     @FormUrlEncoded
     @POST("/api/user/getUserInfo")
-    Call<ResponseBody> getUserInfo(@Field("id") int id, @Field("friend_id") int friend_id, @Field("token") String token);
+    fun getUserInfo(
+        @Field("id") id: Int,
+        @Field("friend_id") friend_id: Int,
+        @Field("token") token: String
+    ): Call<ResponseBody>
 
     @POST
-    Observable<String> getBanner(@Url String url);
-
-
-
-
-
-
-
-
-
-
-
-
-
+    fun getBanner(@Url url: String): Observable<String>
 }
