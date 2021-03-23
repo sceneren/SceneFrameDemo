@@ -46,7 +46,7 @@ object GlideUtil {
     /**
      * 加载圆角图片
      */
-    fun loadRoundImage(iv: ImageView, url: String, round: Int) {
+    fun loadRoundImage(iv: ImageView, url: String, round: Int = SizeUtils.dp2px(5F)) {
         Glide.with(iv.context)
             .load(url)
             .transform(CenterCrop(), RoundedCorners(round))

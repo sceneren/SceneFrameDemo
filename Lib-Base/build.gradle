@@ -54,8 +54,8 @@ dependencies {
     api rootProject.ext.dependencies.okhttp
 
 
-    api 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
-    api 'com.scwang.smart:refresh-header-two-level:2.0.1'   //二级刷新头
+    api 'com.scwang.smart:refresh-layout-kernel:2.0.3'      //核心必须依赖
+    api  'com.scwang.smart:refresh-header-classics:2.0.3'
 
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6"
     api 'me.wangyuwei:ParticleView:1.0.4'
@@ -72,4 +72,6 @@ dependencies {
     api 'com.blankj:utilcodex:1.30.6'
 
     api 'com.github.AriesHoo.UIWidget:widget-core:3.2.25'
+
+    api 'me.jessyan:autosize:1.2.1'
 }

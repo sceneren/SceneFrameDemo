@@ -10,7 +10,7 @@ class MainAdapter :
     override fun convert(holder: BaseBindingHolder, item: BannerInfo) {
         holder.getViewBinding<ActivityMainItemBinding>().apply {
             tvName.text = item.title
-            GlideUtil.loadImage(
+            GlideUtil.loadRoundImage(
                 ivImage,
                 item.imagePath
             )

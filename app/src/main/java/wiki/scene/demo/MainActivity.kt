@@ -30,7 +30,7 @@ class MainActivity : BaseAc<ActivityMainBinding>() {
             RouterUtil.launchWeb("http://www.baidu.com")
         }
 
-        getData()
+        getTestData()
 
     }
 
@@ -59,9 +59,19 @@ class MainActivity : BaseAc<ActivityMainBinding>() {
             })
     }
 
+    private fun getTestData() {
+        for (i in 1..50) {
+            val info = BannerInfo(
+                "https://pics4.baidu.com/feed/77094b36acaf2eddeeefda82c5793de139019334.png?token=5e92a93c3fdd8e8d7fc537aa0ca25a80",
+                "标题${i}"
+            )
+            adapter.addData(info)
+        }
+    }
+
     override fun onRetryBtnClick() {
         super.onRetryBtnClick()
-        getData()
+        getTestData()
     }
 
 
