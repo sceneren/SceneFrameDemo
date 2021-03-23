@@ -6,7 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import wiki.scene.demo.databinding.ActivityMainBinding
 import wiki.scene.lib_base.base_ac.BaseAc
+import wiki.scene.lib_base.base_api.res_data.BannerInfo
+import wiki.scene.lib_base.base_api.util.ApiUtil
+import wiki.scene.lib_base.base_util.LogUtils
 import wiki.scene.lib_base.base_util.RouterUtil
+import wiki.scene.lib_network.bean.ApiResponse
+import wiki.scene.lib_network.livedata.FastObserver
 
 class MainActivity : BaseAc<ActivityMainBinding>() {
     override fun initViews() {
@@ -19,16 +24,31 @@ class MainActivity : BaseAc<ActivityMainBinding>() {
             .build()
             .addTo(binding.recyclerView)
 
-        for (i in 1..30) {
-            adapter.addData("数据${i}")
-        }
-
         adapter.setOnItemClickListener { _, _, _ ->
             RouterUtil.launchWeb("http://www.baidu.com")
         }
 
-    }
+        ApiUtil.articleApi
+            .banner
+            .observe(this, object : FastObserver<MutableList<BannerInfo>>() {
+                override fun onSuccess(data: ApiResponse<MutableList<BannerInfo>>) {
+                    LogUtils.e(data.data.toString())
+                    adapter.addData(data.data!!)
+                }
 
+                override fun onFail(msg: String?) {
+                    super.onFail(msg)
+                    LogUtils.e("onFail")
+                }
+
+                override fun onFinish() {
+                    super.onFinish()
+                    LogUtils.e("onFinish")
+                }
+
+            })
+
+    }
 
 
 }

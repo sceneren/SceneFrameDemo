@@ -9,11 +9,14 @@ package wiki.scene.lib_network.livedata
  * Description:
  */
 abstract class BaseObserverCallBack<T> {
+
     abstract fun onSuccess(data: T)
-    fun showErrorMsg(): Boolean {
+
+    open fun showErrorMsg(): Boolean {
         return false
     }
 
-    fun onFail(msg: String?) {}
-    fun onFinish() {}
+    open fun onFail(msg: String?) {}
+
+    open fun onFinish() {}
 }

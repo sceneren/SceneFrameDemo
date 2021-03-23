@@ -7,12 +7,9 @@ package wiki.scene.lib_network.bean
  * @description:
  */
 class ApiResponse<T> {
-    var errorCode //状态码
-            : Int
-    var errorMsg //信息
-            : String
-    var data //数据
-            : T?
+    var errorCode: Int
+    var errorMsg: String
+    var data: T?
 
     constructor(code: Int, msg: String) {
         errorCode = code

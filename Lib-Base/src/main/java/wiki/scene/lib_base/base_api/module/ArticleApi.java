@@ -3,7 +3,7 @@ package wiki.scene.lib_base.base_api.module;
 import androidx.lifecycle.LiveData;
 
 import wiki.scene.lib_base.base_api.res_data.ArticleListRes;
-import wiki.scene.lib_base.base_api.res_data.BannerRes;
+import wiki.scene.lib_base.base_api.res_data.BannerInfo;
 import wiki.scene.lib_base.base_api.res_data.MyShareBean;
 import wiki.scene.lib_base.base_api.res_data.PublicAuthorListRes;
 import wiki.scene.lib_base.base_api.res_data.SearchBeanRes;
@@ -32,7 +32,7 @@ public interface ArticleApi {
      * @return
      */
     @GET("banner/json")
-    LiveData<ApiResponse<List<BannerRes>>> getBanner();
+    LiveData<ApiResponse<List<BannerInfo>>> getBanner();
 
 
     /**
