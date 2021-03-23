@@ -3,13 +3,13 @@ package wiki.scene.lib_base.database;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.blankj.utilcode.util.LogUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.tencent.mmkv.MMKV;
 import wiki.scene.lib_base.base_api.res_data.UserInfo;
-import wiki.scene.lib_base.base_util.LogUtils;
 import wiki.scene.lib_base.constant.C;
 
 import java.util.ArrayList;

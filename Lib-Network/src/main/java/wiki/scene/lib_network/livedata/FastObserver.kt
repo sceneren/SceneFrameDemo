@@ -5,6 +5,9 @@ import wiki.scene.lib_network.popwindow.PopUtil
 
 abstract class FastObserver<T> : BaseObserverCallBack<ApiResponse<T>>(),
     IBaseObserver<ApiResponse<T>> {
+    init {
+        onStart()
+    }
 
     override fun onChanged(t: ApiResponse<T>?) {
         if (t == null) {

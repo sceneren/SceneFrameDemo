@@ -9,6 +9,9 @@ package wiki.scene.lib_network.livedata
  * Description:
  */
 abstract class BaseObserverCallBack<T> {
+    open fun onStart() {
+
+    }
 
     abstract fun onSuccess(data: T)
 

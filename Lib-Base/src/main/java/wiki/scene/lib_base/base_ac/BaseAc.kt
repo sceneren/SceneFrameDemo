@@ -17,6 +17,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.util.StatusBarUtil
+import com.blankj.utilcode.util.LogUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
@@ -27,10 +28,10 @@ import wiki.scene.lib_base.base_manage.ActivityUtil
 import wiki.scene.lib_base.base_util.DoubleClickExitDetector
 import wiki.scene.lib_base.base_util.InputTools
 import wiki.scene.lib_base.base_util.LanguageUtil
-import wiki.scene.lib_base.base_util.LogUtils
 import wiki.scene.lib_base.impl.IAcView
 import wiki.scene.lib_base.impl.INetView
 import wiki.scene.lib_base.loadsir.EmptyCallback
+import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
 import wiki.scene.lib_base.widget.slideback.SlideBack
 
@@ -135,6 +136,13 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
             loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
         }
         loadService!!.showSuccess()
+    }
+
+    override fun showError() {
+        if (loadService == null) {
+            loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
+        }
+        loadService!!.showCallback(ErrorCallback::class.java)
     }
 
     override fun onRetryBtnClick() {}

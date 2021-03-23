@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.blankj.utilcode.util.LogUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
-import wiki.scene.lib_base.base_util.LogUtils
 import wiki.scene.lib_base.loadsir.LoadingCallback
 
 /**
