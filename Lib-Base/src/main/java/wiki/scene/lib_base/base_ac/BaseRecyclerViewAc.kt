@@ -1,29 +1,89 @@
 package wiki.scene.lib_base.base_ac
 
+import android.view.View
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 
 /**
  * 普通分页列表封装
  */
-abstract class BaseRecyclerViewAc<VB : ViewBinding, T> :
-    BaseAc<VB>() {
-    open var pageNo = 0
+abstract class BaseRecyclerViewAc<VB : ViewBinding, T> : BaseAc<VB>(), OnRefreshListener,
+    OnLoadMoreListener {
+    open var currentPageNo = 0
     private var hasMore = false
 
-    open fun injectPageStart(): Int {
-        return 1
+    /**
+     * 返回的第一页的page
+     */
+    open fun injectReturnPageStart(): Int {
+        return 0
+    }
+
+    /**
+     * 请求第一页的page
+     */
+    open fun injectLoadPageStart(): Int {
+        return 0
     }
 
     abstract fun injectAdapter(): BaseQuickAdapter<T, BaseBindingQuickAdapter.BaseBindingHolder>
 
     abstract fun injectRefreshLayout(): RefreshLayout
 
-    override fun afterInitViews() {
-        super.afterInitViews()
+    abstract fun getListData(isFirst: Boolean, loadPage: Int)
+
+    override fun initViews() {
+        super.initViews()
+        initRecyclerView()
         injectRefreshLayout().setEnableAutoLoadMore(false)
+
+        if (isAllowLoadMore()) {
+            injectAdapter().loadMoreModule.setOnLoadMoreListener(this)
+        }
+
+        if (isAllowRefresh()) {
+            injectRefreshLayout().setOnRefreshListener(this)
+        }
+    }
+
+    override fun loadData() {
+        super.loadData()
+        getListData(true, injectLoadPageStart())
+    }
+
+    override fun onRetryBtnClick() {
+        super.onRetryBtnClick()
+        getListData(true, injectLoadPageStart())
+    }
+
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+        getListData(false, injectLoadPageStart())
+    }
+
+    override fun onLoadMore() {
+        getListData(false, currentPageNo)
+    }
+
+    open fun isAllowRefresh(): Boolean {
+        return true
+    }
+
+    open fun isAllowLoadMore(): Boolean {
+        return true
+    }
+
+    open fun initRecyclerView() {
+
+    }
+
+    fun loadListDataStart(isFirst: Boolean, view: View) {
+        if (isFirst) {
+            showLoading(view)
+        }
     }
 
     /**
@@ -35,7 +95,7 @@ abstract class BaseRecyclerViewAc<VB : ViewBinding, T> :
 
     fun loadListDataSuccess(isFirst: Boolean, page: Int, pageTotal: Int, data: MutableList<T>) {
         //给标记的页数赋值
-        pageNo = page
+        currentPageNo = page
         hasMore = page < pageTotal
         if (isFirst) {
             showSuccess()
@@ -47,7 +107,7 @@ abstract class BaseRecyclerViewAc<VB : ViewBinding, T> :
         } else {
             injectAdapter().loadMoreModule.loadMoreEnd()
         }
-        if (pageNo == injectPageStart()) {
+        if (currentPageNo == injectReturnPageStart()) {
             injectAdapter().setNewInstance(data)
         } else {
             injectAdapter().addData(data)
@@ -58,11 +118,12 @@ abstract class BaseRecyclerViewAc<VB : ViewBinding, T> :
         if (isFirst) {
             showError()
         } else {
-            if (page == injectPageStart()) {
+            if (page == injectLoadPageStart()) {
                 injectRefreshLayout().finishRefresh(false)
             } else {
                 injectAdapter().loadMoreModule.loadMoreFail()
             }
         }
     }
+
 }

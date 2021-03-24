@@ -4,10 +4,8 @@ import android.graphics.Color
 import android.util.TypedValue
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import wiki.scene.demo.databinding.ActivityMainBinding
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_ac.BaseRecyclerViewAc
@@ -18,14 +16,11 @@ import wiki.scene.lib_base.base_util.RouterUtil
 import wiki.scene.lib_network.bean.ApiResponse
 import wiki.scene.lib_network.livedata.FastObserver
 
-class MainActivity : BaseRecyclerViewAc<ActivityMainBinding, ArticleBean>(),
-    OnRefreshListener,
-    OnLoadMoreListener {
+class MainActivity : BaseRecyclerViewAc<ActivityMainBinding, ArticleBean>() {
     private val mAdapter = MainAdapter()
 
-    override fun initViews() {
-        super.initViews()
-
+    override fun initRecyclerView() {
+        super.initRecyclerView()
         binding.recyclerView.adapter = mAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(mContext)
         dividerBuilder().size(10, TypedValue.COMPLEX_UNIT_DIP)
@@ -38,25 +33,31 @@ class MainActivity : BaseRecyclerViewAc<ActivityMainBinding, ArticleBean>(),
             val url = mAdapter.data[position].link
             RouterUtil.launchWeb(url)
         }
-
-        binding.refreshLayout.setOnRefreshListener(this)
-        mAdapter.loadMoreModule.setOnLoadMoreListener(this)
     }
 
-    override fun loadData() {
-        super.loadData()
-        getData(0, true)
+    override fun injectLoadPageStart(): Int {
+        return 0
     }
 
-    private fun getData(loadPage: Int, isFirst: Boolean) {
+    override fun injectReturnPageStart(): Int {
+        return 1
+    }
+
+    override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
+        return mAdapter
+    }
+
+    override fun injectRefreshLayout(): RefreshLayout {
+        return binding.refreshLayout
+    }
+
+    override fun getListData(isFirst: Boolean, loadPage: Int) {
         ApiUtil.articleApi
             .listArticle(loadPage)
             .observe(this, object : FastObserver<ArticleListRes>() {
                 override fun onStart() {
                     super.onStart()
-                    if (isFirst) {
-                        showLoading(binding.refreshLayout)
-                    }
+                    loadListDataStart(isFirst, binding.refreshLayout)
                 }
 
                 override fun onSuccess(data: ApiResponse<ArticleListRes>) {
@@ -71,27 +72,6 @@ class MainActivity : BaseRecyclerViewAc<ActivityMainBinding, ArticleBean>(),
                 }
 
             })
-    }
-
-    override fun onRetryBtnClick() {
-        super.onRetryBtnClick()
-        getData(0, true)
-    }
-
-    override fun onRefresh(refreshLayout: RefreshLayout) {
-        getData(0, false)
-    }
-
-    override fun onLoadMore() {
-        getData(pageNo, false)
-    }
-
-    override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
-        return mAdapter
-    }
-
-    override fun injectRefreshLayout(): RefreshLayout {
-        return binding.refreshLayout
     }
 
 
