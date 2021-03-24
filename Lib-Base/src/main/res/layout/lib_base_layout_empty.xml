@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_empty"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
 
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_empty"
+    <com.airbnb.lottie.LottieAnimationView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTop="@mipmap/ic_empty"
-        android:drawablePadding="10dp"
-        android:text="暂无数据"
-        android:textStyle="bold"
-        android:textColor="@color/lib_base_main_text"
-        android:textSize="18sp" />
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/lib_base_lottie_empty" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点击重试"
         android:layout_marginTop="6dp"
-        android:textSize="14sp"
-        android:textColor="@color/lib_base_main_text_light" />
+        android:text="@string/lib_base_no_data"
+        android:textColor="@color/lib_base_main_text_light"
+        android:textSize="14sp" />
+
 </LinearLayout>

@@ -1,7 +1,7 @@
-package wiki.scene.lib_base.loadsir;
+package wiki.scene.lib_base.loadsir
 
-import com.kingja.loadsir.callback.Callback;
-import wiki.scene.lib_base.R;
+import com.kingja.loadsir.callback.Callback
+import wiki.scene.lib_base.R
 
 /**
  * FileName: ErrorCallback
@@ -9,11 +9,8 @@ import wiki.scene.lib_base.R;
  * Email: 1170762202@qq.com
  * Description:
  */
-public class ErrorCallback extends Callback {
-
-    @Override
-    protected int onCreateView()
-    {
-        return R.layout.base_layout_error;
+class ErrorCallback : Callback() {
+    override fun onCreateView(): Int {
+        return R.layout.lib_base_layout_error
     }
 }

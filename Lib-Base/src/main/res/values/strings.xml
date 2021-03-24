@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">module-base</string>
+    <string name="lib_base_click_me_to_retry">点击重试!</string>
+    <string name="lib_base_no_data">暂无数据</string>
 </resources>

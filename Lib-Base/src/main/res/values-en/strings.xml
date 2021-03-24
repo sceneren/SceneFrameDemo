@@ -1,4 +1,4 @@
 <resources>
-
-
+    <string name="lib_base_click_me_to_retry">click me to retry!</string>
+    <string name="lib_base_no_data">No Data</string>
 </resources>

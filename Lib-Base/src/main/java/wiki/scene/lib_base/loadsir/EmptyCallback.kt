@@ -1,10 +1,9 @@
-package wiki.scene.lib_base.loadsir;
+package wiki.scene.lib_base.loadsir
 
-import android.content.Context;
-import android.view.View;
-
-import com.kingja.loadsir.callback.Callback;
-import wiki.scene.lib_base.R;
+import android.content.Context
+import android.view.View
+import com.kingja.loadsir.callback.Callback
+import wiki.scene.lib_base.R
 
 /**
  * FileName: EmptyCallback
@@ -12,16 +11,13 @@ import wiki.scene.lib_base.R;
  * Email: 1170762202@qq.com
  * Description:
  */
-public class EmptyCallback extends Callback {
-
-    @Override
-    protected int onCreateView() {
-        return R.layout.base_layout_empty;
+class EmptyCallback : Callback() {
+    override fun onCreateView(): Int {
+        return R.layout.lib_base_layout_empty
     }
 
     //当前Callback的点击事件，如果返回true则覆盖注册时的onReload()，如果返回false则两者都执行，先执行onReloadEvent()。
-    @Override
-    protected boolean onReloadEvent(Context context, View view) {
-        return false;
+    override fun onReloadEvent(context: Context, view: View): Boolean {
+        return false
     }
 }
