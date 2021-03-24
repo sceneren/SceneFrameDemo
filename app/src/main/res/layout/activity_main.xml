@@ -9,14 +9,23 @@
 
     <com.aries.ui.view.title.TitleBarView
         android:id="@+id/tvTitleBar"
-        app:title_titleMainText="首页"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         app:title_leftTextDrawable="@mipmap/ic_back"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        app:title_titleMainText="首页" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="false">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 
 </LinearLayout>

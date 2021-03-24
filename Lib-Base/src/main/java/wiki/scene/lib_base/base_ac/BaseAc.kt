@@ -71,6 +71,8 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
         initViews()
 
+        loadData()
+
         doubleClickExitDetector = DoubleClickExitDetector(this, "再按一次退出", 2000)
 
         if (canSwipeBack()) {
@@ -78,6 +80,10 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
             SlideBack.create()
                 .attachToActivity(this)
         }
+    }
+
+    override fun loadData() {
+
     }
 
     override fun beforeInitView() {
