@@ -39,7 +39,7 @@ class RetrofitCreateHelper private constructor() {
             .retryOnConnectionFailure(true) //设置出现错误进行重新连接。
             //失败重连
             .retryOnConnectionFailure(true)
-            .addInterceptor(HttpLoggingInterceptor("httpLog")) //添加打印拦截器
+            .addInterceptor(HttpLoggingInterceptor()) //添加打印拦截器
             .build()
     }
 

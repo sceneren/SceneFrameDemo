@@ -1,13 +1,12 @@
 package wiki.scene.lib_network.interceptor
 
+import com.blankj.utilcode.util.LogUtils
 import okhttp3.*
 import okhttp3.internal.http.promisesBody
 import wiki.scene.lib_network.util.IOUtils
-import wiki.scene.lib_network.util.LogUtil
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
-import java.util.logging.Logger
 
 /**
  * ================================================
@@ -15,11 +14,10 @@ import java.util.logging.Logger
  * 修订历史：
  * ================================================
  */
-class HttpLoggingInterceptor(tag: String?) : Interceptor {
+class HttpLoggingInterceptor : Interceptor {
     @Volatile
     private var printLevel: Level? = Level.NONE
     private var colorLevel: java.util.logging.Level? = null
-    private val logger: Logger
 
     enum class Level {
         NONE,  //不打印log
@@ -35,10 +33,6 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
 
     fun setColorLevel(level: java.util.logging.Level?) {
         colorLevel = level
-    }
-
-    private fun log(message: String) {
-        logger.log(colorLevel, message)
     }
 
     @Throws(IOException::class)
@@ -57,7 +51,7 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
         response = try {
             chain.proceed(request)
         } catch (e: Exception) {
-            log("<-- HTTP FAILED: $e")
+            LogUtils.i("<-- HTTP FAILED: $e")
             throw e
         }
         val tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs)
@@ -75,13 +69,13 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
         val protocol = connection?.protocol() ?: Protocol.HTTP_1_1
         try {
             val requestStartMessage = "--> " + request.method + ' ' + request.url + ' ' + protocol
-            log(requestStartMessage)
+            LogUtils.i(requestStartMessage)
             if (logHeaders) {
                 if (hasRequestBody) {
                     // Request body headers are only present when installed as a network interceptor. Force
                     // them to be included (when available) so there values are known.
                     if (requestBody!!.contentType() != null) {
-                        log(
+                        LogUtils.i(
                             """
     
     Content-Type: ${requestBody.contentType()}
@@ -89,7 +83,7 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
                         )
                     }
                     if (requestBody.contentLength() != -1L) {
-                        log(
+                        LogUtils.i(
                             """
     
     Content-Length: ${requestBody.contentLength()}
@@ -108,7 +102,7 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
                             ignoreCase = true
                         )
                     ) {
-                        log(
+                        LogUtils.i(
                             """
     
     $name: ${headers.value(i)}
@@ -117,23 +111,23 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
                     }
                     i++
                 }
-                log("------------------------")
+                LogUtils.i("------------------------")
                 if (logBody && hasRequestBody) {
-                    LogUtil.show(
+                    LogUtils.i(
                         "isPlaintext(requestBody.contentType())=" + isPlaintext(
                             requestBody!!.contentType()
                         )
                     )
                     if (isPlaintext(requestBody.contentType())) {
-                        LogUtil.show("request=" + bodyToString(request))
+                        LogUtils.i("request=" + bodyToString(request))
                     } else {
-                        log("\nbody: maybe [binary body], omitted!")
+                        LogUtils.i("\nbody: maybe [binary body], omitted!")
                     }
                 }
             }
         } catch (e: Exception) {
         } finally {
-            log("--> END " + request.method)
+            LogUtils.i("--> END " + request.method)
         }
     }
 
@@ -144,13 +138,13 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
         val logBody = printLevel == Level.BODY
         val logHeaders = printLevel == Level.BODY || printLevel == Level.HEADERS
         try {
-            log("<-- " + clone.code + ' ' + clone.message + ' ' + clone.request.url + " (" + tookMs + "ms）")
+            LogUtils.i("<-- " + clone.code + ' ' + clone.message + ' ' + clone.request.url + " (" + tookMs + "ms）")
             if (logHeaders) {
                 val headers = clone.headers
                 var i = 0
                 val count = headers.size
                 while (i < count) {
-                    log(
+                    LogUtils.i(
                         """
     
     ${headers.name(i)}: ${headers.value(i)}
@@ -158,7 +152,7 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
                     )
                     i++
                 }
-                log(" ")
+                LogUtils.i(" ")
                 if (logBody && clone.promisesBody()) {
                     if (responseBody == null) return response
                     if (isPlaintext(responseBody.contentType())) {
@@ -168,13 +162,13 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
                         responseBody = ResponseBody.create(responseBody.contentType(), bytes)
                         return response.newBuilder().body(responseBody).build()
                     } else {
-                        log("\nbody: maybe [binary body], omitted!")
+                        LogUtils.i("\nbody: maybe [binary body], omitted!")
                     }
                 }
             }
         } catch (e: Exception) {
         } finally {
-            log("<-- END HTTP")
+            LogUtils.i("<-- END HTTP")
         }
         return response
     }
@@ -206,23 +200,17 @@ class HttpLoggingInterceptor(tag: String?) : Interceptor {
          */
         private fun isPlaintext(mediaType: MediaType?): Boolean {
             if (mediaType == null) return false
-            if (mediaType.type != null && mediaType.type == "text") {
+            if (mediaType.type == "text") {
                 return true
             }
             var subtype = mediaType.subtype
-            if (subtype != null) {
-                subtype = subtype.toLowerCase()
-                if (subtype.contains("x-www-form-urlencoded") || subtype.contains("json") || subtype.contains(
-                        "xml"
-                    ) || subtype.contains("html")
-                ) //
-                    return true
-            }
+            subtype = subtype.toLowerCase()
+            if (subtype.contains("x-www-form-urlencoded") || subtype.contains("json") || subtype.contains(
+                    "xml"
+                ) || subtype.contains("html")
+            ) //
+                return true
             return false
         }
-    }
-
-    init {
-        logger = Logger.getLogger(tag)
     }
 }

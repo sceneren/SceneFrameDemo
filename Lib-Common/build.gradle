@@ -12,4 +12,6 @@ dependencies {
     api 'com.dylanc:viewbinding-nonreflection-ktx:1.1.0'
     api 'com.dylanc:viewbinding-base-ktx:1.1.0'
     api 'com.dylanc:viewbinding-brvah-ktx:1.1.0'
+
+    api 'com.blankj:utilcodex:1.30.6'
 }

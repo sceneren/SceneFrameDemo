@@ -20,4 +20,6 @@ object ApiUtil {
         get() = instance!!.create(U.BASE_URL, LoginApi::class.java)
     val userApi: UserApi
         get() = instance!!.create(U.BASE_URL, UserApi::class.java)
+
+    val videoApi = instance!!.create(U.BASE_VIDEO_URL, VideoApi::class.java)
 }

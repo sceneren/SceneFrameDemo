@@ -1,9 +1,8 @@
 package wiki.scene.lib_network.interceptor
 
-import android.util.Log
+import com.blankj.utilcode.util.LogUtils
 import okhttp3.*
 import okio.Buffer
-import wiki.scene.lib_network.util.LogUtil
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.*
@@ -15,24 +14,22 @@ import java.util.*
  * description: log 拦截
  */
 class LogInterceptor : Interceptor {
-    private val TAG = "LogInterceptor"
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request: Request = chain.request()
-        Log.w(TAG, "request:$request")
         printParams(request.body)
         val t1 = System.nanoTime()
         val response: Response = chain.proceed(chain.request())
         val t2 = System.nanoTime()
-        Log.i(
-            TAG, String.format(
+        LogUtils.i(
+            String.format(
                 Locale.getDefault(), "Received response for %s in %.1fms%n%s",
                 response.request.url, (t2 - t1) / 1e6, response.headers
             )
         )
         val mediaType = response.body!!.contentType()
         val content = response.body!!.string()
-        LogUtil.show("response body:$content")
+        LogUtils.i("response body:$content")
         return response.newBuilder()
             .body(ResponseBody.create(mediaType, content))
             .build()
@@ -51,7 +48,7 @@ class LogInterceptor : Interceptor {
                 charset = contentType.charset(charset)
             }
             val params = buffer.readString(charset!!)
-            Log.e(TAG, "请求参数： | $params")
+            LogUtils.e("请求参数： | $params")
         } catch (e: IOException) {
             e.printStackTrace()
         }

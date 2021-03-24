@@ -3,6 +3,7 @@ package wiki.scene.demo
 import android.graphics.Color
 import android.util.TypedValue
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -33,6 +34,8 @@ class MainActivity : BaseRecyclerViewAc<ActivityMainBinding, ArticleBean>() {
             val url = mAdapter.data[position].link
             RouterUtil.launchWeb(url)
         }
+
+        getVideoData()
     }
 
     override fun injectLoadPageStart(): Int {
@@ -69,6 +72,22 @@ class MainActivity : BaseRecyclerViewAc<ActivityMainBinding, ArticleBean>() {
                 override fun onFail(msg: String?) {
                     super.onFail(msg)
                     loadListDataFail(isFirst, loadPage)
+                }
+
+            })
+    }
+
+    private fun getVideoData() {
+        ApiUtil.videoApi
+            .getChannelInfo()
+            .observe(this, object : FastObserver<String>() {
+                override fun onSuccess(data: ApiResponse<String>) {
+                    LogUtils.e(data.toString())
+                }
+
+                override fun onFail(msg: String?) {
+                    super.onFail(msg)
+                    LogUtils.e(msg)
                 }
 
             })
