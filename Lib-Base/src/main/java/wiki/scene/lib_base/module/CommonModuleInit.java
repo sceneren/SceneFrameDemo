@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.AppUtils;
+import com.chad.library.adapter.base.module.LoadMoreModule;
+import com.chad.library.adapter.base.module.LoadMoreModuleConfig;
 import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -12,6 +14,7 @@ import com.tencent.mmkv.MMKV;
 
 import wiki.scene.lib_base.BaseApplication;
 import wiki.scene.lib_base.BuildConfig;
+import wiki.scene.lib_base.adapters.loadmore.CustomLoadMoreView;
 import wiki.scene.lib_base.loadsir.EmptyCallback;
 import wiki.scene.lib_base.loadsir.ErrorCallback;
 import wiki.scene.lib_base.loadsir.LoadingCallback;
@@ -25,6 +28,7 @@ import wiki.scene.lib_db.manager.DbUtil;
 public class CommonModuleInit implements IModuleInit {
     @Override
     public boolean onInitAhead(Application application) {
+        LoadMoreModuleConfig.setDefLoadMoreView(new CustomLoadMoreView());
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> new ClassicsHeader(application));
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> new ClassicsFooter(application));
         MMKV.initialize(application);
