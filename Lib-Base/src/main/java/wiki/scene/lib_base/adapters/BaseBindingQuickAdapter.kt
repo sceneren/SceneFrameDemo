@@ -8,18 +8,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 
 abstract class BaseBindingQuickAdapter<T, VB : ViewBinding>(
-  private val inflate: (LayoutInflater, ViewGroup, Boolean) -> VB,
-  layoutResId: Int = -1
+    private val inflate: (LayoutInflater, ViewGroup, Boolean) -> VB,
+    layoutResId: Int = -1
 ) :
-  BaseQuickAdapter<T, BaseBindingQuickAdapter.BaseBindingHolder>(layoutResId) {
+    BaseQuickAdapter<T, BaseBindingQuickAdapter.BaseBindingHolder>(layoutResId) {
 
-  override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int) =
-    BaseBindingHolder(inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int) =
+        BaseBindingHolder(inflate(LayoutInflater.from(parent.context), parent, false))
 
-  class BaseBindingHolder(private val binding: ViewBinding) : BaseViewHolder(binding.root) {
-    constructor(itemView: View) : this(ViewBinding { itemView })
+    class BaseBindingHolder(private val binding: ViewBinding) : BaseViewHolder(binding.root) {
+        constructor(itemView: View) : this(ViewBinding { itemView })
 
-    @Suppress("UNCHECKED_CAST")
-    fun <VB : ViewBinding> getViewBinding() = binding as VB
-  }
+        @Suppress("UNCHECKED_CAST")
+        fun <VB : ViewBinding> getViewBinding() = binding as VB
+    }
 }

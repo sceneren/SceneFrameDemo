@@ -19,4 +19,6 @@ public interface IAcView {
     void beforeInitView();
 
     void loadData();
+
+    void afterInitViews();
 }

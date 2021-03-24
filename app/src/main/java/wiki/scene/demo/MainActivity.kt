@@ -3,22 +3,25 @@ package wiki.scene.demo
 import android.graphics.Color
 import android.util.TypedValue
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnLoadMoreListener
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import wiki.scene.demo.databinding.ActivityMainBinding
-import wiki.scene.lib_base.base_ac.BaseAc
+import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
+import wiki.scene.lib_base.base_ac.BaseRecyclerViewAc
+import wiki.scene.lib_base.base_api.res_data.ArticleBean
 import wiki.scene.lib_base.base_api.res_data.ArticleListRes
 import wiki.scene.lib_base.base_api.util.ApiUtil
 import wiki.scene.lib_base.base_util.RouterUtil
 import wiki.scene.lib_network.bean.ApiResponse
 import wiki.scene.lib_network.livedata.FastObserver
 
-class MainActivity : BaseAc<ActivityMainBinding>(), OnRefreshListener, OnLoadMoreListener {
+class MainActivity : BaseRecyclerViewAc<ActivityMainBinding, ArticleBean>(),
+    OnRefreshListener,
+    OnLoadMoreListener {
     private val mAdapter = MainAdapter()
-
-    private var pageNo = 0
 
     override fun initViews() {
         super.initViews()
@@ -58,37 +61,13 @@ class MainActivity : BaseAc<ActivityMainBinding>(), OnRefreshListener, OnLoadMor
 
                 override fun onSuccess(data: ApiResponse<ArticleListRes>) {
                     data.data?.let {
-                        pageNo = it.curPage
-                        val hasMore = it.curPage < it.pageCount
-                        if (isFirst) {
-                            showSuccess()
-                        } else {
-                            binding.refreshLayout.finishRefresh(true)
-                        }
-                        if (hasMore) {
-                            mAdapter.loadMoreModule.loadMoreComplete()
-                        } else {
-                            mAdapter.loadMoreModule.loadMoreEnd()
-                        }
-                        if (pageNo == 1) {
-                            mAdapter.setNewInstance(it.datas!!)
-                        } else {
-                            mAdapter.addData(it.datas!!)
-                        }
+                        loadListDataSuccess(isFirst, it.curPage, it.total, it.datas!!)
                     }
                 }
 
                 override fun onFail(msg: String?) {
                     super.onFail(msg)
-                    if (isFirst) {
-                        showError()
-                    } else {
-                        if (loadPage == 1) {
-                            binding.refreshLayout.finishRefresh(false)
-                        } else {
-                            mAdapter.loadMoreModule.loadMoreFail()
-                        }
-                    }
+                    loadListDataFail(isFirst, loadPage)
                 }
 
             })
@@ -105,6 +84,14 @@ class MainActivity : BaseAc<ActivityMainBinding>(), OnRefreshListener, OnLoadMor
 
     override fun onLoadMore() {
         getData(pageNo, false)
+    }
+
+    override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
+        return mAdapter
+    }
+
+    override fun injectRefreshLayout(): RefreshLayout {
+        return binding.refreshLayout
     }
 
 

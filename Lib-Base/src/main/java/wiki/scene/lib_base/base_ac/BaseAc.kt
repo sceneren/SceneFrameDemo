@@ -71,6 +71,8 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
         initViews()
 
+        afterInitViews()
+
         loadData()
 
         doubleClickExitDetector = DoubleClickExitDetector(this, "再按一次退出", 2000)
@@ -87,6 +89,10 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     }
 
     override fun beforeInitView() {
+
+    }
+
+    override fun afterInitViews() {
 
     }
 
