@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:tag="layout/activity_home_0">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager_home_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/main_tab_height"
+        android:background="@color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#060606"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iv_nav"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"
+        android:background="@color/translate"
+        android:scaleType="fitXY"
+        android:src="@drawable/home_tab_bgg" />
+
+    <LinearLayout
+        android:id="@+id/ll_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_65"
+        android:layout_alignParentBottom="true"
+        android:background="@color/translate"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:tag="binding_1">
+
+        <include
+            android:id="@+id/tab1"
+            layout="@layout/view_home_nav_item" />
+
+        <include
+            android:id="@+id/tab2"
+            layout="@layout/view_home_nav_item" />
+
+        <include
+            android:id="@+id/tab3"
+            layout="@layout/view_home_nav_item_center" />
+
+        <include
+            android:id="@+id/tab4"
+            layout="@layout/view_home_nav_item" />
+
+        <include
+            android:id="@+id/tab5"
+            layout="@layout/view_home_nav_item" />
+    </LinearLayout>
+</RelativeLayout>
