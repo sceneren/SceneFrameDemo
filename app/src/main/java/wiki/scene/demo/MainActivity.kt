@@ -3,6 +3,7 @@ package wiki.scene.demo
 import android.graphics.Color
 import android.util.TypedValue
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
@@ -19,6 +20,15 @@ import wiki.scene.lib_network.livedata.FastObserver
 
 class MainActivity : BaseRecyclerViewAc<ActivityMainBinding, ArticleBean>() {
     private val mAdapter = MainAdapter()
+
+    override fun initToolBarView(titleBarView: TitleBarView) {
+        super.initToolBarView(titleBarView)
+        titleBarView.setTitleMainText("首页")
+    }
+
+    override fun hasTitleBarBack(): Boolean {
+        return false
+    }
 
     override fun initRecyclerView() {
         super.initRecyclerView()

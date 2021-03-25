@@ -1,6 +1,6 @@
-package wiki.scene.lib_base.impl;
+package wiki.scene.lib_base.impl
 
-import android.view.View;
+import android.view.View
 
 /**
  * FileName: INetView
@@ -8,18 +8,11 @@ import android.view.View;
  * Email: 1170762202@qq.com
  * Description:
  */
-public interface INetView {
-
-    void showLoading();
-
-    void showLoading(View view);
-
-    void showSuccess();
-
-    void showEmpty();
-
-    void onRetryBtnClick();
-
-    void showError();
-
+interface INetView {
+    fun showLoading()
+    fun showLoading(view: View)
+    fun showSuccess()
+    fun showEmpty()
+    fun onRetryBtnClick()
+    fun showError()
 }

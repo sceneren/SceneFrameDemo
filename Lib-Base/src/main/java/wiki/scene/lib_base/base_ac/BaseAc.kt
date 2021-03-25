@@ -17,6 +17,7 @@ import androidx.appcompat.view.ContextThemeWrapper
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.util.StatusBarUtil
+import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.hjq.permissions.OnPermissionCallback
@@ -28,6 +29,7 @@ import wiki.scene.lib_base.base_manage.ActivityUtil
 import wiki.scene.lib_base.base_util.DoubleClickExitDetector
 import wiki.scene.lib_base.base_util.InputTools
 import wiki.scene.lib_base.base_util.LanguageUtil
+import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.impl.IAcView
 import wiki.scene.lib_base.impl.INetView
 import wiki.scene.lib_base.loadsir.EmptyCallback
@@ -40,6 +42,7 @@ import wiki.scene.lib_base.widget.slideback.SlideBack
  */
 abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView {
     lateinit var binding: VB
+    open var titleBarBinding: LibBaseTitleBarViewBinding? = null
 
     private var loadService: LoadService<*>? = null
     protected lateinit var mContext: AppCompatActivity
@@ -61,11 +64,15 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         setSuspension()
         //绑定viewBinding
         binding = this.inflateBindingWithGeneric(layoutInflater)
+
         setContentView(binding.root)
 
-        initEvents()
+        if (hasTitleBarView()) {
+            titleBarBinding = LibBaseTitleBarViewBinding.bind(binding.root)
+            initToolBarView(titleBarBinding!!.libBaseTvTitleBar)
+        }
 
-        initToolBarView()
+        initEvents()
 
         beforeInitView()
 
@@ -82,6 +89,17 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
             SlideBack.create()
                 .attachToActivity(this)
         }
+    }
+
+    /**
+     * 如果界面没有引用titleBarView的话要重写此方法返回false
+     */
+    open fun hasTitleBarView(): Boolean {
+        return true
+    }
+
+    open fun hasTitleBarBack(): Boolean {
+        return true
     }
 
     override fun loadData() {
@@ -110,8 +128,13 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
     override fun afterOnCreate() {}
 
-    override fun initToolBarView() {
-
+    override fun initToolBarView(titleBarView: TitleBarView) {
+        if (hasTitleBarBack()) {
+            titleBarView.setLeftTextDrawable(R.mipmap.ic_back)
+                .setOnLeftTextClickListener {
+                    onBackPressed()
+                }
+        }
     }
 
     open fun isDarkMode(isDarkMode: Boolean) {

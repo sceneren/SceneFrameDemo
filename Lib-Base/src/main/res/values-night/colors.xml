@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <color name="lib_base_main">#232323</color>
-
-    <!--首页底部tab-->
-    <color name="lib_base_bg_main_tab">#232323</color>
-    <!--首页底部tab-->
-
-    <color name="lib_base_text_color">#ffffff</color>
+    <color name="lib_base_title_bar_color">#333333</color>
+    <color name="lib_base_title_bar_divider_color">#666666</color>
+    <color name="lib_base_white">#000000</color>
+    <color name="lib_base_main_text_light">#EEEEEE</color>
+    <color name="lib_base_bg">#000000</color>
 </resources>

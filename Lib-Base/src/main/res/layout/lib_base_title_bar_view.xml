@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <com.aries.ui.view.title.TitleBarView
+        android:id="@+id/lib_base_tvTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/lib_base_title_bar_height"
+        android:background="@color/lib_base_title_bar_color"
+        app:title_dividerBackground="@color/lib_base_title_bar_divider_color"
+        app:title_dividerHeight="@dimen/lib_base_title_bar_divider_height" />
+
+</merge>

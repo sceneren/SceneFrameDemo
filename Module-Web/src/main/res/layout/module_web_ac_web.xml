@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lib_base_main_text"
+    android:background="@color/lib_base_bg"
     android:orientation="vertical"
     tools:context=".activity.WebAc"
     tools:ignore="MissingDefaultResource">
 
-    <com.aries.ui.view.title.TitleBarView
-        android:id="@+id/titleBarView"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/lib_base_toolbar_height"
-        android:background="@color/white"
-        app:title_dividerHeight="0.5dp"
-        app:title_dividerVisible="true"
-        app:title_dividerBackground="#CCCCCC"
-        app:title_leftTextDrawable="@mipmap/ic_back" />
+    <include layout="@layout/lib_base_title_bar_view" />
 
     <LinearLayout
         android:id="@+id/parent"

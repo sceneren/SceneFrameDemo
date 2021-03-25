@@ -9,6 +9,7 @@ import android.webkit.WebView
 import android.widget.LinearLayout
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.just.agentweb.AgentWeb
@@ -33,8 +34,8 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
     @Autowired(name = "webUrl")
     var url: String? = null
 
-    override fun initToolBarView() {
-        super.initToolBarView()
+    override fun initToolBarView(titleBarView: TitleBarView) {
+        super.initToolBarView(titleBarView)
         val rightActionView = View.inflate(
             mContext,
             R.layout.module_web_ac_web_title_bar_view_right_action_view,
@@ -64,13 +65,13 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
                     return@setOnMenuItemClickListener false
                 }
         }
-        val rightViewAction = binding.titleBarView.ViewAction(rightActionView)
-        binding.titleBarView.addRightAction(
+        val rightViewAction = titleBarView.ViewAction(rightActionView)
+        titleBarView.addRightAction(
             rightViewAction, 0,
             ViewGroup.LayoutParams(SizeUtils.dp2px(100F), SizeUtils.dp2px(30F))
         )
 
-        binding.titleBarView.setOnLeftTextClickListener {
+        titleBarView.setOnLeftTextClickListener {
             backOrFinish()
         }
     }
@@ -103,7 +104,7 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
     private val mWebChromeClient: WebChromeClient = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView, title: String) {
             super.onReceivedTitle(view, title)
-            binding.titleBarView.setTitleMainText(title)
+            titleBarBinding?.libBaseTvTitleBar?.setTitleMainText(title)
         }
     }
 

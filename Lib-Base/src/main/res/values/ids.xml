@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="lib_base_top_bar" type="id" />
-    <item name="lib_base_titleBar" type="id"/>
+
 </resources>

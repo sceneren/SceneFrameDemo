@@ -7,12 +7,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.aries.ui.view.title.TitleBarView
-        android:id="@+id/tvTitleBar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:title_leftTextDrawable="@mipmap/ic_back"
-        app:title_titleMainText="首页" />
+    <include layout="@layout/lib_base_title_bar_view" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
