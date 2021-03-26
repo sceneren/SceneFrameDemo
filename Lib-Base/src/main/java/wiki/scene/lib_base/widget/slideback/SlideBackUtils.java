@@ -11,7 +11,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.ColorInt;
 
-class Utils {
+class SlideBackUtils {
     @ColorInt
     static int setColorAlpha(int color, float alpha) {
         color = Color.argb((int) (alpha * 255), Color.red(color), Color.green(color), Color.blue(color));

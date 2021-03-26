@@ -64,7 +64,7 @@ public class SlideControlLayout extends FrameLayout {
 
     private void onBack() {
         if (onSlide == null) {
-            Utils.getActivityContext(getContext()).onBackPressed();
+            SlideBackUtils.getActivityContext(getContext()).onBackPressed();
         } else {
             onSlide.onSlideBack();
         }
@@ -106,7 +106,7 @@ public class SlideControlLayout extends FrameLayout {
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 float currentY = motionEvent.getRawY();
-                if (currentY > Utils.d2p(getContext(), 100) && currentX <= canSlideWidth) {
+                if (currentY > SlideBackUtils.d2p(getContext(), 100) && currentX <= canSlideWidth) {
                     downX = currentX;
                     startDrag = true;
                     slideBackView.updateRate(0, false);

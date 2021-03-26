@@ -1,13 +1,15 @@
-package wiki.scene.demo
+package wiki.scene.demo.activity
 
 import android.graphics.Color
 import android.util.TypedValue
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.ActRecyclerViewDemoBinding
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_ac.BaseRecyclerViewAc
@@ -15,19 +17,17 @@ import wiki.scene.lib_base.base_api.res_data.ArticleBean
 import wiki.scene.lib_base.base_api.res_data.ArticleListRes
 import wiki.scene.lib_base.base_api.util.ApiUtil
 import wiki.scene.lib_base.base_util.RouterUtil
+import wiki.scene.lib_base.constant.RouterPath
 import wiki.scene.lib_network.bean.ApiResponse
 import wiki.scene.lib_network.livedata.FastObserver
 
+@Route(path = RouterPath.MAIN_ACT_RECYCLERVIEW)
 class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, ArticleBean>() {
     private val mAdapter = RecyclerViewAdapter()
 
     override fun initToolBarView(titleBarView: TitleBarView) {
         super.initToolBarView(titleBarView)
         titleBarView.setTitleMainText("首页")
-    }
-
-    override fun hasTitleBarBack(): Boolean {
-        return false
     }
 
     override fun initRecyclerView() {

@@ -18,14 +18,14 @@ import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.kongzue.dialogx.dialogs.BottomMenu
 import wiki.scene.lib_base.base_ac.BaseAc
-import wiki.scene.lib_base.constant.RouterActivityPath
+import wiki.scene.lib_base.constant.RouterPath
 import wiki.scene.module_web.R
 import wiki.scene.module_web.WebLayout
 import wiki.scene.module_web.databinding.ModuleWebAcWebBinding
 import wiki.scene.module_web.databinding.ModuleWebAcWebTitleBarViewRightActionViewBinding
 
 
-@Route(path = RouterActivityPath.Web.PAGER_WEB)
+@Route(path = RouterPath.ACT_WEB)
 class WebAc : BaseAc<ModuleWebAcWebBinding>() {
 
     private var agentWeb: AgentWeb? = null

@@ -74,7 +74,7 @@ public class SlideBack {
         }
 
         if (canSlideWidth == 0) {
-            canSlideWidth = Utils.d2p(activity, 18);
+            canSlideWidth = SlideBackUtils.d2p(activity, 18);
         }
 
         return new SlideControlLayout(activity, canSlideWidth, slideView, onSlide)

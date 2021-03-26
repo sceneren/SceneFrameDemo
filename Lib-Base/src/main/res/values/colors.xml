@@ -7,4 +7,13 @@
     <color name="lib_base_main_text_light">#333333</color>
     <color name="lib_base_bg">#FFFFFF</color>
     <color name="lib_base_tab_divider_color">#FF0000</color>
+
+    <!--主页tab背景色-->
+    <color name="lib_base_colorTabBackground">#FCFCFC</color>
+    <!--主页上划线颜色-->
+    <color name="lib_base_colorTabUnderline">#d6d6d6</color>
+    <!--主页tab文字默认颜色-->
+    <color name="lib_base_colorTabTextUnSelect">#909090</color>
+    <!--主页tab文字选中颜色-->
+    <color name="lib_base_colorTabTextSelect">#393939</color>
 </resources>

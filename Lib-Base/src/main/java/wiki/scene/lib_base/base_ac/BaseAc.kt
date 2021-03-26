@@ -48,11 +48,12 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     protected lateinit var mContext: AppCompatActivity
 
     private var isDarkMode = false
+    var mSavedInstanceState: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         beforeOnCreate()
         super.onCreate(savedInstanceState)
-
+        mSavedInstanceState = savedInstanceState
         initStatusBarMode()
 
         ARouter.getInstance().inject(this)
@@ -325,11 +326,13 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
             LogUtils.i("Base--->getPermissionFail")
         }
     private var doubleClickExitDetector: DoubleClickExitDetector? = null
-    private val isDoubleClickExit: Boolean
-        get() = false
+
+    open fun isDoubleClickExit(): Boolean {
+        return false
+    }
 
     override fun onBackPressed() {
-        if (isDoubleClickExit) {
+        if (isDoubleClickExit()) {
             val isExit = doubleClickExitDetector?.click()
             if (isExit != null && isExit) {
                 super.onBackPressed()
@@ -342,5 +345,11 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
     override fun onPause() {
         super.onPause()
         InputTools.hideInputMethod(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mSavedInstanceState = null
     }
 }

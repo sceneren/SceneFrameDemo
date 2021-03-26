@@ -1,24 +1,27 @@
-package wiki.scene.demo
+package wiki.scene.demo.activity
 
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
+import com.alibaba.android.arouter.facade.annotation.Route
+import wiki.scene.demo.R
 import wiki.scene.demo.databinding.ActMainBinding
 import wiki.scene.lib_base.base_ac.BaseAc
+import wiki.scene.lib_base.constant.RouterPath
 
+@Route(path = RouterPath.MAIN_ACT_MAIN)
 class MainActivity : BaseAc<ActMainBinding>() {
 
     private var currentTab = 0
     private lateinit var currentLav: LottieAnimationView
     private lateinit var currentTvTitle: TextView
 
-    override fun hasTitleBarView(): Boolean {
-        return false
-    }
-
     override fun initViews() {
         super.initViews()
         initTabLayout()
+    }
 
+    override fun hasTitleBarView(): Boolean {
+        return false
     }
 
     private fun initTabLayout() {
@@ -86,4 +89,5 @@ class MainActivity : BaseAc<ActMainBinding>() {
             currentTvTitle = cheesedTvTitle
         }
     }
+
 }

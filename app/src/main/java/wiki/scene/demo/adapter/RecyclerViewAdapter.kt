@@ -1,4 +1,4 @@
-package wiki.scene.demo
+package wiki.scene.demo.adapter
 
 import com.chad.library.adapter.base.module.LoadMoreModule
 import wiki.scene.demo.databinding.ActRecyclerViewDemoItemBinding

@@ -44,9 +44,9 @@ public class DefaultSlideView implements ISlideView {
 
 
     public DefaultSlideView(@NonNull Context context) {
-        width = Utils.d2p(context, 50);
-        height = Utils.d2p(context, 200);
-        arrowWidth = Utils.d2p(context, 4);
+        width = SlideBackUtils.d2p(context, 50);
+        height = SlideBackUtils.d2p(context, 200);
+        arrowWidth = SlideBackUtils.d2p(context, 4);
         init(context);
     }
 
@@ -65,13 +65,13 @@ public class DefaultSlideView implements ISlideView {
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(backViewColor);
-        paint.setStrokeWidth(Utils.d2p(context, 1.5f));
+        paint.setStrokeWidth(SlideBackUtils.d2p(context, 1.5f));
 
         arrowPaint = new Paint();
         arrowPaint.setAntiAlias(true);
         arrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         arrowPaint.setColor(arrowColor);
-        arrowPaint.setStrokeWidth(Utils.d2p(context, 1.5f));
+        arrowPaint.setStrokeWidth(SlideBackUtils.d2p(context, 1.5f));
         arrowPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 

@@ -1,22 +1,19 @@
-package wiki.scene.lib_base.base_util;
+package wiki.scene.lib_base.base_util
 
-import com.alibaba.android.arouter.launcher.ARouter;
-import wiki.scene.lib_base.constant.RouterActivityPath;
+import com.alibaba.android.arouter.launcher.ARouter
+import wiki.scene.lib_base.constant.RouterPath
 
-public class RouterUtil {
-
-    public static void launchMain() {
-        ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN).navigation();
-    }
-    public static void launchWeb(String webUrl) {
-        ARouter.getInstance().build(RouterActivityPath.Web.PAGER_WEB).withString("webUrl", webUrl).navigation();
+object RouterUtil {
+    fun launchMain() {
+        ARouter.getInstance().build(RouterPath.MAIN_ACT_MAIN).navigation()
     }
 
-    public static void launchArticleList(String id, String title) {
-        ARouter.getInstance().build(RouterActivityPath.Square.PAGER_SQUARE_LIST).withString("id", id).withString("title", title).navigation();
+    fun launchWeb(webUrl: String?) {
+        ARouter.getInstance().build(RouterPath.ACT_WEB).withString("webUrl", webUrl)
+            .navigation()
     }
 
-    public static void launchLogin() {
-        ARouter.getInstance().build(RouterActivityPath.Login.PAGER_LOGIN).navigation();
+    fun launchLogin() {
+        ARouter.getInstance().build(RouterPath.ACT_LOGIN).navigation()
     }
 }

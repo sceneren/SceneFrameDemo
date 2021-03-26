@@ -13,9 +13,6 @@ import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import wiki.scene.lib_base.loadsir.LoadingCallback
 
-/**
- * Created by zlx on 2017/5/23.
- */
 abstract class BaseFg<VB : ViewBinding> : Fragment() {
     var rootView: View? = null
     private var parent: ViewGroup? = null
@@ -23,7 +20,7 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
     private var loadService: LoadService<*>? = null
 
     private var _binding: VB? = null
-    private val binding: VB get() = _binding!!
+    open val binding: VB get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,7 +30,7 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
         _binding = inflateBindingWithGeneric(layoutInflater)
         rootView = binding.root
 
-        parent = rootView!!.parent as ViewGroup
+        parent = rootView!!.parent as ViewGroup?
         parent?.removeView(rootView)
 
         return rootView
