@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
+import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.loadsir.LoadingCallback
 
 abstract class BaseFg<VB : ViewBinding> : Fragment() {
@@ -21,6 +23,8 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
 
     private var _binding: VB? = null
     open val binding: VB get() = _binding!!
+
+    open var titleBarBinding: LibBaseTitleBarViewBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +46,10 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (hasTitleBarView()) {
+            titleBarBinding = LibBaseTitleBarViewBinding.bind(binding.root)
+            initToolBarView(titleBarBinding!!.libBaseTvTitleBar)
+        }
         initViews()
     }
 
@@ -74,5 +82,16 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    /**
+     * 如果界面引用titleBarView的话要重写此方法返回true
+     */
+    open fun hasTitleBarView(): Boolean {
+        return false
+    }
+
+    open fun initToolBarView(titleBarView: TitleBarView) {
+
     }
 }
