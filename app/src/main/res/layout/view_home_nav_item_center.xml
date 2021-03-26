@@ -4,7 +4,7 @@
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_55"
-    android:layout_weight="1.2"
+    android:layout_weight="1"
     android:layout_marginBottom="@dimen/dp_3"
     android:background="@color/translate"
     android:gravity="center"

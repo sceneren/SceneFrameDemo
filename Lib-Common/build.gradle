@@ -33,4 +33,6 @@ dependencies {
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6"
 
     api 'org.greenrobot:eventbus:3.2.0'
+
+    api 'com.hjq:toast:8.8'
 }

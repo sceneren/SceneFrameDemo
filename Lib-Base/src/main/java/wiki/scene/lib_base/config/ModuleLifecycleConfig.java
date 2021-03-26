@@ -19,8 +19,7 @@ public class ModuleLifecycleConfig {
     }
 
     private static class SingleHolder {
-        private static ModuleLifecycleConfig instance =
-                new ModuleLifecycleConfig();
+        private static final ModuleLifecycleConfig instance = new ModuleLifecycleConfig();
     }
 
     public static ModuleLifecycleConfig getInstance() {

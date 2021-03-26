@@ -1,7 +1,8 @@
 package wiki.scene.lib_base.base_util;
 
 import android.content.Context;
-import android.widget.Toast;
+
+import com.hjq.toast.ToastUtils;
 
 import java.util.Locale;
 
@@ -59,7 +60,7 @@ public class DoubleClickExitDetector {
         boolean result = (currentTime - lastClickTime) < effectiveIntervalTime;
         lastClickTime = currentTime;
         if (!result) {
-            Toast.makeText(context, hintMessage, Toast.LENGTH_SHORT).show();
+            ToastUtils.show(hintMessage);
         }
         return result;
     }
