@@ -18,7 +18,6 @@ import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.util.StatusBarUtil
 import com.aries.ui.view.title.TitleBarView
-import com.blankj.utilcode.util.LogUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
@@ -295,36 +294,41 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         get() = R.style.AppTheme
 
     @SuppressLint("CheckResult")
-    fun requestPermissions(vararg permissions: String?) {
+    fun requestPermissions(vararg permissions: String) {
         XXPermissions.with(this)
             .permission(permissions)
             .request(object : OnPermissionCallback {
                 override fun onGranted(permissions: List<String>, all: Boolean) {
                     if (all) {
-                        permissionSuccess
+                        reqPermissionSuccess(permissions)
                     } else {
-                        permissionFailure
+                        reqPermissionFailure(permissions)
                     }
                 }
 
                 override fun onDenied(permissions: List<String>, never: Boolean) {
                     if (never) {
+                        reqPermissionNever(permissions)
                         XXPermissions.startPermissionActivity(this@BaseAc, permissions)
                     } else {
-                        permissionFailure
+                        reqPermissionFailure(permissions)
                     }
                 }
             })
     }
 
-    val permissionSuccess: Unit
-        get() {
-            LogUtils.i("Base--->getPermissionSuccess")
-        }
-    val permissionFailure: Unit
-        get() {
-            LogUtils.i("Base--->getPermissionFail")
-        }
+    open fun reqPermissionSuccess(permissions: List<String>) {
+
+    }
+
+    open fun reqPermissionFailure(permissions: List<String>) {
+
+    }
+
+    open fun reqPermissionNever(permissions: List<String>) {
+
+    }
+
     private var doubleClickExitDetector: DoubleClickExitDetector? = null
 
     open fun isDoubleClickExit(): Boolean {

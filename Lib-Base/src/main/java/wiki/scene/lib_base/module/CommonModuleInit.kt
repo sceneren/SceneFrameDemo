@@ -5,6 +5,7 @@ import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.AppUtils
 import com.chad.library.adapter.base.module.LoadMoreModuleConfig
+import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadSir
 import com.scwang.smart.refresh.footer.ClassicsFooter
@@ -27,6 +28,7 @@ import wiki.scene.lib_db.manager.DbUtil;
 class CommonModuleInit : IModuleInit {
     override fun onInitAhead(application: Application): Boolean {
         initToast(application)
+        initPermission()
 
         initSmartRefreshLayout(application)
         initLoadMoreView()
@@ -83,5 +85,9 @@ class CommonModuleInit : IModuleInit {
 
     private fun initToast(application: Application) {
         ToastUtils.init(application, CustomToastStyle(application))
+    }
+
+    private fun initPermission() {
+        XXPermissions.setScopedStorage(true)
     }
 }

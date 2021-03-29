@@ -3,6 +3,8 @@ package wiki.scene.demo.activity
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.blankj.utilcode.util.LogUtils
+import com.hjq.permissions.Permission
 import wiki.scene.demo.R
 import wiki.scene.lib_base.base_ac.FastMainActivity
 import wiki.scene.lib_base.constant.RouterPath
@@ -61,4 +63,20 @@ class Main2Activity : FastMainActivity() {
     override fun isDoubleClickExit(): Boolean {
         return true
     }
+
+    override fun initEvents() {
+        super.initEvents()
+        requestPermissions(Permission.MANAGE_EXTERNAL_STORAGE)
+    }
+
+    override fun reqPermissionFailure(permissions: List<String>) {
+        super.reqPermissionFailure(permissions)
+        LogUtils.e("reqPermissionFailure")
+    }
+
+    override fun reqPermissionSuccess(permissions: List<String>) {
+        super.reqPermissionSuccess(permissions)
+        LogUtils.e("reqPermissionSuccess")
+    }
+
 }
