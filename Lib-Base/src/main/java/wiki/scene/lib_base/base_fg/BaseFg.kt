@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
@@ -31,6 +32,7 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        ARouter.getInstance().inject(this)
         _binding = inflateBindingWithGeneric(layoutInflater)
         rootView = binding.root
 
@@ -51,6 +53,11 @@ abstract class BaseFg<VB : ViewBinding> : Fragment() {
             initToolBarView(titleBarBinding!!.libBaseTvTitleBar)
         }
         initViews()
+        loadData()
+    }
+
+    open fun loadData() {
+
     }
 
     open fun initViews() {}

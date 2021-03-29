@@ -25,7 +25,7 @@ import wiki.scene.module_web.databinding.ModuleWebAcWebBinding
 import wiki.scene.module_web.databinding.ModuleWebAcWebTitleBarViewRightActionViewBinding
 
 
-@Route(path = RouterPath.ACT_WEB)
+@Route(path = RouterPath.Web.ACT_WEB)
 class WebAc : BaseAc<ModuleWebAcWebBinding>() {
 
     private var agentWeb: AgentWeb? = null

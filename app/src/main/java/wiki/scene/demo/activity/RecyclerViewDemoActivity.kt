@@ -21,7 +21,7 @@ import wiki.scene.lib_base.constant.RouterPath
 import wiki.scene.lib_network.bean.ApiResponse
 import wiki.scene.lib_network.livedata.FastObserver
 
-@Route(path = RouterPath.MAIN_ACT_RECYCLERVIEW)
+@Route(path = RouterPath.Main.ACT_RECYCLERVIEW)
 class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, ArticleBean>() {
     private val mAdapter = RecyclerViewAdapter()
 

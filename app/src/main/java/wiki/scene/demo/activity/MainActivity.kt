@@ -8,7 +8,7 @@ import wiki.scene.demo.databinding.ActMainBinding
 import wiki.scene.lib_base.base_ac.BaseAc
 import wiki.scene.lib_base.constant.RouterPath
 
-@Route(path = RouterPath.MAIN_ACT_MAIN)
+@Route(path = RouterPath.Main.ACT_MAIN)
 class MainActivity : BaseAc<ActMainBinding>() {
 
     private var currentTab = 0

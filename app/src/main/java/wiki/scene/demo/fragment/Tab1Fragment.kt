@@ -1,34 +1,38 @@
 package wiki.scene.demo.fragment
 
-import android.os.Bundle
+import com.alibaba.android.arouter.facade.annotation.Autowired
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
+import com.blankj.utilcode.util.LogUtils
 import wiki.scene.demo.databinding.FragTab1Binding
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_base.constant.RouterPath
 
+@Route(path = RouterPath.Main.FRAG_TAB_1)
 class Tab1Fragment : BaseFg<FragTab1Binding>() {
-    companion object {
-        fun newInstance(): Tab1Fragment {
-            val args = Bundle()
-            val fragment = Tab1Fragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
+    @JvmField
+    @Autowired
+    var type = 0
+
+    @JvmField
+    @Autowired
+    var name = ""
 
     override fun initViews() {
         super.initViews()
         binding.btnTab.setOnClickListener {
             ARouter.getInstance()
-                .build(RouterPath.MAIN_ACT_MAIN)
+                .build(RouterPath.Main.ACT_MAIN)
                 .navigation()
         }
         binding.btnTest.setOnClickListener {
             ARouter.getInstance()
-                .build(RouterPath.MAIN_ACT_RECYCLERVIEW)
+                .build(RouterPath.Main.ACT_RECYCLERVIEW)
                 .navigation()
         }
+
+        LogUtils.e("type:$type,name$name")
     }
 
     override fun initToolBarView(titleBarView: TitleBarView) {
@@ -38,5 +42,10 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
 
     override fun hasTitleBarView(): Boolean {
         return true
+    }
+
+    override fun loadData() {
+        super.loadData()
+        LogUtils.e("loadData")
     }
 }
