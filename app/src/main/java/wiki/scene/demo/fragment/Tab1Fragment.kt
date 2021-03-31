@@ -32,7 +32,12 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
                 .navigation()
         }
 
-        LogUtils.e("type:$type,name$name")
+        binding.btnRecyclerViewStickyHeader.setOnClickListener {
+            ARouter.getInstance()
+                .build(RouterPath.Main.ACT_RECYCLERVIEW_STICKY_HEADER)
+                .navigation()
+        }
+
     }
 
     override fun initToolBarView(titleBarView: TitleBarView) {

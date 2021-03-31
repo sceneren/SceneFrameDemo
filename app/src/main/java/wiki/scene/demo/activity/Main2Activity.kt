@@ -1,8 +1,10 @@
 package wiki.scene.demo.activity
 
+import android.graphics.Color
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.aries.ui.view.tab.CommonTabLayout
 import com.blankj.utilcode.util.LogUtils
 import com.hjq.permissions.Permission
 import wiki.scene.demo.R
@@ -77,6 +79,12 @@ class Main2Activity : FastMainActivity() {
     override fun reqPermissionSuccess(permissions: List<String>) {
         super.reqPermissionSuccess(permissions)
         LogUtils.e("reqPermissionSuccess")
+    }
+
+    override fun setTabLayout(tabLayout: CommonTabLayout) {
+        super.setTabLayout(tabLayout)
+        tabLayout.delegate.textUnSelectColor=Color.parseColor("#5E607D")
+        tabLayout.delegate.textSelectColor=Color.parseColor("#EA39B5")
     }
 
 }

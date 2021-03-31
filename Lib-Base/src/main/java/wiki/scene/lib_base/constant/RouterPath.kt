@@ -23,6 +23,7 @@ object RouterPath {
         const val ACT_MAIN = "$MAIN/ActMain"
         const val ACT_MAIN_2 = "$MAIN/ActMain2"
         const val ACT_RECYCLERVIEW = "$MAIN/ActRecyclerView"
+        const val ACT_RECYCLERVIEW_STICKY_HEADER = "$MAIN/ActRecyclerViewStickyHeader"
 
         const val FRAG_TAB_1 = "$MAIN/FragTab1"
         const val FRAG_TAB_2 = "$MAIN/FragTab2"
