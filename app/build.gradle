@@ -68,7 +68,6 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':Lib-Base')
-//    implementation project(':library-widget')
     implementation project(':Lib-Network')
     implementation project(':Lib-Aop')
     implementation project(':Module-Web')

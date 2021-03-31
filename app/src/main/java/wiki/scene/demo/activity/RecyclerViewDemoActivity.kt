@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
+import org.koin.android.ext.android.inject
 import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.ActRecyclerViewDemoBinding
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
@@ -23,7 +24,7 @@ import wiki.scene.lib_network.livedata.FastObserver
 
 @Route(path = RouterPath.Main.ACT_RECYCLERVIEW)
 class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, ArticleBean>() {
-    private val mAdapter = RecyclerViewAdapter()
+   private val mAdapter: RecyclerViewAdapter by inject()
 
     override fun initToolBarView(titleBarView: TitleBarView) {
         super.initToolBarView(titleBarView)

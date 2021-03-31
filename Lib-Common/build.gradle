@@ -28,7 +28,7 @@ dependencies {
     api 'com.github.kongzue.dialogx:DialogXIOSStyle:0.0.34'
 
     api 'com.scwang.smart:refresh-layout-kernel:2.0.3'      //核心必须依赖
-    api  'com.scwang.smart:refresh-header-classics:2.0.3'
+    api 'com.scwang.smart:refresh-header-classics:2.0.3'
 
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6"
 
@@ -37,4 +37,11 @@ dependencies {
     api 'com.hjq:toast:8.8'
 
     debugApi 'com.squareup.leakcanary:leakcanary-android:2.7'
+
+    // Koin AndroidX Scope features
+    api "org.koin:koin-androidx-scope:$koin_version"
+    // Koin AndroidX ViewModel features
+    api "org.koin:koin-androidx-viewmodel:$koin_version"
+    // Koin AndroidX Experimental features
+    api "org.koin:koin-androidx-ext:$koin_version"
 }
