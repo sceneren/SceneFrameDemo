@@ -9,12 +9,30 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import wiki.scene.lib_common.provider.AppProvider
 import wiki.scene.lib_network.interceptor.LogInterceptor
+import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
-/**
- * Created by Zlx on 2017/12/12.
- */
-class RetrofitCreateLiveDataHelper private constructor() {
+class RetrofitCreateLiveDataHelper private constructor() : Serializable {
+    companion object {
+
+        private const val TIMEOUT_READ = 60
+        private const val TIMEOUT_CONNECTION = 60
+
+        @JvmStatic
+        fun getInstance(): RetrofitCreateLiveDataHelper {
+            return SingletonHolder.mInstance
+        }
+    }
+
+    private object SingletonHolder {
+        //静态内部类
+        val mInstance: RetrofitCreateLiveDataHelper = RetrofitCreateLiveDataHelper()
+    }
+
+    private fun readResolve(): Any {//防止单例对象在反序列化时重新生成对象
+        return SingletonHolder.mInstance
+    }
+
     fun <T> create(baseURL: String, service: Class<T>): T {
         return initRetrofitWithLiveData(baseURL, initOkHttp()).create(service)
     }
@@ -52,25 +70,11 @@ class RetrofitCreateLiveDataHelper private constructor() {
             if (field == null) {
                 field = PersistentCookieJar(
                     SetCookieCache(),
-                    SharedPrefsCookiePersistor(AppProvider.instance?.app)
+                    SharedPrefsCookiePersistor(AppProvider.instance.app)
                 )
             }
-            return field
+            return field!!
         }
         private set
 
-    companion object {
-        private const val TIMEOUT_READ = 60
-        private const val TIMEOUT_CONNECTION = 60
-        var instance: RetrofitCreateLiveDataHelper? = null
-            get() {
-                if (field == null) {
-                    synchronized(RetrofitCreateLiveDataHelper::class.java) {
-                        field = RetrofitCreateLiveDataHelper()
-                    }
-                }
-                return field
-            }
-            private set
-    }
 }

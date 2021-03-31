@@ -8,6 +8,8 @@ import com.chad.library.adapter.base.module.LoadMoreModuleConfig
 import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadSir
+import com.kongzue.dialogx.DialogX
+import com.kongzue.dialogx.style.IOSStyle
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
@@ -20,7 +22,7 @@ import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
 import wiki.scene.lib_common.provider.CustomToastStyle
-import wiki.scene.lib_db.manager.DbUtil;
+import wiki.scene.lib_db.manager.DbUtil
 
 /**
  * 在 ModuleLifecycleReflects 里面
@@ -29,6 +31,7 @@ class CommonModuleInit : IModuleInit {
     override fun onInitAhead(application: Application): Boolean {
         initToast(application)
         initPermission()
+        initDialogX(application)
 
         initSmartRefreshLayout(application)
         initLoadMoreView()
@@ -80,7 +83,7 @@ class CommonModuleInit : IModuleInit {
     }
 
     private fun initDB(application: Application) {
-        DbUtil.instance!!.init(application, AppUtils.getAppName())
+        DbUtil.getInstance().init(application, AppUtils.getAppName())
     }
 
     private fun initToast(application: Application) {
@@ -89,5 +92,10 @@ class CommonModuleInit : IModuleInit {
 
     private fun initPermission() {
         XXPermissions.setScopedStorage(true)
+    }
+
+    private fun initDialogX(application: Application) {
+        DialogX.init(application)
+        DialogX.globalStyle = IOSStyle()
     }
 }

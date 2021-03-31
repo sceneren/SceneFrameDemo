@@ -11,9 +11,26 @@ import com.aries.ui.view.tab.SegmentTabLayout
 import com.aries.ui.view.tab.SlidingTabLayout
 import com.aries.ui.view.tab.listener.CustomTabEntity
 import com.aries.ui.view.tab.listener.OnTabSelectListener
+import java.io.Serializable
 import java.util.*
 
-class TabLayoutManager private constructor() {
+class TabLayoutManager private constructor() : Serializable {
+    companion object {
+        @JvmStatic
+        fun getInstance(): TabLayoutManager {
+            return SingletonHolder.mInstance
+        }
+    }
+
+    private object SingletonHolder {
+        //静态内部类
+        val mInstance: TabLayoutManager = TabLayoutManager()
+    }
+
+    private fun readResolve(): Any {//防止单例对象在反序列化时重新生成对象
+        return SingletonHolder.mInstance
+    }
+
     /**
      * 设置滑动 Tab SlidingTabLayout
      *
@@ -316,21 +333,5 @@ class TabLayoutManager private constructor() {
                 return if (position < titles.size) titles[position] else ""
             }
         }
-    }
-
-    companion object {
-        @Volatile
-        var instance: TabLayoutManager? = null
-            get() {
-                if (field == null) {
-                    synchronized(TabLayoutManager::class.java) {
-                        if (field == null) {
-                            field = TabLayoutManager()
-                        }
-                    }
-                }
-                return field
-            }
-            private set
     }
 }

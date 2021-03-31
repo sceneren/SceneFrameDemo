@@ -24,7 +24,6 @@ import com.hjq.permissions.XXPermissions
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import wiki.scene.lib_base.R
-import wiki.scene.lib_base.base_manage.ActivityUtil
 import wiki.scene.lib_base.base_util.DoubleClickExitDetector
 import wiki.scene.lib_base.base_util.InputTools
 import wiki.scene.lib_base.base_util.LanguageUtil
@@ -57,7 +56,6 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
         ARouter.getInstance().inject(this)
         mContext = this
-        ActivityUtil.addActivity(this)
         afterOnCreate()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //竖屏
         setTheme(mTheme)

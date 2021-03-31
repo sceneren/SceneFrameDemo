@@ -7,27 +7,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.kongzue.dialogx.DialogX;
-import com.kongzue.dialogx.style.IOSStyle;
-
-import wiki.scene.lib_base.base_manage.ActivityUtil;
-
 
 public class BaseApplication extends Application {
 
-    private static wiki.scene.lib_base.BaseApplication instance;
+    private static BaseApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
         setApplication(this);
-        initDialogX();
-    }
-
-
-    private void initDialogX(){
-        DialogX.init(this);
-        DialogX.globalStyle=new IOSStyle();
     }
 
 
@@ -41,7 +29,6 @@ public class BaseApplication extends Application {
                     @Override
                     public void onActivityCreated(@NonNull Activity activity,
                                                   @Nullable Bundle savedInstanceState) {
-                        ActivityUtil.addActivity(activity);
                     }
 
                     @Override
@@ -72,7 +59,6 @@ public class BaseApplication extends Application {
 
                     @Override
                     public void onActivityDestroyed(@NonNull Activity activity) {
-                        ActivityUtil.removeActivity(activity);
                     }
                 });
     }
@@ -81,7 +67,7 @@ public class BaseApplication extends Application {
     /**
      * 获得当前app运行的Application
      */
-    public static wiki.scene.lib_base.BaseApplication getInstance() {
+    public static BaseApplication getInstance() {
         if (instance == null) {
             throw new NullPointerException(
                     "please inherit BaseApplication or call setApplication.");

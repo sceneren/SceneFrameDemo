@@ -12,11 +12,9 @@ import android.util.Log
 class AppProvider(val app: Application) {
 
     companion object {
-        const val TAG = "AppProvider"
         private var INSTANCE: AppProvider? = null
         fun init(application: Application) {
             if (INSTANCE == null) {
-                Log.i(TAG, "init: AppProvider=contentprovider获取")
                 INSTANCE = AppProvider(application)
             }
         }
@@ -24,7 +22,6 @@ class AppProvider(val app: Application) {
         val instance: AppProvider
             get() {
                 if (INSTANCE == null) {
-                    Log.i(TAG, "init: AppProvider=反射获取")
                     INSTANCE = AppProvider(AppBridge.applicationByReflect!!)
                 }
                 return INSTANCE!!

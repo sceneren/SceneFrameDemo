@@ -6,12 +6,33 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import wiki.scene.lib_network.interceptor.HttpLoggingInterceptor
 import wiki.scene.lib_network.service.ApiService
+import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by Zlx on 2017/12/12.
  */
-class RetrofitCreateHelper private constructor() {
+class RetrofitCreateHelper private constructor() : Serializable {
+    companion object {
+        private val mApiUrl: ApiService? = null
+        private const val TIMEOUT_READ = 60
+        private const val TIMEOUT_CONNECTION = 60
+
+        @JvmStatic
+        fun getInstance(): RetrofitCreateHelper {
+            return SingletonHolder.mInstance
+        }
+    }
+
+    private object SingletonHolder {
+        //静态内部类
+        val mInstance: RetrofitCreateHelper = RetrofitCreateHelper()
+    }
+
+    private fun readResolve(): Any {//防止单例对象在反序列化时重新生成对象
+        return SingletonHolder.mInstance
+    }
+
     fun <T> create(baseURL: String, service: Class<T>): T {
         return initRetrofit(baseURL, initOkHttp()).create(service)
     }
@@ -43,19 +64,4 @@ class RetrofitCreateHelper private constructor() {
             .build()
     }
 
-    companion object {
-        private const val TIMEOUT_READ = 60
-        private const val TIMEOUT_CONNECTION = 60
-        private val mApiUrl: ApiService? = null
-        var instance: RetrofitCreateHelper? = null
-            get() {
-                if (field == null) {
-                    synchronized(RetrofitCreateHelper::class.java) {
-                        field = RetrofitCreateHelper()
-                    }
-                }
-                return field
-            }
-            private set
-    }
 }

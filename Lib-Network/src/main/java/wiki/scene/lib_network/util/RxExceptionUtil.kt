@@ -11,13 +11,7 @@ import java.net.UnknownHostException
 import java.net.UnknownServiceException
 
 /**
- * @date: 2019\3\22 0022
- * @author: zlx
- * @email: 1170762202@qq.com
- * @description:
- */
-/**
- * 异常处理
+ * @description:异常处理
  */
 object RxExceptionUtil {
     fun exceptionHandler(t: Throwable): String {

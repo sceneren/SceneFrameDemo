@@ -10,5 +10,5 @@ import android.app.Application
  */
 object AppBridge {
     val applicationByReflect: Application?
-        get() = ActivityLifecycleImpl.INSTANCE.applicationByReflect
+        get() = ActivityLifecycleImpl.getInstance().getApplicationByReflect()
 }

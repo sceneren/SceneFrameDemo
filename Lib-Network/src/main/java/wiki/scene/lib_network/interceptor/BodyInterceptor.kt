@@ -7,9 +7,6 @@ import okhttp3.Response
 import java.io.IOException
 
 /**
- * @date: 2019\5\29 0029
- * @author: zlx
- * @email: 1170762202@qq.com
  * @description: 公共参数拦截器
  */
 class BodyInterceptor : Interceptor {

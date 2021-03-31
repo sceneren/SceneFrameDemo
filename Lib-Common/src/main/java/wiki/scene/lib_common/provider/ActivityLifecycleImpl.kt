@@ -3,6 +3,7 @@ package wiki.scene.lib_common.provider
 import android.annotation.SuppressLint
 import android.app.Application
 import android.util.Log
+import java.io.Serializable
 import java.lang.reflect.InvocationTargetException
 
 /**
@@ -10,37 +11,52 @@ import java.lang.reflect.InvocationTargetException
  * Email: 1170762202@qq.com
  * Description:
  */
-class ActivityLifecycleImpl {
-    val applicationByReflect: Application?
-        @SuppressLint("PrivateApi")
-        get() {
-            try {
-                val activityThreadClass = Class.forName("android.app.ActivityThread")
-                val thread = activityThread
-                val app =
-                    activityThreadClass.getMethod("getApplication").invoke(thread) ?: return null
-                return app as Application
-            } catch (e: InvocationTargetException) {
-                e.printStackTrace()
-            } catch (e: NoSuchMethodException) {
-                e.printStackTrace()
-            } catch (e: IllegalAccessException) {
-                e.printStackTrace()
-            } catch (e: ClassNotFoundException) {
-                e.printStackTrace()
-            }
-            return null
+class ActivityLifecycleImpl private constructor() : Serializable {
+    companion object {
+        @JvmStatic
+        fun getInstance(): ActivityLifecycleImpl {//全局访问点
+            return SingletonHolder.mInstance
         }
-    private val activityThread: Any?
-         get() {
-            var activityThread = activityThreadInActivityThreadStaticField
-            if (activityThread != null) return activityThread
-            activityThread = activityThreadInActivityThreadStaticMethod
-            return activityThread ?: activityThreadInLoadedApkField
+    }
+
+    private object SingletonHolder {
+        //静态内部类
+        val mInstance: ActivityLifecycleImpl = ActivityLifecycleImpl()
+    }
+
+    private fun readResolve(): Any {//防止单例对象在反序列化时重新生成对象
+        return SingletonHolder.mInstance
+    }
+
+    @SuppressLint("PrivateApi")
+    fun getApplicationByReflect(): Application? {
+        try {
+            val activityThreadClass = Class.forName("android.app.ActivityThread")
+            val thread: Any? = getActivityThread()
+            val app = activityThreadClass.getMethod("getApplication").invoke(thread) ?: return null
+            return app as Application
+        } catch (e: InvocationTargetException) {
+            e.printStackTrace()
+        } catch (e: NoSuchMethodException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
         }
-    private val activityThreadInActivityThreadStaticField: Any?
-         @SuppressLint("PrivateApi")
-         get() = try {
+        return null
+    }
+
+    private fun getActivityThread(): Any? {
+        var activityThread: Any? = getActivityThreadInActivityThreadStaticField()
+        if (activityThread != null) return activityThread
+        activityThread = getActivityThreadInActivityThreadStaticMethod()
+        return activityThread ?: getActivityThreadInLoadedApkField()
+    }
+
+    @SuppressLint("PrivateApi")
+    private fun getActivityThreadInActivityThreadStaticField(): Any? {
+        return try {
             val activityThreadClass = Class.forName("android.app.ActivityThread")
             val sCurrentActivityThreadField =
                 activityThreadClass.getDeclaredField("sCurrentActivityThread")
@@ -53,9 +69,11 @@ class ActivityLifecycleImpl {
             )
             null
         }
-    private val activityThreadInActivityThreadStaticMethod: Any?
-        @SuppressLint("PrivateApi")
-        get() = try {
+    }
+
+    @SuppressLint("PrivateApi")
+    private fun getActivityThreadInActivityThreadStaticMethod(): Any? {
+        return try {
             val activityThreadClass = Class.forName("android.app.ActivityThread")
             activityThreadClass.getMethod("currentActivityThread").invoke(null)
         } catch (e: Exception) {
@@ -65,20 +83,20 @@ class ActivityLifecycleImpl {
             )
             null
         }
-    private val activityThreadInLoadedApkField: Any?
-        get() = try {
+    }
+
+    private fun getActivityThreadInLoadedApkField(): Any? {
+        return try {
             val mLoadedApkField = Application::class.java.getDeclaredField("mLoadedApk")
             mLoadedApkField.isAccessible = true
-            val mLoadedApk = mLoadedApkField[applicationByReflect]
+            val mLoadedApk = mLoadedApkField[getApplicationByReflect()]
             val mActivityThreadField = mLoadedApk.javaClass.getDeclaredField("mActivityThread")
             mActivityThreadField.isAccessible = true
             mActivityThreadField[mLoadedApk]
         } catch (e: Exception) {
-            Log.e("UtilsActivityLifecycle", "getActivityThreadInLoadedApkField: " + e.message)
             null
         }
-
-    companion object {
-        val INSTANCE = ActivityLifecycleImpl()
     }
+
+
 }

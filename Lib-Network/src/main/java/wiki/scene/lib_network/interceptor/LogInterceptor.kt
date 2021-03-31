@@ -8,9 +8,6 @@ import java.nio.charset.Charset
 import java.util.*
 
 /**
- * date: 2019\6\11 0011
- * author: zlx
- * email: 1170762202@qq.com
  * description: log 拦截
  */
 class LogInterceptor : Interceptor {

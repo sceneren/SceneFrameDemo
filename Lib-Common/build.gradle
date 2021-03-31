@@ -6,7 +6,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
 
     api 'com.dylanc:viewbinding-ktx:1.1.0'
     api 'com.dylanc:viewbinding-nonreflection-ktx:1.1.0'
@@ -35,4 +35,6 @@ dependencies {
     api 'org.greenrobot:eventbus:3.2.0'
 
     api 'com.hjq:toast:8.8'
+
+    debugApi 'com.squareup.leakcanary:leakcanary-android:2.7'
 }

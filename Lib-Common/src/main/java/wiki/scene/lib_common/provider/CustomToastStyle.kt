@@ -3,11 +3,12 @@ package wiki.scene.lib_common.provider
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
+import com.blankj.utilcode.util.SizeUtils
 import com.hjq.toast.style.BaseToastStyle
 
 class CustomToastStyle(context: Context?) : BaseToastStyle(context) {
     override fun getCornerRadius(): Int {
-        return dp2px(8F)
+        return dp2px(4F)
     }
 
     override fun getBackgroundColor(): Int {
@@ -28,6 +29,10 @@ class CustomToastStyle(context: Context?) : BaseToastStyle(context) {
 
     override fun getPaddingTop(): Int {
         return dp2px(8F)
+    }
+
+    override fun getYOffset(): Int {
+        return SizeUtils.dp2px(60F)
     }
 
     override fun getGravity(): Int {
