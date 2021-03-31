@@ -18,6 +18,7 @@ import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.util.StatusBarUtil
 import com.aries.ui.view.title.TitleBarView
+import com.blankj.utilcode.util.AppUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
@@ -337,7 +338,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
         if (isDoubleClickExit()) {
             val isExit = doubleClickExitDetector?.click()
             if (isExit != null && isExit) {
-                super.onBackPressed()
+                AppUtils.exitApp()
             }
         } else {
             super.onBackPressed()
