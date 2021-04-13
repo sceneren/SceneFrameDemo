@@ -1,20 +1,16 @@
-package wiki.scene.lib_aop.singleclick.annotation;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package wiki.scene.lib_aop.singleclick.annotation
 
 /**
  * Created by Leo on 2018/5/21.
  */
-
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface SingleClick {
-    int value() default 2000;
-
-    int[] except() default {};
-
-    String[] exceptIdName() default {};
-}
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
+)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+annotation class SingleClick(
+    val value: Int = 2000,
+    val except: IntArray = [],
+    val exceptIdName: Array<String> = []
+)

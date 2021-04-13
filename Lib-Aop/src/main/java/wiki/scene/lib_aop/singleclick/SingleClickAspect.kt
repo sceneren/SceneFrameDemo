@@ -1,18 +1,12 @@
-package wiki.scene.lib_aop.singleclick;
+package wiki.scene.lib_aop.singleclick
 
-import android.content.res.Resources;
-import android.view.View;
-
-
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
-
-import java.lang.reflect.Method;
-
-import wiki.scene.lib_aop.singleclick.annotation.SingleClick;
+import android.view.View
+import org.aspectj.lang.ProceedingJoinPoint
+import org.aspectj.lang.annotation.Around
+import org.aspectj.lang.annotation.Aspect
+import org.aspectj.lang.annotation.Pointcut
+import org.aspectj.lang.reflect.MethodSignature
+import wiki.scene.lib_aop.singleclick.annotation.SingleClick
 
 /**
  * date: 2019\10\10 0010
@@ -21,120 +15,118 @@ import wiki.scene.lib_aop.singleclick.annotation.SingleClick;
  * description: 防止重复点击注解
  */
 @Aspect
-public class SingleClickAspect {
-    private static long mLastClickTime;
-
-    private static final String POINTCUT_METHOD =
-            "execution(* onClick(..))";
-    private static final String POINTCUT_ANNOTATION =
-            "execution(@cn.leo.click.SingleClick * *(..))";
-    private static final String POINTCUT_BUTTER_KNIFE =
-            "execution(@butterknife.OnClick * *(..))";
-
-    private static final String POINTCUT_SINGLE_CLICK =
-            "execution(@wiki.scene.lib_aop.singleclick.annotation.SingleClick * *(..))";
-
+class SingleClickAspect {
     @Pointcut(POINTCUT_METHOD)
-    public void methodPointcut() {
-
+    fun methodPointcut() {
     }
 
     @Pointcut(POINTCUT_ANNOTATION)
-    public void annotationPointcut() {
-
+    fun annotationPointcut() {
     }
 
     @Pointcut(POINTCUT_BUTTER_KNIFE)
-    public void butterKnifePointcut() {
-
+    fun butterKnifePointcut() {
     }
 
     @Pointcut(POINTCUT_SINGLE_CLICK)
-    public void singleClickPointcut() {
-
+    fun singleClickPointcut() {
     }
 
     @Around("butterKnifePointcut()")
-    public void aroundJoinPoint(final ProceedingJoinPoint joinPoint) throws Throwable {
+    @Throws(Throwable::class)
+    fun aroundJoinPoint(joinPoint: ProceedingJoinPoint) {
         try {
-            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-            Method method = signature.getMethod();
+            val signature = joinPoint.signature as MethodSignature
+            val method = signature.method
             //检查方法是否有注解
-            boolean hasAnnotation = method != null && method.isAnnotationPresent(SingleClick.class);
+            val hasAnnotation =
+                method != null && method.isAnnotationPresent(SingleClick::class.java)
             //计算点击间隔，没有注解默认500，有注解按注解参数来，注解参数为空默认500；
-            int interval = 500;
+            var interval = 500
             if (hasAnnotation) {
-                SingleClick annotation = method.getAnnotation(SingleClick.class);
-                interval = annotation.value();
+                val annotation = method!!.getAnnotation(
+                    SingleClick::class.java
+                )
+                interval = annotation.value
             }
             //获取被点击的view对象
-            Object[] args = joinPoint.getArgs();
-            View view = findViewInMethodArgs(args);
+            val args = joinPoint.args
+            val view = findViewInMethodArgs(args)
             if (view != null) {
-                int id = view.getId();
+                val id = view.id
                 //注解排除某个控件不防止双击
                 if (hasAnnotation) {
-                    SingleClick annotation = method.getAnnotation(SingleClick.class);
+                    val annotation = method!!.getAnnotation(
+                        SingleClick::class.java
+                    )
                     //按id值排除不防止双击的按钮点击
-                    int[] except = annotation.except();
-                    for (int i : except) {
+                    val except = annotation.except
+                    for (i in except) {
                         if (i == id) {
-                            mLastClickTime = System.currentTimeMillis();
-                            joinPoint.proceed();
-                            return;
+                            mLastClickTime = System.currentTimeMillis()
+                            joinPoint.proceed()
+                            return
                         }
                     }
                     //按id名排除不防止双击的按钮点击（非app模块）
-                    String[] idName = annotation.exceptIdName();
-                    Resources resources = view.getResources();
-                    for (String name : idName) {
-                        int resId = resources.getIdentifier(name, "id", view.getContext().getPackageName());
+                    val idName = annotation.exceptIdName
+                    val resources = view.resources
+                    for (name in idName) {
+                        val resId = resources.getIdentifier(name, "id", view.context.packageName)
                         if (resId == id) {
-                            mLastClickTime = System.currentTimeMillis();
-                            joinPoint.proceed();
-                            return;
+                            mLastClickTime = System.currentTimeMillis()
+                            joinPoint.proceed()
+                            return
                         }
                     }
                 }
                 if (canClick(interval)) {
-                    mLastClickTime = System.currentTimeMillis();
-                    joinPoint.proceed();
-                    return;
+                    mLastClickTime = System.currentTimeMillis()
+                    joinPoint.proceed()
+                    return
                 }
             }
 
             //检测间隔时间是否达到预设时间并且线程空闲
             if (canClick(interval)) {
-                mLastClickTime = System.currentTimeMillis();
-                joinPoint.proceed();
+                mLastClickTime = System.currentTimeMillis()
+                joinPoint.proceed()
             }
-        } catch (Exception e) {
+        } catch (e: Exception) {
             //出现异常不拦截点击事件
-            joinPoint.proceed();
+            joinPoint.proceed()
         }
     }
 
-    public View findViewInMethodArgs(Object[] args) {
-        if (args == null || args.length == 0) {
-            return null;
+    fun findViewInMethodArgs(args: Array<Any?>?): View? {
+        if (args == null || args.isEmpty()) {
+            return null
         }
-        for (Object arg : args) {
-            if (arg instanceof View) {
-                View view = (View) arg;
-                if (view.getId() != View.NO_ID) {
-                    return view;
+        for (arg in args) {
+            if (arg is View) {
+                if (arg.id != View.NO_ID) {
+                    return arg
                 }
             }
         }
-        return null;
+        return null
     }
 
-    public boolean canClick(int interval) {
-        long l = System.currentTimeMillis() - mLastClickTime;
+    fun canClick(interval: Int): Boolean {
+        val l = System.currentTimeMillis() - mLastClickTime
         if (l > interval) {
-            mLastClickTime = System.currentTimeMillis();
-            return true;
+            mLastClickTime = System.currentTimeMillis()
+            return true
         }
-        return false;
+        return false
+    }
+
+    companion object {
+        private var mLastClickTime: Long = 0
+        private const val POINTCUT_METHOD = "execution(* onClick(..))"
+        private const val POINTCUT_ANNOTATION = "execution(@cn.leo.click.SingleClick * *(..))"
+        private const val POINTCUT_BUTTER_KNIFE = "execution(@butterknife.OnClick * *(..))"
+        private const val POINTCUT_SINGLE_CLICK =
+            "execution(@wiki.scene.lib_aop.singleclick.annotation.SingleClick * *(..))"
     }
 }
