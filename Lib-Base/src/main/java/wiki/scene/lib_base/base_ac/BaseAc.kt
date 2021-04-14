@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.util.StatusBarUtil
@@ -22,15 +23,16 @@ import com.blankj.utilcode.util.AppUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
+import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import wiki.scene.lib_base.R
+import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.base_util.DoubleClickExitDetector
 import wiki.scene.lib_base.base_util.InputTools
 import wiki.scene.lib_base.base_util.LanguageUtil
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.impl.IAcView
-import wiki.scene.lib_base.impl.INetView
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
@@ -39,7 +41,7 @@ import wiki.scene.lib_base.widget.slideback.SlideBack
 /**
  * Created by zlx on 2017/6/23.
  */
-abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView {
+abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseView {
     lateinit var binding: VB
     open var titleBarBinding: LibBaseTitleBarViewBinding? = null
 
@@ -146,35 +148,44 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
     override fun showLoading() {
         if (loadService == null) {
-            loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
-        }
-        loadService!!.showCallback(LoadingCallback::class.java)
-    }
-
-    override fun showLoading(view: View) {
-        if (loadService == null) {
-            loadService = LoadSir.getDefault().register(view) { onRetryBtnClick() }
+            loadService = if (injectLoadServiceView() == null) {
+                LoadSir.getDefault().register(this) { onRetryBtnClick() }
+            } else {
+                LoadSir.getDefault().register(injectLoadServiceView()) { onRetryBtnClick() }
+            }
         }
         loadService!!.showCallback(LoadingCallback::class.java)
     }
 
     override fun showEmpty() {
         if (loadService == null) {
-            loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
+            loadService = if (injectLoadServiceView() == null) {
+                LoadSir.getDefault().register(this) { onRetryBtnClick() }
+            } else {
+                LoadSir.getDefault().register(injectLoadServiceView()) { onRetryBtnClick() }
+            }
         }
         loadService!!.showCallback(EmptyCallback::class.java)
     }
 
     override fun showSuccess() {
         if (loadService == null) {
-            loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
+            loadService = if (injectLoadServiceView() == null) {
+                LoadSir.getDefault().register(this) { onRetryBtnClick() }
+            } else {
+                LoadSir.getDefault().register(injectLoadServiceView()) { onRetryBtnClick() }
+            }
         }
         loadService!!.showSuccess()
     }
 
     override fun showError() {
         if (loadService == null) {
-            loadService = LoadSir.getDefault().register(this) { onRetryBtnClick() }
+            loadService = if (injectLoadServiceView() == null) {
+                LoadSir.getDefault().register(this) { onRetryBtnClick() }
+            } else {
+                LoadSir.getDefault().register(injectLoadServiceView()) { onRetryBtnClick() }
+            }
         }
         loadService!!.showCallback(ErrorCallback::class.java)
     }
@@ -355,4 +366,33 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), INetView, IAcView
 
         mSavedInstanceState = null
     }
+
+    open fun injectLoadServiceView(): View? {
+        return null
+    }
+
+    override fun findActivity(): AppCompatActivity {
+        return this
+    }
+
+    override fun findFragment(): Fragment? {
+        return null
+    }
+
+    override fun findContext(): Context {
+        return mContext
+    }
+
+    override fun showToast(msg: String?) {
+        msg?.let {
+            ToastUtils.show(msg)
+        }
+    }
+
+    override fun showToast(stringResId: Int) {
+        if (stringResId != 0) {
+            ToastUtils.show(stringResId)
+        }
+    }
+
 }

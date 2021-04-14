@@ -38,6 +38,12 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
                 .navigation()
         }
 
+        binding.btnMvpRecyclerView.setOnClickListener {
+            ARouter.getInstance()
+                .build(RouterPath.Main.ACT_MVP_RECYCLERVIEW)
+                .navigation()
+        }
+
     }
 
     override fun initToolBarView(titleBarView: TitleBarView) {
@@ -50,7 +56,6 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
     }
 
     override fun loadData() {
-        super.loadData()
-        LogUtils.e("loadData")
+        LogUtils.e("xxxx")
     }
 }

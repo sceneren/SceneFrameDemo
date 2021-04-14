@@ -175,6 +175,10 @@ class FastMainTabDelegate {
                     SAVED_INSTANCE_STATE_KEY_FRAGMENT + i,
                     item.mFragment
                 )
+
+
+
+
             }
         }
     }//先获取数量

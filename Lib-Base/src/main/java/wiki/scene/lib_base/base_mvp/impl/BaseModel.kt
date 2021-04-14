@@ -4,13 +4,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
+import com.blankj.utilcode.util.LogUtils
 import wiki.scene.lib_base.base_mvp.i.IBaseModel
 
-/**
- * @author chenke
- * @create 2020/6/30
- * @Describe
- */
 open class BaseModel : IBaseModel, LifecycleObserver {
 
     /**
@@ -23,6 +19,7 @@ open class BaseModel : IBaseModel, LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy(owner: LifecycleOwner) {
+        LogUtils.i("释放Model")
         owner.lifecycle.removeObserver(this)
     }
 

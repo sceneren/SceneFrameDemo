@@ -31,6 +31,13 @@
             android:layout_height="wrap_content"
             android:text="吸顶的RecyclerView" />
 
+        <Button
+            android:id="@+id/btnMvpRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MVP RecyclerView"
+            android:textAllCaps="false" />
+
     </LinearLayout>
 
 

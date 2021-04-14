@@ -28,6 +28,8 @@ object RouterPath {
         const val FRAG_TAB_1 = "$MAIN/FragTab1"
         const val FRAG_TAB_2 = "$MAIN/FragTab2"
         const val FRAG_TAB_3 = "$MAIN/FragTab3"
+
+        const val ACT_MVP_RECYCLERVIEW = "$MAIN/MvpRecyclerViewActivity"
     }
 
 

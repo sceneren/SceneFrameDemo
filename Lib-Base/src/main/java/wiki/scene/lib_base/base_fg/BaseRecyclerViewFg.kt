@@ -1,4 +1,4 @@
-package wiki.scene.lib_base.base_ac
+package wiki.scene.lib_base.base_fg
 
 import android.view.View
 import androidx.viewbinding.ViewBinding
@@ -13,7 +13,7 @@ import wiki.scene.lib_base.base_mvp.i.IRecyclerViewBaseView
 /**
  * 普通分页列表封装
  */
-abstract class BaseRecyclerViewAc<VB : ViewBinding, T> : BaseAc<VB>(), OnRefreshListener,
+abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefreshListener,
     OnLoadMoreListener, IRecyclerViewBaseView<T> {
     open var currentPageNo = 0
     private var hasMore = false
@@ -43,6 +43,7 @@ abstract class BaseRecyclerViewAc<VB : ViewBinding, T> : BaseAc<VB>(), OnRefresh
         initRecyclerView()
         injectRefreshLayout().setEnableLoadMore(false)
         injectAdapter().setEmptyView(R.layout.lib_base_layout_empty)
+
         if (isAllowLoadMore()) {
             injectAdapter().loadMoreModule.setOnLoadMoreListener(this)
         }
@@ -53,7 +54,6 @@ abstract class BaseRecyclerViewAc<VB : ViewBinding, T> : BaseAc<VB>(), OnRefresh
     }
 
     override fun loadData() {
-        super.loadData()
         getListData(true, injectRequestFirstPage())
     }
 

@@ -15,41 +15,22 @@ import wiki.scene.lib_base.base_mvp.i.IBaseView
  * @create 2020/6/30
  * @Describe
  */
-class BasePresenter<M : IBaseModel, V : IBaseView> : IBasePresenter, LifecycleObserver {
-    protected var mCompositeDisposable: CompositeDisposable? = null
-    protected var mBaseModel: M? = null
-    protected var mRootView: V? = null
+open class BasePresenter<M : IBaseModel, V : IBaseView>(protected val mBaseModel: M,protected val mBaseView: V) :
+    IBasePresenter, LifecycleObserver {
+    var mCompositeDisposable: CompositeDisposable? = null
 
-    /**
-     * 如果当前页面同时需要 Model 层和 View 层,则使用此构造函数(默认)
-     *
-     * @param model
-     * @param rootView
-     */
-    constructor(model: M, rootView: V) {
-        mBaseModel = model
-        mRootView = rootView
+    init {
         onStart()
     }
 
-    /**
-     * 如果当前页面不需要操作数据,只需要 View 层,则使用此构造函数
-     *
-     * @param rootView
-     */
-    constructor(rootView: V) {
-        mRootView = rootView
-        onStart()
-    }
-
-    override fun onStart() {
+    final override fun onStart() {
         //将 LifecycleObserver 注册给 LifecycleOwner 后 @OnLifecycleEvent 才可以正常使用
-        if (mRootView != null && mRootView is LifecycleObserver) {
+        if (mBaseView is LifecycleObserver) {
             //activity ，fragment绑定自身生命周期
-            (mRootView as LifecycleOwner).lifecycle.addObserver(this)
-            if (mBaseModel != null && mBaseModel is LifecycleObserver) {
+            (mBaseView as LifecycleOwner).lifecycle.addObserver(this)
+            if (mBaseModel is LifecycleObserver) {
                 //activity ，fragment绑定model数据层的生命周期,当Activity销毁时，数据层感知其生命周期
-                (mRootView as LifecycleOwner).lifecycle
+                (mBaseView as LifecycleOwner).lifecycle
                     .addObserver(mBaseModel as LifecycleObserver)
             }
         }
@@ -57,12 +38,6 @@ class BasePresenter<M : IBaseModel, V : IBaseView> : IBasePresenter, LifecycleOb
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onDestroy(owner: LifecycleOwner) {
-        /**
-         * 注意, 如果在这里调用了 [.onDestroy] 方法, 会出现某些地方引用 `mModel` 或 `mRootView` 为 null 的情况
-         * 比如在 [RxLifecycle] 终止 [Observable] 时, 在 [io.reactivex.Observable.doFinally] 中却引用了 `mRootView` 做一些释放资源的操作, 此时会空指针
-         * 或者如果你声明了多个 @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY) 时在其他 @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-         * 中引用了 `mModel` 或 `mRootView` 也可能会出现此情况
-         */
         owner.lifecycle.removeObserver(this)
     }
 
@@ -84,20 +59,15 @@ class BasePresenter<M : IBaseModel, V : IBaseView> : IBasePresenter, LifecycleOb
 
     override fun onDestroy() {
         unDispose()
-        mBaseModel?.onDestroy()
-        mBaseModel = null
-        mRootView = null
+        mBaseModel.onDestroy()
     }
 
-    override fun bindToLifeCycle(): LifecycleOwner? {
-        mRootView?.let {
-            return if (it.findFragment() != null) {
-                it.findFragment()!!.viewLifecycleOwner
-            } else {
-                it.findActivity()
-            }
+    override fun bindToLifeCycle(): LifecycleOwner {
+        return if (mBaseView.findFragment() == null) {
+            mBaseView.findActivity()
+        } else {
+            mBaseView.findFragment()!!.viewLifecycleOwner
         }
 
-        return null
     }
 }

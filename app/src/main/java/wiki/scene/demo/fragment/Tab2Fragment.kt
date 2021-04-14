@@ -16,4 +16,8 @@ class Tab2Fragment : BaseFg<FragTab2Binding>() {
     override fun hasTitleBarView(): Boolean {
         return true
     }
+
+    override fun loadData() {
+
+    }
 }

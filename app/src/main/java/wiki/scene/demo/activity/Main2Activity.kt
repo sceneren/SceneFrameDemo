@@ -44,7 +44,7 @@ class Main2Activity : FastMainActivity() {
         )
 
         val tab3Fragment = ARouter.getInstance()
-            .build(RouterPath.Main.FRAG_TAB_2)
+            .build(RouterPath.Main.FRAG_TAB_3)
             .navigation() as Fragment
 
         mTabEntities.add(

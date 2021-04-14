@@ -2,10 +2,10 @@ package wiki.scene.demo.activity
 
 import android.graphics.Color
 import android.util.TypedValue
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.aries.ui.view.title.TitleBarView
-import com.blankj.utilcode.util.LogUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -24,7 +24,7 @@ import wiki.scene.lib_network.livedata.FastObserver
 
 @Route(path = RouterPath.Main.ACT_RECYCLERVIEW)
 class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, ArticleBean>() {
-   private val mAdapter: RecyclerViewAdapter by inject()
+    private val mAdapter: RecyclerViewAdapter by inject()
 
     override fun initToolBarView(titleBarView: TitleBarView) {
         super.initToolBarView(titleBarView)
@@ -32,7 +32,6 @@ class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, 
     }
 
     override fun initRecyclerView() {
-        super.initRecyclerView()
         binding.recyclerView.adapter = mAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(mContext)
         dividerBuilder().size(10, TypedValue.COMPLEX_UNIT_DIP)
@@ -46,14 +45,13 @@ class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, 
             RouterUtil.launchWeb(url)
         }
 
-        getVideoData()
     }
 
-    override fun injectLoadPageStart(): Int {
+    override fun injectRequestFirstPage(): Int {
         return 0
     }
 
-    override fun injectReturnPageStart(): Int {
+    override fun injectReturnFirstPage(): Int {
         return 1
     }
 
@@ -71,7 +69,7 @@ class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, 
             .observe(this, object : FastObserver<ArticleListRes>() {
                 override fun onStart() {
                     super.onStart()
-                    loadListDataStart(isFirst, binding.refreshLayout)
+                    loadListDataStart(isFirst)
                 }
 
                 override fun onSuccess(data: ApiResponse<ArticleListRes>) {
@@ -88,21 +86,8 @@ class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, 
             })
     }
 
-    private fun getVideoData() {
-        ApiUtil.videoApi
-            .getChannelInfo()
-            .observe(this, object : FastObserver<String>() {
-                override fun onSuccess(data: ApiResponse<String>) {
-                    LogUtils.e(data.toString())
-                }
-
-                override fun onFail(msg: String?) {
-                    super.onFail(msg)
-                    LogUtils.e(msg)
-                }
-
-            })
+    override fun injectLoadServiceView(): View {
+        return binding.refreshLayout
     }
-
 
 }

@@ -1,8 +1,7 @@
-package wiki.scene.demo.fragment
+package wiki.scene.demo.activity
 
 import android.graphics.Color
 import android.util.TypedValue
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.aries.ui.view.title.TitleBarView
@@ -11,18 +10,19 @@ import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.koin.android.ext.android.inject
 import wiki.scene.demo.adapter.RecyclerViewAdapter
-import wiki.scene.demo.databinding.FragTab3Binding
-import wiki.scene.demo.mvp.contract.Tab3Contract
-import wiki.scene.demo.mvp.presenter.Tab3Presenter
+import wiki.scene.demo.databinding.ActMvpRecyclerviewBinding
+import wiki.scene.demo.mvp.contract.MvpRecyclerViewActContract
+import wiki.scene.demo.mvp.presenter.MvpRecyclerViewActPresenter
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_api.res_data.ArticleBean
-import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewFg
+import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewAc
 import wiki.scene.lib_base.base_util.RouterUtil
 import wiki.scene.lib_base.constant.RouterPath
 
-@Route(path = RouterPath.Main.FRAG_TAB_3)
-class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, ArticleBean, Tab3Presenter>(),
-    Tab3Contract.IView {
+@Route(path = RouterPath.Main.ACT_MVP_RECYCLERVIEW)
+class MvpRecyclerViewActivity :
+    BaseMvpRecyclerViewAc<ActMvpRecyclerviewBinding, ArticleBean, MvpRecyclerViewActPresenter>(),
+    MvpRecyclerViewActContract.IView {
 
     private val mAdapter: RecyclerViewAdapter by inject()
 
@@ -30,17 +30,13 @@ class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, ArticleBean, Tab3Pre
         return 1
     }
 
-    override fun hasTitleBarView(): Boolean {
-        return true
+    override fun initPresenter() {
+        mPresenter = MvpRecyclerViewActPresenter(this)
     }
 
     override fun initToolBarView(titleBarView: TitleBarView) {
         super.initToolBarView(titleBarView)
-        titleBarView.setTitleMainText("MVP RecyclerView Fragment")
-    }
-
-    override fun initPresenter() {
-        mPresenter = Tab3Presenter(this)
+        titleBarView.setTitleMainText("MVP RecyclerView")
     }
 
     override fun initRecyclerView() {
@@ -67,9 +63,5 @@ class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, ArticleBean, Tab3Pre
 
     override fun getListData(isFirst: Boolean, loadPage: Int) {
         mPresenter?.getArticleList(isFirst, loadPage)
-    }
-
-    override fun injectLoadServiceView(): View {
-        return binding.refreshLayout
     }
 }
