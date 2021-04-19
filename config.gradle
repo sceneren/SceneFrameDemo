@@ -35,10 +35,6 @@ ext {
             room                  : "androidx.room:room-runtime:$rootProject.lifecycle_version",
             roomCompiler          : "androidx.room:room-compiler:$rootProject.lifecycle_version",
             /*room 数据库 ---end*/
-            /*navigation --start*/
-            navigation            : "androidx.navigation:navigation-fragment:$rootProject.lifecycle_version",
-            navigationUI          : "androidx.navigation:navigation-ui:$rootProject.lifecycle_version",
-            /*navigation --end*/
             work                  : "androidx.work:work-runtime:$rootProject.lifecycle_version",
 
             swipebacklayout       : "me.imid.swipebacklayout.lib:library:1.3.0",

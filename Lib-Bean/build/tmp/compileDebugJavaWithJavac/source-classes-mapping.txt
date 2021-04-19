@@ -1,0 +1,2 @@
+wiki/scene/lib_bean/BuildConfig.java
+ wiki.scene.lib_bean.BuildConfig

@@ -1,14 +1,20 @@
 package wiki.scene.lib_base.base_util
 
+import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import com.blankj.utilcode.util.SizeUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import wiki.scene.lib_base.R
 
 /**
  * FileName: GlideUtil
@@ -17,6 +23,60 @@ import com.bumptech.glide.request.RequestOptions
  * Description:
  */
 object GlideUtil {
+
+    private fun getRoundTransformation(round: Int): MultiTransformation<Bitmap> {
+        return MultiTransformation(
+            CenterCrop(),
+            RoundedCorners(round)
+        )
+    }
+
+    private fun loadRoundTransform(
+        context: Context,
+        @DrawableRes drawableId: Int,
+        round: Int
+    ): RequestBuilder<Drawable> {
+
+        return Glide.with(context)
+            .load(drawableId)
+            .apply(RequestOptions.bitmapTransform(getRoundTransformation(round)))
+    }
+
+    private fun loadRoundTransform(
+        context: Context,
+        url: String,
+        round: Int
+    ): RequestBuilder<Drawable> {
+        return Glide.with(context)
+            .load(url)
+            .apply(RequestOptions.bitmapTransform(getRoundTransformation(round)))
+    }
+
+    private fun getCircleTransformation(): MultiTransformation<Bitmap> {
+        return MultiTransformation(
+            CenterCrop(),
+            CircleCrop()
+        )
+    }
+
+    private fun loadCircleTransformation(
+        context: Context,
+        @DrawableRes drawableId: Int
+    ): RequestBuilder<Drawable> {
+
+        return Glide.with(context)
+            .load(drawableId)
+            .apply(RequestOptions.bitmapTransform(getCircleTransformation()))
+    }
+
+    private fun loadCircleTransformation(
+        context: Context,
+        url: String
+    ): RequestBuilder<Drawable> {
+        return Glide.with(context)
+            .load(url)
+            .apply(RequestOptions.bitmapTransform(getCircleTransformation()))
+    }
 
     /**
      * 加载普通图片
@@ -47,20 +107,38 @@ object GlideUtil {
     /**
      * 加载圆角图片
      */
-    fun loadRoundImage(iv: ImageView, url: String, round: Int = SizeUtils.dp2px(5F)) {
+    fun loadRoundImage(
+        iv: ImageView,
+        url: String,
+        round: Int = SizeUtils.dp2px(5F),
+        placeholderRedId: Int = R.drawable.ic_default_image,
+        errorResId: Int = R.drawable.ic_default_image
+    ) {
+
         Glide.with(iv.context)
             .load(url)
             .transform(CenterCrop(), RoundedCorners(round))
+            .thumbnail(loadRoundTransform(iv.context, placeholderRedId, round))
+            .thumbnail(loadRoundTransform(iv.context, errorResId, round))
             .into(iv)
     }
 
     /**
      * 加载圆形图片
      */
-    fun loadCircleImage(iv: ImageView, url: String) {
+    fun loadCircleImage(
+        iv: ImageView,
+        url: String,
+        placeholderRedId: Int = R.drawable.ic_default_image,
+        errorResId: Int = R.drawable.ic_default_image
+    ) {
         Glide.with(iv.context)
             .load(url)
-            .transition(DrawableTransitionOptions().crossFade())
-            .transform(CircleCrop()).into(iv)
+            .transform(CenterCrop(), CircleCrop())
+            .thumbnail(loadCircleTransformation(iv.context, placeholderRedId))
+            .thumbnail(loadCircleTransformation(iv.context, errorResId))
+            .into(iv)
     }
+
+
 }
