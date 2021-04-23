@@ -18,7 +18,7 @@ import com.kingja.loadsir.core.LoadSir
 import io.reactivex.Observable
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
-import wiki.scene.lib_base.ext.changeIOThread
+import wiki.scene.lib_base.ext.changeIO2MainThread
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
@@ -161,7 +161,7 @@ abstract class BaseFg<VB : ViewBinding> : Fragment(), IBaseView {
         if (!mIsViewLoaded) {
             Observable.just(10)
                 .delay(10, TimeUnit.MILLISECONDS)
-                .changeIOThread()
+                .changeIO2MainThread()
                 .subscribe {
                     onHiddenChanged(hidden)
                 }
@@ -182,7 +182,7 @@ abstract class BaseFg<VB : ViewBinding> : Fragment(), IBaseView {
             if (!mIsViewLoaded) {
                 Observable.just(10)
                     .delay(10, TimeUnit.MILLISECONDS)
-                    .changeIOThread()
+                    .changeIO2MainThread()
                     .subscribe {
                         onVisibleChanged(true)
                     }

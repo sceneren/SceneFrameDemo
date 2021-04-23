@@ -74,7 +74,7 @@ class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, 
 
                 override fun onSuccess(data: ApiResponse<ArticleListRes>) {
                     data.data?.let {
-                        loadListDataSuccess(isFirst, it.curPage, it.total, it.datas!!)
+                        loadListDataSuccess(isFirst, it.curPage, it.pageCount, it.datas)
                     }
                 }
 

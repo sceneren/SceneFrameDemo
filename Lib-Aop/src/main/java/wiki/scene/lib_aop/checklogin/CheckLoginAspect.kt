@@ -1,6 +1,5 @@
 package wiki.scene.lib_aop.checklogin
 
-import android.util.Log
 import com.alibaba.android.arouter.launcher.ARouter
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
@@ -8,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import wiki.scene.lib_aop.checklogin.annotation.CheckLogin
 import wiki.scene.lib_base.constant.RouterPath
-import wiki.scene.lib_base.database.MMkvHelper
+import wiki.scene.lib_base.mmkv.MMkvHelper
 
 /**
  * FileName:
@@ -34,11 +33,9 @@ class CheckLoginAspect {
     @Around("pointcutCheckLogin(checkLogin)")
     @Throws(Throwable::class)
     fun aroundCheckLogin(joinPoint: ProceedingJoinPoint, checkLogin: CheckLogin?): Any? {
-        Log.i("TAG", "登录校验")
         val userInfo = MMkvHelper.getInstance().userInfo
         return if (userInfo == null) {
             ARouter.getInstance().build(RouterPath.Login.ACT_LOGIN).navigation()
-            Log.i("TAG", "未登录")
             null
         } else {
             joinPoint.proceed()

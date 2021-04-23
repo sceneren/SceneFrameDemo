@@ -20,7 +20,7 @@ class Tab3Presenter(mView: Tab3Contract.IView) :
 
                 override fun onSuccess(data: ApiResponse<ArticleListRes>) {
                     data.data?.let {
-                        mBaseView.loadListDataSuccess(isFirst, it.curPage, it.total, it.datas!!)
+                        mBaseView.loadListDataSuccess(isFirst, it.curPage, it.pageCount, it.datas)
                     }
                 }
 

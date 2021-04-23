@@ -14,7 +14,6 @@ import com.aries.ui.view.tab.CommonTabLayout
 import com.aries.ui.view.tab.listener.CustomTabEntity
 import com.blankj.utilcode.util.LogUtils
 import wiki.scene.lib_base.R
-import wiki.scene.lib_base.entity.FastTabEntity
 import wiki.scene.lib_base.impl.IFastMainView
 import java.util.*
 

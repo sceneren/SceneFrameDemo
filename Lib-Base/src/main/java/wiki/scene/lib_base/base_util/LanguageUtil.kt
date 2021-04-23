@@ -5,14 +5,14 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
-import wiki.scene.lib_base.database.MMkvHelper
+import wiki.scene.lib_base.mmkv.MMkvHelper
 import wiki.scene.lib_common.provider.AppProvider.Companion.instance
 import java.util.*
 
 object LanguageUtil {
     val systemLanguage: String
         get() = Locale.getDefault().language + "-" + Locale.getDefault().country
-    val currentLanguage: Locale?
+    private val currentLanguage: Locale?
         get() {
             var locale = MMkvHelper.getInstance().language
             if (locale == null) {

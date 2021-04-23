@@ -10,7 +10,7 @@ import com.hjq.permissions.Permission
 import wiki.scene.demo.R
 import wiki.scene.lib_base.base_ac.FastMainActivity
 import wiki.scene.lib_base.constant.RouterPath
-import wiki.scene.lib_base.entity.FastTabEntity
+import wiki.scene.lib_base.delegate.FastTabEntity
 
 @Route(path = RouterPath.Main.ACT_MAIN_2)
 class Main2Activity : FastMainActivity() {

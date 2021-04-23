@@ -4,12 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -20,23 +18,24 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.util.StatusBarUtil
 import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.KeyboardUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
+import com.parfoismeng.slidebacklib.registerSlideBack
+import com.parfoismeng.slidebacklib.unregisterSlideBack
 import wiki.scene.lib_base.R
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.base_util.DoubleClickExitDetector
-import wiki.scene.lib_base.base_util.InputTools
 import wiki.scene.lib_base.base_util.LanguageUtil
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.impl.IAcView
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
-import wiki.scene.lib_base.widget.slideback.SlideBack
 
 /**
  * Created by zlx on 2017/6/23.
@@ -61,8 +60,6 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseVie
         mContext = this
         afterOnCreate()
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //竖屏
-        setTheme(mTheme)
-        setSuspension()
         //绑定viewBinding
         binding = this.inflateBindingWithGeneric(layoutInflater)
 
@@ -83,12 +80,13 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseVie
 
         loadData()
 
-        doubleClickExitDetector = DoubleClickExitDetector(this, "再按一次退出", 2000)
+        doubleClickExitDetector = DoubleClickExitDetector()
 
         if (canSwipeBack()) {
             //开启滑动返回
-            SlideBack.create()
-                .attachToActivity(this)
+            registerSlideBack(true) {
+
+            }
         }
     }
 
@@ -246,7 +244,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseVie
     }
 
     /**
-     * 是否触摸edittext以外的隐藏软键盘
+     * 是否触摸editText以外的隐藏软键盘
      */
     open fun touchHideSoft(): Boolean {
         return true
@@ -281,27 +279,11 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseVie
         }
     }
 
-    /**
-     * 悬浮窗设置
-     */
-    @Suppress("DEPRECATION")
-    private fun setSuspension() {
-        val mParams = window.attributes
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        } else {
-            //xxxx为你原来给低版本设置的Type
-            mParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
-        }
-    }
-
     open fun canSwipeBack(): Boolean {
         return true
     }
 
     override fun initViews() {}
-    private val mTheme: Int
-        get() = R.style.AppTheme
 
     @SuppressLint("CheckResult")
     fun requestPermissions(vararg permissions: String) {
@@ -358,12 +340,12 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseVie
 
     override fun onPause() {
         super.onPause()
-        InputTools.hideInputMethod(this)
+        KeyboardUtils.hideSoftInput(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
+        unregisterSlideBack()
         mSavedInstanceState = null
     }
 

@@ -1,16 +1,17 @@
 package wiki.scene.demo.mvp.presenter
 
 import wiki.scene.demo.mvp.contract.MvpRecyclerViewActContract
-import wiki.scene.demo.mvp.contract.Tab3Contract
 import wiki.scene.demo.mvp.model.MvpRecyclerViewActModel
-import wiki.scene.demo.mvp.model.Tab3Model
 import wiki.scene.lib_base.base_api.res_data.ArticleListRes
 import wiki.scene.lib_base.base_mvp.impl.BasePresenter
 import wiki.scene.lib_network.bean.ApiResponse
 import wiki.scene.lib_network.livedata.FastObserver
 
 class MvpRecyclerViewActPresenter(mView: MvpRecyclerViewActContract.IView) :
-    BasePresenter<MvpRecyclerViewActModel, MvpRecyclerViewActContract.IView>(MvpRecyclerViewActModel(), mView), MvpRecyclerViewActContract.IPresenter {
+    BasePresenter<MvpRecyclerViewActModel, MvpRecyclerViewActContract.IView>(
+        MvpRecyclerViewActModel(),
+        mView
+    ), MvpRecyclerViewActContract.IPresenter {
 
     override fun getArticleList(isFirst: Boolean, loadPage: Int) {
         mBaseModel.getArticleList(loadPage)
@@ -22,7 +23,7 @@ class MvpRecyclerViewActPresenter(mView: MvpRecyclerViewActContract.IView) :
 
                 override fun onSuccess(data: ApiResponse<ArticleListRes>) {
                     data.data?.let {
-                        mBaseView.loadListDataSuccess(isFirst, it.curPage, it.total, it.datas!!)
+                        mBaseView.loadListDataSuccess(isFirst, it.curPage, it.pageCount, it.datas)
                     }
                 }
 

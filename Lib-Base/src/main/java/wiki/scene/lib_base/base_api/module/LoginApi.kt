@@ -1,14 +1,12 @@
-package wiki.scene.lib_base.base_api.module;
+package wiki.scene.lib_base.base_api.module
 
-import androidx.lifecycle.LiveData;
-
-import wiki.scene.lib_base.base_api.res_data.UserInfo;
-import wiki.scene.lib_network.bean.ApiResponse;
-
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
+import androidx.lifecycle.LiveData
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.POST
+import wiki.scene.lib_base.base_api.res_data.UserInfo
+import wiki.scene.lib_network.bean.ApiResponse
 
 /**
  * Copyright (C)
@@ -18,8 +16,7 @@ import retrofit2.http.POST;
  * Date: 2020/9/17 10:48
  * Description: 体系api
  */
-public interface LoginApi {
-
+interface LoginApi {
     /**
      * 登录
      *
@@ -29,12 +26,19 @@ public interface LoginApi {
      */
     @FormUrlEncoded
     @POST("user/login")
-    LiveData<ApiResponse<UserInfo>> login(@Field("username") String username, @Field("password") String password);
+    fun login(
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): LiveData<ApiResponse<UserInfo>>
 
     @FormUrlEncoded
     @POST("user/register")
-    LiveData<ApiResponse<UserInfo>> register(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
+    fun register(
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("repassword") repassword: String
+    ): LiveData<ApiResponse<UserInfo>>
 
     @GET("user/logout/json")
-    LiveData<ApiResponse> logout();
+    fun logout(): LiveData<ApiResponse<*>>
 }

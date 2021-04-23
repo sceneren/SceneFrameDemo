@@ -1,4 +1,4 @@
-package wiki.scene.lib_base.entity
+package wiki.scene.lib_base.delegate
 
 import android.text.TextUtils
 import androidx.fragment.app.Fragment

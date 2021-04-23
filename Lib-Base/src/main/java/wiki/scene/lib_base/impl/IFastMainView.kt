@@ -5,7 +5,7 @@ import androidx.viewpager.widget.ViewPager
 import com.aries.ui.view.tab.CommonTabLayout
 import com.aries.ui.view.tab.listener.OnTabSelectListener
 import wiki.scene.lib_base.R
-import wiki.scene.lib_base.entity.FastTabEntity
+import wiki.scene.lib_base.delegate.FastTabEntity
 
 interface IFastMainView : OnTabSelectListener {
     /**
