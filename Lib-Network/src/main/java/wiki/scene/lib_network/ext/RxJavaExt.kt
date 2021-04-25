@@ -1,4 +1,4 @@
-package wiki.scene.lib_base.ext
+package wiki.scene.lib_network.ext
 
 import com.trello.rxlifecycle2.LifecycleTransformer
 import io.reactivex.Observable

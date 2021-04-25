@@ -9,6 +9,8 @@ import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadSir
 import com.kongzue.dialogx.DialogX
+import com.kongzue.dialogx.dialogs.TipDialog
+import com.kongzue.dialogx.interfaces.BaseDialog.BOOLEAN
 import com.kongzue.dialogx.style.IOSStyle
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -21,7 +23,7 @@ import wiki.scene.lib_base.adapters.loadmore.CustomLoadMoreView
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
-import wiki.scene.lib_common.provider.CustomToastStyle
+import wiki.scene.lib_common.provider.toast.CustomToastStyle
 import wiki.scene.lib_db.manager.DbUtil
 
 /**
@@ -97,5 +99,6 @@ class CommonModuleInit : IModuleInit {
     private fun initDialogX(application: Application) {
         DialogX.init(application)
         DialogX.globalStyle = IOSStyle()
+        TipDialog.overrideCancelable = BOOLEAN.TRUE
     }
 }

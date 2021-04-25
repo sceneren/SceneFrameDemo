@@ -6,8 +6,8 @@ import wiki.scene.lib_network.exception.NetException.ResponseException
 
 abstract class BaseObserver<T> : DefaultObserver<T>() {
 
-    override fun onNext(t: T) {
-        onSuccess(t)
+    override fun onNext(data: T) {
+        onSuccess(data)
     }
 
     override fun onError(e: Throwable) {
@@ -18,7 +18,7 @@ abstract class BaseObserver<T> : DefaultObserver<T>() {
         }
     }
 
-    abstract fun onSuccess(t: T)
+    abstract fun onSuccess(data: T)
     abstract fun onFail(e: ResponseException)
     override fun onComplete() {}
 }

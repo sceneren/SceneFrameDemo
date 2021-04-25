@@ -15,10 +15,9 @@ import wiki.scene.demo.databinding.FragTab3Binding
 import wiki.scene.demo.mvp.contract.Tab3Contract
 import wiki.scene.demo.mvp.presenter.Tab3Presenter
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
-import wiki.scene.entity.ArticleBean
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewFg
-import wiki.scene.lib_base.base_util.RouterUtil
-import wiki.scene.lib_base.constant.RouterPath
+import wiki.scene.lib_common.provider.router.RouterUtil
+import wiki.scene.lib_common.provider.router.RouterPath
 
 @Route(path = RouterPath.Main.FRAG_TAB_3)
 class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, wiki.scene.entity.ArticleBean, Tab3Presenter>(),

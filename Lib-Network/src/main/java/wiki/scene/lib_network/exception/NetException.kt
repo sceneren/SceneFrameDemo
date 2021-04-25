@@ -44,12 +44,24 @@ object NetException {
             ex.message = "数据解析异常"
             ex
         } else if (e is ConnectException) {
-            ex = ResponseException(e, ERROR.NETWORD_ERROR)
+            ex = ResponseException(e, ERROR.NETWORK_ERROR)
             ex.message = "请求失败"
             ex
         } else if (e is SSLHandshakeException) {
             ex = ResponseException(e, ERROR.SSL_ERROR)
             ex.message = "证书验证失败"
+            ex
+        } else if (e is DataNullException) {
+            ex = ResponseException(e, ERROR.DATA_NULL)
+            ex.message = "返回的数据为空"
+            ex
+        } else if (e is ApiException) {
+            ex = ResponseException(e, ERROR.DATA_NULL)
+            ex.message = e.msg
+            ex
+        } else if (e is UnAuthorizedException) {
+            ex = ResponseException(e, ERROR.UNAUTHORIZED)
+            ex.message = "请先登陆"
             ex
         } else {
             ex = ResponseException(e, ERROR.UNKNOWN)
@@ -65,15 +77,9 @@ object NetException {
         /**
          * 自定义异常
          */
-        private const val UNAUTHORIZED = 401 //请求用户进行身份验证
-        private const val UNREQUEST = 403 //服务器理解请求客户端的请求，但是拒绝执行此请求
-        private const val UNFINDSOURCE = 404 //服务器无法根据客户端的请求找到资源
-        private const val SEVERERROR = 500 //服务器内部错误，无法完成请求。
+        const val UNAUTHORIZED = 2001 //请求用户进行身份验证
+        const val DATA_NULL = 2002      //数据为空
 
-        /**
-         * 协议出错
-         */
-        const val HTTP_ERROR = 1003
 
         /**
          * 未知错误
@@ -88,7 +94,12 @@ object NetException {
         /**
          * 网络错误
          */
-        const val NETWORD_ERROR = 1002
+        const val NETWORK_ERROR = 1002
+
+        /**
+         * 协议出错
+         */
+        const val HTTP_ERROR = 1003
 
         /**
          * 证书出错
@@ -100,6 +111,6 @@ object NetException {
      * 统一异常类，便于处理
      */
     class ResponseException(throwable: Throwable, var code: Int) : Exception(throwable) {
-        override var message: String? = null
+        override var message: String = ""
     }
 }

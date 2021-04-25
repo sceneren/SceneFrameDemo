@@ -6,8 +6,14 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import wiki.scene.demo.databinding.FragTab1Binding
+import wiki.scene.entity.ArticleListRes
+import wiki.scene.entity.base.BaseResponse
 import wiki.scene.lib_base.base_fg.BaseFg
-import wiki.scene.lib_base.constant.RouterPath
+import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_network.ext.bindLifecycle
+import wiki.scene.lib_network.ext.changeNew2MainThread
+import wiki.scene.lib_network.manager.ApiManager
+import wiki.scene.lib_network.observer.BaseLoadingObserver
 
 @Route(path = RouterPath.Main.FRAG_TAB_1)
 class Tab1Fragment : BaseFg<FragTab1Binding>() {
@@ -33,9 +39,16 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
         }
 
         binding.btnRecyclerViewStickyHeader.setOnClickListener {
-            ARouter.getInstance()
-                .build(RouterPath.Main.ACT_RECYCLERVIEW_STICKY_HEADER)
-                .navigation()
+
+//            ApiManager.getInstance()
+//                .articleApi()
+//                .banner()
+//                .changeNew2MainThread()
+//                .bindLifecycle(getLifecycleTransformer())
+//                .subscribe(object :BaseLoadingObserver<BaseResponse<ArticleListRes>>(){
+//
+//                })
+
         }
 
         binding.btnMvpRecyclerView.setOnClickListener {

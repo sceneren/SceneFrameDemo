@@ -1,4 +1,4 @@
-package wiki.scene.lib_base.constant
+package wiki.scene.lib_common.provider.router
 
 object RouterPath {
     //登陆

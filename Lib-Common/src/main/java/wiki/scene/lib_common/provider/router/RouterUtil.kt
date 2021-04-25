@@ -1,7 +1,7 @@
-package wiki.scene.lib_base.base_util
+package wiki.scene.lib_common.provider.router
 
 import com.alibaba.android.arouter.launcher.ARouter
-import wiki.scene.lib_base.constant.RouterPath
+import wiki.scene.lib_common.provider.router.RouterPath
 
 object RouterUtil {
     fun launchMain() {

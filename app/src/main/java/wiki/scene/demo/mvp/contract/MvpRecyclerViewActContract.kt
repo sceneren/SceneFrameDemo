@@ -14,7 +14,7 @@ class MvpRecyclerViewActContract {
     }
 
     interface IModel : IBaseModel {
-        fun getArticleList(loadPage: Int): Observable<BaseResponse<ArticleListRes>>
+        fun getArticleList(loadPage: Int): Observable<ArticleListRes>
     }
 
     interface IPresenter : IBasePresenter {

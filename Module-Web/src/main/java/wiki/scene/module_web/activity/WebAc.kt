@@ -18,7 +18,7 @@ import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.kongzue.dialogx.dialogs.BottomMenu
 import wiki.scene.lib_base.base_ac.BaseAc
-import wiki.scene.lib_base.constant.RouterPath
+import wiki.scene.lib_common.provider.router.RouterPath
 import wiki.scene.module_web.R
 import wiki.scene.module_web.WebLayout
 import wiki.scene.module_web.databinding.ModuleWebAcWebBinding
