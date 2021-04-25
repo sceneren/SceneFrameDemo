@@ -40,5 +40,5 @@ interface LoginApi {
     ): Observable<BaseResponse<UserInfo>>
 
     @GET("user/logout/json")
-    fun logout(): Observable<BaseResponse<*>>
+    fun logout(): Observable<BaseResponse<Any>>
 }

@@ -4,9 +4,9 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
+import com.blankj.utilcode.util.LogUtils
 import com.hjq.toast.ToastUtils
 import wiki.scene.demo.databinding.FragTab1Binding
-import wiki.scene.entity.BannerInfo
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_common.provider.router.RouterPath
 import wiki.scene.lib_network.exception.NetException
@@ -43,19 +43,19 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
 
             ApiTransform.transform(
                 ApiManager.getInstance()
-                    .articleApi()
-                    .banner()
+                    .loginApi()
+                    .logout()
             )
                 .changeNew2MainThread()
                 .bindLifecycle(getLifecycleTransformer())
-                .subscribe(object : BaseLoadingObserver<MutableList<BannerInfo>>() {
-                    override fun onSuccess(data: MutableList<BannerInfo>) {
+                .subscribe(object : BaseLoadingObserver<Any>(true) {
+                    override fun onSuccess(data: Any) {
                         ToastUtils.show(data.toString())
                     }
 
                     override fun onFail(e: NetException.ResponseException) {
                         super.onFail(e)
-                        ToastUtils.show(e.message)
+                        LogUtils.e(e.message)
                     }
                 })
 
