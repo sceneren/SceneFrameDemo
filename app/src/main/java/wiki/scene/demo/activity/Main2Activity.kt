@@ -78,7 +78,6 @@ class Main2Activity : FastMainActivity() {
 
     override fun reqPermissionSuccess(permissions: List<String>) {
         super.reqPermissionSuccess(permissions)
-        LogUtils.e("reqPermissionSuccess")
     }
 
     override fun setTabLayout(tabLayout: CommonTabLayout) {

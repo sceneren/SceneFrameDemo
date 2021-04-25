@@ -34,7 +34,6 @@ dependencies {
 
     api project(':Lib-DB')
     api project(':Lib-Network')
-    api project(':Lib-Bean')
 
     implementation 'com.github.ParfoisMeng:SlideBack:1.1.2'
 

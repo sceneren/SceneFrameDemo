@@ -13,16 +13,16 @@ import org.koin.android.ext.android.inject
 import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.ActRecyclerViewDemoBinding
 import wiki.scene.entity.ArticleListRes
-import wiki.scene.entity.base.BaseResponse
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_ac.BaseRecyclerViewAc
-import wiki.scene.lib_common.provider.router.RouterUtil
 import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_common.provider.router.RouterUtil
+import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
 import wiki.scene.lib_network.ext.changeIO2MainThread
-import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.manager.ApiManager
 import wiki.scene.lib_network.observer.BaseObserver
+import wiki.scene.lib_network.transform.ApiTransform
 
 @Route(path = RouterPath.Main.ACT_RECYCLERVIEW)
 class RecyclerViewDemoActivity :
@@ -67,23 +67,26 @@ class RecyclerViewDemoActivity :
     }
 
     override fun getListData(isFirst: Boolean, loadPage: Int) {
-        ApiManager.getInstance()
-            .articleApi()
-            .listArticle(loadPage)
-            .changeIO2MainThread()
-            .bindLifecycle(getLifecycleTransformer())
-            .subscribe(object : BaseObserver<BaseResponse<ArticleListRes>>() {
+
+        ApiTransform.transform(
+            ApiManager.getInstance()
+                .articleApi()
+                .listArticle(loadPage)
+                .changeIO2MainThread()
+                .bindLifecycle(getLifecycleTransformer())
+        )
+            .subscribe(object : BaseObserver<ArticleListRes>() {
                 override fun onStart() {
                     super.onStart()
                     loadListDataStart(isFirst)
                 }
 
-                override fun onSuccess(t: BaseResponse<ArticleListRes>) {
+                override fun onSuccess(data: ArticleListRes) {
                     loadListDataSuccess(
                         isFirst,
-                        t.data!!.curPage,
-                        t.data!!.pageCount,
-                        t.data!!.datas
+                        data.curPage,
+                        data.pageCount,
+                        data.datas
                     )
                 }
 

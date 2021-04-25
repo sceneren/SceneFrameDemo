@@ -7,6 +7,7 @@ import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import wiki.scene.demo.databinding.FragTab1Binding
 import wiki.scene.entity.ArticleListRes
+import wiki.scene.entity.BannerInfo
 import wiki.scene.entity.base.BaseResponse
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_common.provider.router.RouterPath
@@ -14,6 +15,7 @@ import wiki.scene.lib_network.ext.bindLifecycle
 import wiki.scene.lib_network.ext.changeNew2MainThread
 import wiki.scene.lib_network.manager.ApiManager
 import wiki.scene.lib_network.observer.BaseLoadingObserver
+import wiki.scene.lib_network.transform.ApiTransform
 
 @Route(path = RouterPath.Main.FRAG_TAB_1)
 class Tab1Fragment : BaseFg<FragTab1Binding>() {
@@ -40,14 +42,18 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
 
         binding.btnRecyclerViewStickyHeader.setOnClickListener {
 
-//            ApiManager.getInstance()
-//                .articleApi()
-//                .banner()
-//                .changeNew2MainThread()
-//                .bindLifecycle(getLifecycleTransformer())
-//                .subscribe(object :BaseLoadingObserver<BaseResponse<ArticleListRes>>(){
-//
-//                })
+            ApiTransform.transform(
+                ApiManager.getInstance()
+                    .articleApi()
+                    .banner()
+            )
+                .changeNew2MainThread()
+                .bindLifecycle(getLifecycleTransformer())
+                .subscribe(object : BaseLoadingObserver<MutableList<BannerInfo>>() {
+                    override fun onSuccess(data: MutableList<BannerInfo>) {
+
+                    }
+                })
 
         }
 
@@ -69,6 +75,5 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
     }
 
     override fun loadData() {
-        LogUtils.e("xxxx")
     }
 }

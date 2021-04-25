@@ -1,5 +1,6 @@
 package wiki.scene.lib_network.helper
 
+import com.blankj.utilcode.util.LogUtils
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -48,6 +49,12 @@ class RetrofitCreateHelper private constructor() : Serializable {
      * 初始化okhttp
      */
     private fun initOkHttp(): OkHttpClient {
+
+        val httpLoggingInterceptor = HttpLoggingInterceptor() {
+            LogUtils.e(it)
+        }
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
         return OkHttpClient().newBuilder()
             .readTimeout(TIMEOUT_CONNECTION.toLong(), TimeUnit.SECONDS) //设置读取超时时间
             .connectTimeout(TIMEOUT_READ.toLong(), TimeUnit.SECONDS) //设置请求超时时间
@@ -55,7 +62,7 @@ class RetrofitCreateHelper private constructor() : Serializable {
             .retryOnConnectionFailure(true) //设置出现错误进行重新连接。
             //失败重连
             .retryOnConnectionFailure(true)
-            .addInterceptor(HttpLoggingInterceptor()) //添加打印拦截器
+            .addInterceptor(httpLoggingInterceptor) //添加打印拦截器
             .build()
     }
 
