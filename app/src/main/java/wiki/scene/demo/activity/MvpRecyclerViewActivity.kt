@@ -14,14 +14,13 @@ import wiki.scene.demo.databinding.ActMvpRecyclerviewBinding
 import wiki.scene.demo.mvp.contract.MvpRecyclerViewActContract
 import wiki.scene.demo.mvp.presenter.MvpRecyclerViewActPresenter
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
-import wiki.scene.lib_base.base_api.res_data.ArticleBean
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewAc
 import wiki.scene.lib_base.base_util.RouterUtil
 import wiki.scene.lib_base.constant.RouterPath
 
 @Route(path = RouterPath.Main.ACT_MVP_RECYCLERVIEW)
 class MvpRecyclerViewActivity :
-    BaseMvpRecyclerViewAc<ActMvpRecyclerviewBinding, ArticleBean, MvpRecyclerViewActPresenter>(),
+    BaseMvpRecyclerViewAc<ActMvpRecyclerviewBinding, wiki.scene.entity.ArticleBean, MvpRecyclerViewActPresenter>(),
     MvpRecyclerViewActContract.IView {
 
     private val mAdapter: RecyclerViewAdapter by inject()
@@ -53,7 +52,7 @@ class MvpRecyclerViewActivity :
         }
     }
 
-    override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
+    override fun injectAdapter(): BaseQuickAdapter<wiki.scene.entity.ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
         return mAdapter
     }
 

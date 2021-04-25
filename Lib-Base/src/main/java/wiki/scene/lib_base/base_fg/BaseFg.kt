@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
@@ -15,7 +14,12 @@ import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
+import com.trello.rxlifecycle2.LifecycleTransformer
+import com.trello.rxlifecycle2.RxLifecycle
+import com.trello.rxlifecycle2.android.FragmentEvent
+import com.trello.rxlifecycle2.components.support.RxFragment
 import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.ext.changeIO2MainThread
@@ -24,7 +28,8 @@ import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
 import java.util.concurrent.TimeUnit
 
-abstract class BaseFg<VB : ViewBinding> : Fragment(), IBaseView {
+abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
+    private val lifecycleSubject = BehaviorSubject.create<FragmentEvent>()
     protected open lateinit var mContext: Context
     protected open lateinit var mActivity: AppCompatActivity
     protected open var mIsFirstShow = false
@@ -151,8 +156,9 @@ abstract class BaseFg<VB : ViewBinding> : Fragment(), IBaseView {
     private fun isVisibleToUser(fragment: BaseFg<out VB>): Boolean {
         if (fragment.parentFragment != null) {
             return isVisibleToUser(fragment.parentFragment as BaseFg<VB>) && if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
+        } else {
+            return if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
         }
-        return if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
     }
 
     @SuppressLint("CheckResult")
@@ -219,18 +225,6 @@ abstract class BaseFg<VB : ViewBinding> : Fragment(), IBaseView {
 
     }
 
-    override fun findActivity(): AppCompatActivity {
-        return this.mActivity
-    }
-
-    override fun findFragment(): Fragment? {
-        return this
-    }
-
-    override fun findContext(): Context {
-        return mContext
-    }
-
     override fun showToast(msg: String?) {
         msg?.let {
             ToastUtils.show(msg)
@@ -247,4 +241,7 @@ abstract class BaseFg<VB : ViewBinding> : Fragment(), IBaseView {
         return null
     }
 
+    override fun <B> getLifecycleTransformer(): LifecycleTransformer<B> {
+        return RxLifecycle.bindUntilEvent(lifecycle(), FragmentEvent.DESTROY_VIEW)
+    }
 }

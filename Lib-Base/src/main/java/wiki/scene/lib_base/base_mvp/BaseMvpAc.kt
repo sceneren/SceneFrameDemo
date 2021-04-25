@@ -12,9 +12,4 @@ abstract class BaseMvpAc<VB : ViewBinding, P : IBasePresenter> : BaseAc<VB>() {
     override fun beforeInitView() {
         initPresenter()
     }
-
-    override fun onDestroy() {
-        mPresenter?.onDestroy()
-        super.onDestroy()
-    }
 }

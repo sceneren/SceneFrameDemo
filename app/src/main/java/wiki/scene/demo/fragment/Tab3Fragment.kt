@@ -15,13 +15,13 @@ import wiki.scene.demo.databinding.FragTab3Binding
 import wiki.scene.demo.mvp.contract.Tab3Contract
 import wiki.scene.demo.mvp.presenter.Tab3Presenter
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
-import wiki.scene.lib_base.base_api.res_data.ArticleBean
+import wiki.scene.entity.ArticleBean
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewFg
 import wiki.scene.lib_base.base_util.RouterUtil
 import wiki.scene.lib_base.constant.RouterPath
 
 @Route(path = RouterPath.Main.FRAG_TAB_3)
-class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, ArticleBean, Tab3Presenter>(),
+class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, wiki.scene.entity.ArticleBean, Tab3Presenter>(),
     Tab3Contract.IView {
 
     private val mAdapter: RecyclerViewAdapter by inject()
@@ -57,7 +57,7 @@ class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, ArticleBean, Tab3Pre
         }
     }
 
-    override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
+    override fun injectAdapter(): BaseQuickAdapter<wiki.scene.entity.ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
         return mAdapter
     }
 

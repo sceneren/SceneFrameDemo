@@ -1,18 +1,18 @@
 package wiki.scene.demo.mvp.model
 
-import androidx.lifecycle.LiveData
+import io.reactivex.Observable
 import wiki.scene.demo.mvp.contract.Tab3Contract
-import wiki.scene.lib_base.base_api.res_data.ArticleListRes
-import wiki.scene.lib_base.base_api.util.ApiUtil
+import wiki.scene.entity.ArticleListRes
+import wiki.scene.entity.base.BaseResponse
 import wiki.scene.lib_base.base_mvp.impl.BaseModel
-import wiki.scene.lib_network.bean.ApiResponse
+import wiki.scene.lib_base.ext.changeNew2MainThread
+import wiki.scene.lib_network.manager.ApiManager
 
 class MvpRecyclerViewActModel : BaseModel(), Tab3Contract.IModel {
-    override fun getArticleList(
-        loadPage: Int
-    ): LiveData<ApiResponse<ArticleListRes>> {
-        return ApiUtil.articleApi
+    override fun getArticleList(loadPage: Int): Observable<BaseResponse<ArticleListRes>> {
+        return ApiManager.getInstance()
+            .articleApi()
             .listArticle(loadPage)
+            .changeNew2MainThread()
     }
-
 }

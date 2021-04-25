@@ -16,12 +16,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 import wiki.scene.lib_base.R
 
-/**
- * FileName: GlideUtil
- * Created by zlx on 2020/9/18 16:02
- * Email: 1170762202@qq.com
- * Description:
- */
 object GlideUtil {
 
     private fun getRoundTransformation(round: Int): MultiTransformation<Bitmap> {

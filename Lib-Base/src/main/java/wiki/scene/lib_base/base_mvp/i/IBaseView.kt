@@ -1,19 +1,10 @@
 package wiki.scene.lib_base.base_mvp.i
 
-import android.content.Context
-import android.view.View
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import com.trello.rxlifecycle2.LifecycleTransformer
 
 
 interface IBaseView {
-    fun findActivity(): AppCompatActivity
-
-    fun findFragment(): Fragment?
-
-    fun findContext(): Context
-
     fun showLoading()
 
     fun showSuccess()
@@ -27,4 +18,6 @@ interface IBaseView {
     fun showToast(@StringRes stringResId: Int)
 
     fun onRetryBtnClick()
+
+    fun <B> getLifecycleTransformer(): LifecycleTransformer<B>
 }

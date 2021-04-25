@@ -12,18 +12,21 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.koin.android.ext.android.inject
 import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.ActRecyclerViewDemoBinding
+import wiki.scene.entity.ArticleListRes
+import wiki.scene.entity.base.BaseResponse
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_ac.BaseRecyclerViewAc
-import wiki.scene.lib_base.base_api.res_data.ArticleBean
-import wiki.scene.lib_base.base_api.res_data.ArticleListRes
-import wiki.scene.lib_base.base_api.util.ApiUtil
 import wiki.scene.lib_base.base_util.RouterUtil
 import wiki.scene.lib_base.constant.RouterPath
-import wiki.scene.lib_network.bean.ApiResponse
-import wiki.scene.lib_network.livedata.FastObserver
+import wiki.scene.lib_base.ext.bindLifecycle
+import wiki.scene.lib_base.ext.changeIO2MainThread
+import wiki.scene.lib_network.exception.NetException
+import wiki.scene.lib_network.manager.ApiManager
+import wiki.scene.lib_network.observer.BaseObserver
 
 @Route(path = RouterPath.Main.ACT_RECYCLERVIEW)
-class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, ArticleBean>() {
+class RecyclerViewDemoActivity :
+    BaseRecyclerViewAc<ActRecyclerViewDemoBinding, wiki.scene.entity.ArticleBean>() {
     private val mAdapter: RecyclerViewAdapter by inject()
 
     override fun initToolBarView(titleBarView: TitleBarView) {
@@ -55,7 +58,7 @@ class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, 
         return 1
     }
 
-    override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
+    override fun injectAdapter(): BaseQuickAdapter<wiki.scene.entity.ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
         return mAdapter
     }
 
@@ -64,25 +67,29 @@ class RecyclerViewDemoActivity : BaseRecyclerViewAc<ActRecyclerViewDemoBinding, 
     }
 
     override fun getListData(isFirst: Boolean, loadPage: Int) {
-        ApiUtil.articleApi
+        ApiManager.getInstance()
+            .articleApi()
             .listArticle(loadPage)
-            .observe(this, object : FastObserver<ArticleListRes>() {
+            .changeIO2MainThread()
+            .bindLifecycle(getLifecycleTransformer())
+            .subscribe(object : BaseObserver<BaseResponse<ArticleListRes>>() {
                 override fun onStart() {
                     super.onStart()
                     loadListDataStart(isFirst)
                 }
 
-                override fun onSuccess(data: ApiResponse<ArticleListRes>) {
-                    data.data?.let {
-                        loadListDataSuccess(isFirst, it.curPage, it.pageCount, it.datas)
-                    }
+                override fun onSuccess(t: BaseResponse<ArticleListRes>) {
+                    loadListDataSuccess(
+                        isFirst,
+                        t.data!!.curPage,
+                        t.data!!.pageCount,
+                        t.data!!.datas
+                    )
                 }
 
-                override fun onFail(msg: String?) {
-                    super.onFail(msg)
+                override fun onFail(e: NetException.ResponseException) {
                     loadListDataFail(isFirst, loadPage)
                 }
-
             })
     }
 

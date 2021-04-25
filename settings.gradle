@@ -1,3 +1,4 @@
+include ':Lib-Entity'
 include ':Lib-Bean'
 include ':Lib-Aop'
 include ':Lib-Common'

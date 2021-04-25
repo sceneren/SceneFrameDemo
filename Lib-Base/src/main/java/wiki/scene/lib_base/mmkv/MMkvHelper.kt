@@ -3,7 +3,7 @@ package wiki.scene.lib_base.mmkv
 import android.text.TextUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.tencent.mmkv.MMKV
-import wiki.scene.lib_base.base_api.res_data.UserInfo
+import wiki.scene.entity.UserInfo
 import java.io.Serializable
 import java.util.*
 
@@ -35,12 +35,12 @@ class MMkvHelper private constructor() : Serializable {
     /**
      * 保存用户信息
      */
-    fun saveUserInfo(userInfo: UserInfo?) {
+    fun saveUserInfo(userInfo: wiki.scene.entity.UserInfo?) {
         mmkv?.encode(MMKVKey.USER_INFO, userInfo)
     }
 
-    val userInfo: UserInfo?
-        get() = mmkv?.decodeParcelable(MMKVKey.USER_INFO, UserInfo::class.java)
+    val userInfo: wiki.scene.entity.UserInfo?
+        get() = mmkv?.decodeParcelable(MMKVKey.USER_INFO, wiki.scene.entity.UserInfo::class.java)
 
     fun saveLanguage(locale: Locale?) {
         mmkv?.encode(MMKVKey.LANGUAGE, GsonUtils.toJson(locale))

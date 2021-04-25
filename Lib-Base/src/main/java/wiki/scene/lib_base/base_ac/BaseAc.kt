@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.util.StatusBarUtil
@@ -27,6 +26,11 @@ import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import com.parfoismeng.slidebacklib.registerSlideBack
 import com.parfoismeng.slidebacklib.unregisterSlideBack
+import com.trello.rxlifecycle2.LifecycleTransformer
+import com.trello.rxlifecycle2.RxLifecycle
+import com.trello.rxlifecycle2.android.ActivityEvent
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import io.reactivex.subjects.BehaviorSubject
 import wiki.scene.lib_base.R
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.base_util.DoubleClickExitDetector
@@ -37,10 +41,9 @@ import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
 
-/**
- * Created by zlx on 2017/6/23.
- */
-abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseView {
+
+abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
+    IBaseView {
     lateinit var binding: VB
     open var titleBarBinding: LibBaseTitleBarViewBinding? = null
 
@@ -49,6 +52,8 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseVie
 
     private var isDarkMode = false
     var mSavedInstanceState: Bundle? = null
+
+    private val lifecycleSubject = BehaviorSubject.create<ActivityEvent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         beforeOnCreate()
@@ -353,18 +358,6 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseVie
         return null
     }
 
-    override fun findActivity(): AppCompatActivity {
-        return this
-    }
-
-    override fun findFragment(): Fragment? {
-        return null
-    }
-
-    override fun findContext(): Context {
-        return mContext
-    }
-
     override fun showToast(msg: String?) {
         msg?.let {
             ToastUtils.show(msg)
@@ -377,4 +370,7 @@ abstract class BaseAc<VB : ViewBinding> : AppCompatActivity(), IAcView, IBaseVie
         }
     }
 
+    override fun <B> getLifecycleTransformer(): LifecycleTransformer<B> {
+        return RxLifecycle.bindUntilEvent(this.lifecycle(), ActivityEvent.DESTROY)
+    }
 }

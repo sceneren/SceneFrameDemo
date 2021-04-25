@@ -1,0 +1,9 @@
+apply from: "../lib_base_config.gradle"
+
+android {
+    resourcePrefix "lib_entity_"
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+}
