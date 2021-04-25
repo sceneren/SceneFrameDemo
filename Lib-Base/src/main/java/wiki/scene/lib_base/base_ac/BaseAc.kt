@@ -90,7 +90,7 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         if (canSwipeBack()) {
             //开启滑动返回
             registerSlideBack(true) {
-
+                finish()
             }
         }
     }

@@ -36,4 +36,8 @@ abstract class FastMainActivity : BaseAc<LibBaseFastActMainBinding>(), IFastMain
 
     }
 
+    override fun canSwipeBack(): Boolean {
+        return false
+    }
+
 }
