@@ -20,8 +20,8 @@ abstract class BaseLoadingObserver<T>(canNull: Boolean = false) :
             }
     }
 
-    override fun onComplete() {
-        super.onComplete()
+    override fun onNext(data: T) {
+        super.onNext(data)
         WaitDialog.dismiss()
     }
 

@@ -4,13 +4,12 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
-import com.blankj.utilcode.util.LogUtils
+import com.hjq.toast.ToastUtils
 import wiki.scene.demo.databinding.FragTab1Binding
-import wiki.scene.entity.ArticleListRes
 import wiki.scene.entity.BannerInfo
-import wiki.scene.entity.base.BaseResponse
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
 import wiki.scene.lib_network.ext.changeNew2MainThread
 import wiki.scene.lib_network.manager.ApiManager
@@ -51,7 +50,12 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
                 .bindLifecycle(getLifecycleTransformer())
                 .subscribe(object : BaseLoadingObserver<MutableList<BannerInfo>>() {
                     override fun onSuccess(data: MutableList<BannerInfo>) {
+                        ToastUtils.show(data.toString())
+                    }
 
+                    override fun onFail(e: NetException.ResponseException) {
+                        super.onFail(e)
+                        ToastUtils.show(e.message)
                     }
                 })
 

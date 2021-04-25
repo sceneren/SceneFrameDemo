@@ -15,9 +15,9 @@ abstract class BaseObserver<T>(private val canNull: Boolean = false) : DefaultOb
         if (canNull && e is DataNullException) {
             onSuccess(e.message as T)
         } else if (e is ResponseException) {
-            error(e)
+            onFail(e)
         } else {
-            onError(ResponseException(e, NetException.ERROR.UNKNOWN))
+            onError(NetException.handleException(e))
         }
     }
 
