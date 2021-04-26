@@ -1,9 +1,13 @@
 package wiki.scene.lib_network.exception
 
+import com.blankj.utilcode.util.NetworkUtils
+import com.blankj.utilcode.util.StringUtils
 import com.google.gson.JsonParseException
 import org.json.JSONException
 import retrofit2.HttpException
+import wiki.scene.lib_network.R
 import java.net.ConnectException
+import java.net.UnknownHostException
 import java.text.ParseException
 import javax.net.ssl.SSLHandshakeException
 
@@ -19,91 +23,102 @@ object NetException {
     fun handleException(e: Throwable): ResponseException {
         //转换成ResponseException,根据状态码判定错误信息
         val ex: ResponseException
-        return if (e is HttpException) {
-            /**
-             * 传入状态码，根据状态码判定错误信息
-             */
-            ex = ResponseException(e, ERROR.HTTP_ERROR)
-            when (e.code()) {
-                UNAUTHORIZED -> ex.message = "未验证"
-                FORBIDDEN -> ex.message = "服务禁止访问"
-                NOT_FOUND -> ex.message = "服务不存在"
-                REQUEST_TIMEOUT -> ex.message = "请求超时"
-                GATEWAY_TIMEOUT -> ex.message = "网关超时"
-                INTERNAL_SERVER_ERROR -> ex.message = "服务器内部错误"
-                BAD_GATEWAY -> ex.message = "请求失败"
-                SERVICE_UNAVAILABLE -> ex.message = "请求失败"
-                else -> ex.message = "请求失败"
+        return if (NetworkUtils.isConnected()) {
+            if (e is HttpException) {
+                /**
+                 * 传入状态码，根据状态码判定错误信息
+                 */
+                ex = ResponseException(e, ERROR.HTTP_ERROR)
+                when (e.code()) {
+                    UNAUTHORIZED -> ex.message =
+                        StringUtils.getString(R.string.lib_network_error_401)
+                    FORBIDDEN -> ex.message =
+                        StringUtils.getString(R.string.lib_network_error_403)
+                    NOT_FOUND -> ex.message = StringUtils.getString(R.string.lib_network_error_404)
+                    REQUEST_TIMEOUT -> ex.message =
+                        StringUtils.getString(R.string.lib_network_error_408)
+                    GATEWAY_TIMEOUT -> ex.message =
+                        StringUtils.getString(R.string.lib_network_error_504)
+                    INTERNAL_SERVER_ERROR -> ex.message =
+                        StringUtils.getString(R.string.lib_network_error_500)
+                    BAD_GATEWAY -> ex.message =
+                        StringUtils.getString(R.string.lib_network_error_502)
+                    SERVICE_UNAVAILABLE -> ex.message =
+                        StringUtils.getString(R.string.lib_network_error_503)
+                    else -> ex.message = StringUtils.getString(R.string.lib_network_request_failed)
+                }
+                ex
+            } else if (e is JsonParseException
+                || e is JSONException
+                || e is ParseException
+            ) {
+                ex = ResponseException(e, ERROR.PARSE_ERROR)
+                ex.message = StringUtils.getString(R.string.lib_network_json_parse_exception)
+                ex
+            } else if (e is ConnectException) {
+                ex = ResponseException(e, ERROR.NETWORK_ERROR)
+                ex.message = StringUtils.getString(R.string.lib_network_request_failed)
+                ex
+            } else if (e is SSLHandshakeException) {
+                ex = ResponseException(e, ERROR.SSL_ERROR)
+                ex.message = StringUtils.getString(R.string.lib_network_ssl_exception)
+                ex
+            } else if (e is UnknownHostException) {
+                ex = ResponseException(e, ERROR.HTTP_ERROR)
+                ex.message = StringUtils.getString(R.string.lib_network_unknown_host)
+                ex
+            } else if (e is DataNullException) {
+                ex = ResponseException(e, ERROR.DATA_NULL)
+                ex.message = e.message
+                ex
+            } else if (e is ApiException) {
+                ex = ResponseException(e, ERROR.DATA_NULL)
+                ex.message = e.msg
+                ex
+            } else if (e is UnAuthorizedException) {
+                ex = ResponseException(e, ERROR.UNAUTHORIZED)
+                ex.message = StringUtils.getString(R.string.lib_network_please_log_in_first)
+                ex
+            } else {
+                ex = ResponseException(e, ERROR.UNKNOWN)
+                ex.message = StringUtils.getString(R.string.lib_network_unknown_exception)
+                ex
             }
-            ex
-        } else if (e is JsonParseException
-            || e is JSONException
-            || e is ParseException
-        ) {
-            ex = ResponseException(e, ERROR.PARSE_ERROR)
-            ex.message = "数据解析异常"
-            ex
-        } else if (e is ConnectException) {
-            ex = ResponseException(e, ERROR.NETWORK_ERROR)
-            ex.message = "请求失败"
-            ex
-        } else if (e is SSLHandshakeException) {
-            ex = ResponseException(e, ERROR.SSL_ERROR)
-            ex.message = "证书验证失败"
-            ex
-        } else if (e is DataNullException) {
-            ex = ResponseException(e, ERROR.DATA_NULL)
-            ex.message = "返回的数据为空"
-            ex
-        } else if (e is ApiException) {
-            ex = ResponseException(e, ERROR.DATA_NULL)
-            ex.message = e.msg
-            ex
-        } else if (e is UnAuthorizedException) {
-            ex = ResponseException(e, ERROR.UNAUTHORIZED)
-            ex.message = "请先登陆"
-            ex
         } else {
-            ex = ResponseException(e, ERROR.UNKNOWN)
-            ex.message = "未知错误"
+            ex = ResponseException(e, ERROR.HTTP_ERROR)
+            ex.message = StringUtils.getString(R.string.lib_network_Please_check_the_network)
             ex
         }
+
+
     }
 
     /**
      * 约定异常
      */
     object ERROR {
-        /**
-         * 自定义异常
-         */
-        const val UNAUTHORIZED = 2001 //请求用户进行身份验证
-        const val DATA_NULL = 2002      //数据为空
+        //成功
+        const val SUCCESS = 0
 
+        //请求用户进行身份验证
+        const val UNAUTHORIZED = 2001
 
-        /**
-         * 未知错误
-         */
+        //数据为空
+        const val DATA_NULL = 2002
+
+        //未知错误
         const val UNKNOWN = 1000
 
-        /**
-         * 解析错误
-         */
+        //解析错误
         const val PARSE_ERROR = 1001
 
-        /**
-         * 网络错误
-         */
+        //网络错误
         const val NETWORK_ERROR = 1002
 
-        /**
-         * 协议出错
-         */
+        //协议出错
         const val HTTP_ERROR = 1003
 
-        /**
-         * 证书出错
-         */
+        //证书出错
         const val SSL_ERROR = 1005
     }
 

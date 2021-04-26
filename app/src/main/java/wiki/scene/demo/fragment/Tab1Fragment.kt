@@ -4,7 +4,6 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
-import com.blankj.utilcode.util.LogUtils
 import com.hjq.toast.ToastUtils
 import wiki.scene.demo.databinding.FragTab1Binding
 import wiki.scene.lib_base.base_fg.BaseFg
@@ -48,14 +47,14 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
             )
                 .changeNew2MainThread()
                 .bindLifecycle(getLifecycleTransformer())
-                .subscribe(object : BaseLoadingObserver<Any>(true) {
-                    override fun onSuccess(data: Any) {
-                        ToastUtils.show(data.toString())
+                .subscribe(object : BaseLoadingObserver<String>(true) {
+                    override fun onSuccess(data: String) {
+                        ToastUtils.show("成功：$data")
                     }
 
                     override fun onFail(e: NetException.ResponseException) {
                         super.onFail(e)
-                        LogUtils.e(e.message)
+                        ToastUtils.show("失败 ：${e.message}")
                     }
                 })
 

@@ -9,6 +9,7 @@ import wiki.scene.lib_common.R
 import wiki.scene.lib_common.databinding.LibCommonWaitDialogCustomBinding
 
 object CustomWaitDialog {
+
     fun show(@StringRes resId: Int): WaitDialog {
         return show(StringUtils.getString(resId))
     }

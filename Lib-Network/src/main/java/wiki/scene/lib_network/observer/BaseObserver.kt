@@ -24,5 +24,8 @@ abstract class BaseObserver<T>(private val canNull: Boolean = false) : DefaultOb
 
     abstract fun onSuccess(data: T)
     abstract fun onFail(e: ResponseException)
-    override fun onComplete() {}
+
+    override fun onComplete() {
+
+    }
 }
