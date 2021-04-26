@@ -49,6 +49,7 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
                 .bindLifecycle(getLifecycleTransformer())
                 .subscribe(object : BaseLoadingObserver<String>(true) {
                     override fun onSuccess(data: String) {
+                        super.onSuccess(data)
                         ToastUtils.show("成功：$data")
                     }
 
