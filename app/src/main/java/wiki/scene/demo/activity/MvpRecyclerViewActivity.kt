@@ -15,8 +15,8 @@ import wiki.scene.demo.mvp.contract.MvpRecyclerViewActContract
 import wiki.scene.demo.mvp.presenter.MvpRecyclerViewActPresenter
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewAc
-import wiki.scene.lib_common.provider.router.RouterUtil
-import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_common.router.RouterUtil
+import wiki.scene.lib_common.router.RouterPath
 
 @Route(path = RouterPath.Main.ACT_MVP_RECYCLERVIEW)
 class MvpRecyclerViewActivity :

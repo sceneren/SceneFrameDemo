@@ -5,7 +5,7 @@ import com.blankj.utilcode.util.StringUtils
 import com.google.gson.JsonParseException
 import org.json.JSONException
 import retrofit2.HttpException
-import wiki.scene.lib_common.provider.router.RouterUtil
+import wiki.scene.lib_common.router.RouterUtil
 import wiki.scene.lib_network.R
 import java.net.ConnectException
 import java.net.UnknownHostException

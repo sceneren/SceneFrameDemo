@@ -1,7 +1,6 @@
 package wiki.scene.lib_network.observer
 
 import io.reactivex.observers.DefaultObserver
-import wiki.scene.lib_common.provider.router.RouterUtil
 import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.exception.NetException.ResponseException
 

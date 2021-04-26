@@ -38,12 +38,8 @@ dependencies {
     implementation 'com.github.ParfoisMeng:SlideBack:1.1.2'
 
     api rootProject.ext.dependencies.mmkv
-    api rootProject.ext.dependencies.retrofitConvertGson
-    api rootProject.ext.dependencies.retrofitConvertScalars
-    api rootProject.ext.dependencies.retrofit
-    api rootProject.ext.dependencies.retrofitAdapterRxJava2
-    api rootProject.ext.dependencies.rxJava
-    api rootProject.ext.dependencies.rxAndroid
-    api rootProject.ext.dependencies.okhttp
+
+    api 'com.github.SherlockGougou:BigImageViewPager:androidx-6.0.1'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
 
 }

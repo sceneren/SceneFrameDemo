@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.Build
 import android.os.LocaleList
 import wiki.scene.lib_base.mmkv.MMkvHelper
-import wiki.scene.lib_common.provider.app.AppProvider.Companion.instance
+import wiki.scene.lib_common.app.AppProvider.Companion.instance
 import java.util.*
 
 object LanguageUtil {

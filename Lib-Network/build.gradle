@@ -6,15 +6,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-     api rootProject.ext.dependencies.retrofitConvertGson
-     api rootProject.ext.dependencies.retrofitConvertScalars
-     api rootProject.ext.dependencies.retrofit
-     api rootProject.ext.dependencies.retrofitAdapterRxJava2
-     api rootProject.ext.dependencies.okhttp
-     api rootProject.ext.dependencies.loggingInterceptor
+    api rootProject.ext.dependencies.retrofitConvertGson
+    api rootProject.ext.dependencies.retrofitConvertScalars
+    api rootProject.ext.dependencies.retrofit
+    api rootProject.ext.dependencies.retrofitAdapterRxJava2
+    api rootProject.ext.dependencies.okhttp
+    api rootProject.ext.dependencies.loggingInterceptor
 
-    api "io.reactivex.rxjava2:rxjava:2.2.21"
-    api "io.reactivex.rxjava2:rxandroid:2.1.1"
+    api rootProject.ext.dependencies.rxJava
+    api rootProject.ext.dependencies.rxAndroid
 
     api 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     api 'com.github.razerdp:BasePopup:2.2.9'

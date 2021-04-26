@@ -10,17 +10,20 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.koin.android.ext.android.inject
+import wiki.scene.demo.R
 import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.FragTab3Binding
 import wiki.scene.demo.mvp.contract.Tab3Contract
 import wiki.scene.demo.mvp.presenter.Tab3Presenter
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewFg
-import wiki.scene.lib_common.provider.router.RouterUtil
-import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_base.priview.ImagePreviewUtils
+import wiki.scene.lib_common.router.RouterUtil
+import wiki.scene.lib_common.router.RouterPath
 
 @Route(path = RouterPath.Main.FRAG_TAB_3)
-class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, wiki.scene.entity.ArticleBean, Tab3Presenter>(),
+class Tab3Fragment :
+    BaseMvpRecyclerViewFg<FragTab3Binding, wiki.scene.entity.ArticleBean, Tab3Presenter>(),
     Tab3Contract.IView {
 
     private val mAdapter: RecyclerViewAdapter by inject()
@@ -53,6 +56,14 @@ class Tab3Fragment : BaseMvpRecyclerViewFg<FragTab3Binding, wiki.scene.entity.Ar
         mAdapter.setOnItemClickListener { _, _, position ->
             val url = mAdapter.data[position].link
             RouterUtil.launchWeb(url)
+        }
+
+        mAdapter.setOnItemChildClickListener { _, view, position ->
+            when (view.id) {
+                R.id.ivImage -> {
+                    ImagePreviewUtils.preview(mActivity, mutableListOf("https://github.com/wasabeef/glide-transformations/raw/main/art/demo-org.jpg"),0)
+                }
+            }
         }
     }
 

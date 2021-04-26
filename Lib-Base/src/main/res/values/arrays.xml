@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="lib_base_preview_image_long_click">
+        <item>@string/lib_base_save_picture</item>
+    </array>
+</resources>

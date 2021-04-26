@@ -7,7 +7,7 @@ import com.aries.ui.view.title.TitleBarView
 import com.hjq.toast.ToastUtils
 import wiki.scene.demo.databinding.FragTab1Binding
 import wiki.scene.lib_base.base_fg.BaseFg
-import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
 import wiki.scene.lib_network.ext.transformData

@@ -1,4 +1,4 @@
-package wiki.scene.lib_base.base_util
+package wiki.scene.lib_base.glide
 
 import android.content.Context
 import android.graphics.Bitmap

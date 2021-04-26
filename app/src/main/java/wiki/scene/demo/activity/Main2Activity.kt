@@ -9,7 +9,7 @@ import com.blankj.utilcode.util.LogUtils
 import com.hjq.permissions.Permission
 import wiki.scene.demo.R
 import wiki.scene.lib_base.base_ac.FastMainActivity
-import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_base.delegate.FastTabEntity
 
 @Route(path = RouterPath.Main.ACT_MAIN_2)

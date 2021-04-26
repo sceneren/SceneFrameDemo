@@ -2,4 +2,9 @@
     <string name="lib_base_click_me_to_retry">点击重试!</string>
     <string name="lib_base_no_data">暂无数据</string>
     <string name="lib_base_press_again_exit">再按一次退出程序</string>
+    <string name="lib_base_saved_successfully">保存成功</string>
+    <string name="lib_base_save_failed">保存失败</string>
+    <string name="lib_base_save_picture">保存图片</string>
+    <string name="lib_base_cancel">取消</string>
+    <string name="lib_base_permission_denied">授权失败</string>
 </resources>

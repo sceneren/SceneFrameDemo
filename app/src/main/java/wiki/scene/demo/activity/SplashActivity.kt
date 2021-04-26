@@ -7,7 +7,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
 import wiki.scene.demo.databinding.ActSplashBinding
 import wiki.scene.lib_base.base_ac.BaseAc
-import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_common.router.RouterPath
 
 class SplashActivity : BaseAc<ActSplashBinding>() {
 

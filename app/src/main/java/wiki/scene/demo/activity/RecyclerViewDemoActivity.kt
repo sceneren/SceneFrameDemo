@@ -15,8 +15,8 @@ import wiki.scene.demo.databinding.ActRecyclerViewDemoBinding
 import wiki.scene.entity.ArticleListRes
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_ac.BaseRecyclerViewAc
-import wiki.scene.lib_common.provider.router.RouterPath
-import wiki.scene.lib_common.provider.router.RouterUtil
+import wiki.scene.lib_common.router.RouterPath
+import wiki.scene.lib_common.router.RouterUtil
 import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
 import wiki.scene.lib_network.ext.transformData

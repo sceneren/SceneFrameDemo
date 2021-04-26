@@ -1,4 +1,4 @@
-package wiki.scene.lib_common.provider.app
+package wiki.scene.lib_common.app
 
 import android.annotation.SuppressLint
 import android.app.Application

@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
 import wiki.scene.lib_aop.checklogin.annotation.CheckLogin
-import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_base.mmkv.MMkvHelper
 
 /**

@@ -1,4 +1,4 @@
-package wiki.scene.lib_common.provider.app
+package wiki.scene.lib_common.app
 
 import android.app.Application
 

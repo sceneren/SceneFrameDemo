@@ -2,7 +2,7 @@ package wiki.scene.lib_network.observer
 
 import com.kongzue.dialogx.dialogs.WaitDialog
 import com.kongzue.dialogx.interfaces.DialogLifecycleCallback
-import wiki.scene.lib_common.provider.dialog.CustomWaitDialog
+import wiki.scene.lib_common.dialog.CustomWaitDialog
 import wiki.scene.lib_network.R
 import wiki.scene.lib_network.exception.NetException
 

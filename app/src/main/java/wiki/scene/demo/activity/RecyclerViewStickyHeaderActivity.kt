@@ -4,7 +4,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.aries.ui.view.title.TitleBarView
 import wiki.scene.demo.databinding.ActRecyclerviewStickyHeaderBinding
 import wiki.scene.lib_base.base_ac.BaseAc
-import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_common.router.RouterPath
 
 @Route(path = RouterPath.Main.ACT_RECYCLERVIEW_STICKY_HEADER)
 class RecyclerViewStickyHeaderActivity : BaseAc<ActRecyclerviewStickyHeaderBinding>() {

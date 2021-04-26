@@ -57,7 +57,8 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        mContext = (context as AppCompatActivity)
+        mActivity = requireActivity() as AppCompatActivity
+        mContext = requireContext()
         mIsFirstShow = true
         ARouter.getInstance().inject(this)
     }

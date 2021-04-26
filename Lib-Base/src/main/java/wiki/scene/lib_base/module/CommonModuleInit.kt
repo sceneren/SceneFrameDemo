@@ -2,7 +2,6 @@ package wiki.scene.lib_base.module
 
 import android.app.Application
 import android.content.Context
-import android.view.Gravity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.AppUtils
 import com.chad.library.adapter.base.module.LoadMoreModuleConfig
@@ -24,7 +23,7 @@ import wiki.scene.lib_base.adapters.loadmore.CustomLoadMoreView
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
-import wiki.scene.lib_common.provider.toast.CustomToastStyle
+import wiki.scene.lib_common.toast.CustomToastStyle
 import wiki.scene.lib_db.manager.DbUtil
 
 /**

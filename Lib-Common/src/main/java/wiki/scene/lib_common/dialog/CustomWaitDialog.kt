@@ -1,4 +1,4 @@
-package wiki.scene.lib_common.provider.dialog
+package wiki.scene.lib_common.dialog
 
 import android.view.View
 import androidx.annotation.StringRes

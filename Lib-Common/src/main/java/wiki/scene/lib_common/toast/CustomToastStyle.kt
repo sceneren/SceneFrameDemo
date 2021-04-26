@@ -1,4 +1,4 @@
-package wiki.scene.lib_common.provider.toast
+package wiki.scene.lib_common.toast
 
 import android.content.Context
 import android.graphics.Color

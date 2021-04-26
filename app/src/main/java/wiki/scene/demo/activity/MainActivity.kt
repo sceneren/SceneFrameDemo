@@ -6,7 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import wiki.scene.demo.R
 import wiki.scene.demo.databinding.ActMainBinding
 import wiki.scene.lib_base.base_ac.BaseAc
-import wiki.scene.lib_common.provider.router.RouterPath
+import wiki.scene.lib_common.router.RouterPath
 
 @Route(path = RouterPath.Main.ACT_MAIN)
 class MainActivity : BaseAc<ActMainBinding>() {
