@@ -2,6 +2,7 @@ package wiki.scene.lib_base.module
 
 import android.app.Application
 import android.content.Context
+import android.view.Gravity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.AppUtils
 import com.chad.library.adapter.base.module.LoadMoreModuleConfig
@@ -89,7 +90,7 @@ class CommonModuleInit : IModuleInit {
     }
 
     private fun initToast(application: Application) {
-        ToastUtils.init(application, CustomToastStyle(application))
+        ToastUtils.init(application, CustomToastStyle())
     }
 
     private fun initPermission() {
