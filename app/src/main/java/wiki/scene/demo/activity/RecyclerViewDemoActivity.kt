@@ -19,10 +19,9 @@ import wiki.scene.lib_common.provider.router.RouterPath
 import wiki.scene.lib_common.provider.router.RouterUtil
 import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
-import wiki.scene.lib_network.ext.changeIO2MainThread
+import wiki.scene.lib_network.ext.transformData
 import wiki.scene.lib_network.manager.ApiManager
 import wiki.scene.lib_network.observer.BaseObserver
-import wiki.scene.lib_network.transform.ApiTransform
 
 @Route(path = RouterPath.Main.ACT_RECYCLERVIEW)
 class RecyclerViewDemoActivity :
@@ -68,13 +67,11 @@ class RecyclerViewDemoActivity :
 
     override fun getListData(isFirst: Boolean, loadPage: Int) {
 
-        ApiTransform.transform(
-            ApiManager.getInstance()
-                .articleApi()
-                .listArticle(loadPage)
-                .changeIO2MainThread()
-                .bindLifecycle(getLifecycleTransformer())
-        )
+        ApiManager.getInstance()
+            .articleApi()
+            .listArticle(loadPage)
+            .bindLifecycle(getLifecycleTransformer())
+            .transformData()
             .subscribe(object : BaseObserver<ArticleListRes>() {
                 override fun onStart() {
                     super.onStart()

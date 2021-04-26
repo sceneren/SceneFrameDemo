@@ -5,6 +5,7 @@ import com.blankj.utilcode.util.StringUtils
 import com.google.gson.JsonParseException
 import org.json.JSONException
 import retrofit2.HttpException
+import wiki.scene.lib_common.provider.router.RouterUtil
 import wiki.scene.lib_network.R
 import java.net.ConnectException
 import java.net.UnknownHostException
@@ -75,8 +76,9 @@ object NetException {
                 ex = ResponseException(e, ERROR.DATA_NULL)
                 ex.message = e.msg
                 ex
-            } else if (e is UnAuthorizedException) {
-                ex = ResponseException(e, ERROR.UNAUTHORIZED)
+            } else if (e is UnLoginException) {
+                RouterUtil.launchLogin()
+                ex = ResponseException(e, ERROR.UN_LOGIN)
                 ex.message = StringUtils.getString(R.string.lib_network_please_log_in_first)
                 ex
             } else {
@@ -101,7 +103,7 @@ object NetException {
         const val SUCCESS = 0
 
         //请求用户进行身份验证
-        const val UNAUTHORIZED = 2001
+        const val UN_LOGIN = 2001
 
         //数据为空
         const val DATA_NULL = 2002

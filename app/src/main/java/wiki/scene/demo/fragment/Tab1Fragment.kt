@@ -10,10 +10,9 @@ import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_common.provider.router.RouterPath
 import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
-import wiki.scene.lib_network.ext.changeNew2MainThread
+import wiki.scene.lib_network.ext.transformData
 import wiki.scene.lib_network.manager.ApiManager
 import wiki.scene.lib_network.observer.BaseLoadingObserver
-import wiki.scene.lib_network.transform.ApiTransform
 
 @Route(path = RouterPath.Main.FRAG_TAB_1)
 class Tab1Fragment : BaseFg<FragTab1Binding>() {
@@ -40,12 +39,10 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
 
         binding.btnRecyclerViewStickyHeader.setOnClickListener {
 
-            ApiTransform.transform(
-                ApiManager.getInstance()
-                    .loginApi()
-                    .logout()
-            )
-                .changeNew2MainThread()
+            ApiManager.getInstance()
+                .loginApi()
+                .logout()
+                .transformData()
                 .bindLifecycle(getLifecycleTransformer())
                 .subscribe(object : BaseLoadingObserver<String>(true) {
                     override fun onSuccess(data: String) {
