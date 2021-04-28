@@ -9,8 +9,8 @@ import com.blankj.utilcode.util.LogUtils
 import com.hjq.permissions.Permission
 import wiki.scene.demo.R
 import wiki.scene.lib_base.base_ac.FastMainActivity
-import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_base.delegate.FastTabEntity
+import wiki.scene.lib_common.router.RouterPath
 
 @Route(path = RouterPath.Main.ACT_MAIN_2)
 class Main2Activity : FastMainActivity() {
@@ -82,8 +82,8 @@ class Main2Activity : FastMainActivity() {
 
     override fun setTabLayout(tabLayout: CommonTabLayout) {
         super.setTabLayout(tabLayout)
-        tabLayout.delegate.textUnSelectColor=Color.parseColor("#5E607D")
-        tabLayout.delegate.textSelectColor=Color.parseColor("#EA39B5")
+        tabLayout.delegate.textUnSelectColor = Color.parseColor("#5E607D")
+        tabLayout.delegate.textSelectColor = Color.parseColor("#EA39B5")
     }
 
 }
