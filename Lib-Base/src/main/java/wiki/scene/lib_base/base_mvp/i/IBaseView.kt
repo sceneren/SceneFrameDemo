@@ -19,5 +19,5 @@ interface IBaseView {
 
     fun onRetryBtnClick()
 
-    fun <B> getLifecycleTransformer(): LifecycleTransformer<B>
+    fun <T> getLifecycleTransformer(): LifecycleTransformer<T>
 }

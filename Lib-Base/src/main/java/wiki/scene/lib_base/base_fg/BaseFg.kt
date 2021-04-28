@@ -22,10 +22,10 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
-import wiki.scene.lib_network.ext.changeIO2MainThread
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
+import wiki.scene.lib_network.ext.changeIO2MainThread
 import java.util.concurrent.TimeUnit
 
 abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
@@ -242,7 +242,7 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
         return null
     }
 
-    override fun <B> getLifecycleTransformer(): LifecycleTransformer<B> {
+    override fun <T> getLifecycleTransformer(): LifecycleTransformer<T> {
         return RxLifecycle.bindUntilEvent(lifecycle(), FragmentEvent.DESTROY_VIEW)
     }
 }

@@ -370,7 +370,7 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         }
     }
 
-    override fun <B> getLifecycleTransformer(): LifecycleTransformer<B> {
+    override fun <T> getLifecycleTransformer(): LifecycleTransformer<T> {
         return RxLifecycle.bindUntilEvent(this.lifecycle(), ActivityEvent.DESTROY)
     }
 }

@@ -16,7 +16,7 @@ class MvpRecyclerViewActPresenter(mView: MvpRecyclerViewActContract.IView) :
 
     override fun getArticleList(isFirst: Boolean, loadPage: Int) {
         mBaseModel.getArticleList(loadPage)
-            .bindLifecycle(mBaseView.getLifecycleTransformer())
+            .bindLifecycle(getLifecycle())
             .subscribe(object : BaseObserver<ArticleListRes>() {
                 override fun onStart() {
                     super.onStart()
