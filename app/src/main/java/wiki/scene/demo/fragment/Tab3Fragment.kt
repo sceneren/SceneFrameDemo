@@ -61,7 +61,10 @@ class Tab3Fragment :
         mAdapter.setOnItemChildClickListener { _, view, position ->
             when (view.id) {
                 R.id.ivImage -> {
-                    ImagePreviewUtils.preview(mActivity, mutableListOf("https://github.com/wasabeef/glide-transformations/raw/main/art/demo-org.jpg"),0)
+                    ImagePreviewUtils.preview(
+                        mActivity,
+                        mutableListOf("https://pic.rmb.bdstatic.com/bjh/down/2331bb86e656e5a574d211113d154325.gif")
+                    )
                 }
             }
         }

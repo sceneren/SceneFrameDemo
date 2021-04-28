@@ -14,7 +14,7 @@ class RecyclerViewAdapter :
             tvName.text = item.title
             GlideUtil.loadRoundImage(
                 ivImage,
-                "https://github.com/wasabeef/glide-transformations/raw/main/art/demo-org.jpg",
+                "https://pic.rmb.bdstatic.com/bjh/down/2331bb86e656e5a574d211113d154325.gif",
             )
             addChildClickViewIds(ivImage.id)
         }

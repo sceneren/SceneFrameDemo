@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="wiki.scene.demo">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -19,9 +16,9 @@
         android:requestLegacyExternalStorage="true"
         android:resizeableActivity="true"
         android:supportsRtl="true"
-        tools:replace="android:networkSecurityConfig"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true"
+        tools:replace="android:networkSecurityConfig"
         tools:targetApi="n">
 
         <meta-data
@@ -48,7 +45,8 @@
             android:name="android.vendor.full_screen"
             android:value="true" />
 
-        <activity android:name=".activity.SplashActivity"
+        <activity
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NormalSplash">
             <intent-filter>
