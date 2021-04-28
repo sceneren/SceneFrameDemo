@@ -5,8 +5,11 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.title.TitleBarView
 import com.hjq.toast.ToastUtils
+import com.luck.picture.lib.entity.LocalMedia
 import wiki.scene.demo.databinding.FragTab1Binding
 import wiki.scene.lib_base.base_fg.BaseFg
+import wiki.scene.lib_base.picture.selector.OnChooseImageListener
+import wiki.scene.lib_base.picture.selector.PictureSelectorUtil
 import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
@@ -62,6 +65,15 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
             ARouter.getInstance()
                 .build(RouterPath.Main.ACT_MVP_RECYCLERVIEW)
                 .navigation()
+        }
+
+        binding.btnChooseImage.setOnClickListener {
+            PictureSelectorUtil.select(this, object : OnChooseImageListener() {
+                override fun onResult(result: MutableList<LocalMedia>?) {
+
+                }
+
+            })
         }
 
     }
