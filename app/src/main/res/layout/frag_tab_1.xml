@@ -6,46 +6,58 @@
 
     <include layout="@layout/lib_base_title_bar_view" />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/dp_16">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnTab"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="中间凸出的TabLayout"
-            android:textColor="@color/white" />
+            android:orientation="vertical"
+            android:padding="@dimen/dp_16">
 
-        <Button
-            android:id="@+id/btnTest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="测试RecyclerView" />
+            <Button
+                android:id="@+id/btnTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="中间凸出的TabLayout"
+                android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/btnRecyclerViewStickyHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="吸顶的RecyclerView" />
+            <Button
+                android:id="@+id/btnTest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="测试RecyclerView" />
 
-        <Button
-            android:id="@+id/btnMvpRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MVP RecyclerView"
-            android:textAllCaps="false" />
+            <Button
+                android:id="@+id/btnRecyclerViewStickyHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="吸顶的RecyclerView" />
 
-        <Button
-            android:id="@+id/btn_choose_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="选择图片"
-            android:textAllCaps="false" />
+            <Button
+                android:id="@+id/btnMvpRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MVP RecyclerView"
+                android:textAllCaps="false" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btn_choose_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="选择图片"
+                android:textAllCaps="false" />
+
+            <EditText
+                android:id="@+id/et_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="200dp"
+                android:hint="请输入内容" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>
