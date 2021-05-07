@@ -69,7 +69,6 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         binding = this.inflateBindingWithGeneric(layoutInflater)
 
         setContentView(binding.root)
-
         if (hasTitleBarView()) {
             titleBarBinding = LibBaseTitleBarViewBinding.bind(binding.root)
             initToolBarView(titleBarBinding!!.libBaseTvTitleBar)
