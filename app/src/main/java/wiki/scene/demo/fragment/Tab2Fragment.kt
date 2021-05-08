@@ -10,7 +10,8 @@ import wiki.scene.lib_common.router.RouterPath
 class Tab2Fragment : BaseFg<FragTab2Binding>() {
     override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.title=("TAB2")
+        titleBarView.title = ("TAB2")
+        titleBarView.rightTitle = "测试"
     }
 
     override fun hasTitleBarView(): Boolean {

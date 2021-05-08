@@ -3,15 +3,12 @@ package wiki.scene.module_web.activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.view.Gravity
 import android.view.View
 import android.webkit.WebView
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.blankj.utilcode.util.LogUtils
-import com.blankj.utilcode.util.SizeUtils
 import com.hjq.bar.TitleBar
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
@@ -20,6 +17,7 @@ import com.just.agentweb.WebViewClient
 import com.kongzue.dialogx.dialogs.BottomMenu
 import wiki.scene.lib_base.base_ac.BaseAc
 import wiki.scene.lib_common.router.RouterPath
+import wiki.scene.lib_common.title.addCustomRightView
 import wiki.scene.module_web.R
 import wiki.scene.module_web.WebLayout
 import wiki.scene.module_web.databinding.ModuleWebAcWebBinding
@@ -66,11 +64,7 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
                     return@setOnMenuItemClickListener false
                 }
         }
-        val params = FrameLayout.LayoutParams(SizeUtils.dp2px(100F), SizeUtils.dp2px(30F))
-        params.gravity = Gravity.END or Gravity.CENTER_VERTICAL
-        params.marginStart = SizeUtils.dp2px(10F)
-        params.marginEnd = SizeUtils.dp2px(10F)
-        titleBarView.addView(rightActionView, params)
+        titleBarView.addCustomRightView(rightActionView, 100F, 30F)
     }
 
     override fun onTitleLeftClick() {

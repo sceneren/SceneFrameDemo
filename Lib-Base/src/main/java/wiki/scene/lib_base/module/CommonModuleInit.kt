@@ -5,6 +5,7 @@ import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.AppUtils
 import com.chad.library.adapter.base.module.LoadMoreModuleConfig
+import com.hjq.bar.TitleBar
 import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadSir
@@ -23,6 +24,7 @@ import wiki.scene.lib_base.adapters.loadmore.CustomLoadMoreView
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
+import wiki.scene.lib_common.title.CustomBarStyle
 import wiki.scene.lib_common.toast.CustomToastStyle
 import wiki.scene.lib_db.manager.DbUtil
 
@@ -42,6 +44,7 @@ class CommonModuleInit : IModuleInit {
         initMMKV(application)
         initLoadSir()
         initDB(application)
+        initTitleBar()
         return false
     }
 
@@ -100,5 +103,9 @@ class CommonModuleInit : IModuleInit {
         DialogX.init(application)
         DialogX.globalStyle = IOSStyle()
         TipDialog.overrideCancelable = BOOLEAN.TRUE
+    }
+
+    private fun initTitleBar() {
+        TitleBar.setDefaultStyle(CustomBarStyle())
     }
 }
