@@ -9,8 +9,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
-import com.aries.ui.view.title.TitleBarView
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.gyf.immersionbar.ImmersionBar
+import com.hjq.bar.TitleBar
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
@@ -47,6 +48,7 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
     private var _binding: VB? = null
     open val binding: VB get() = _binding!!
 
+    private var isDarkMode = true
     open var titleBarBinding: LibBaseTitleBarViewBinding? = null
 
 
@@ -121,7 +123,23 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
             titleBarBinding = LibBaseTitleBarViewBinding.bind(binding.root)
             initToolBarView(titleBarBinding!!.libBaseTvTitleBar)
         }
+        initImmersionBar()
         initViews()
+    }
+
+    private fun initImmersionBar() {
+        if (hasTitleBarView()) {
+            ImmersionBar.with(this)
+                .titleBar(titleBarBinding!!.libBaseTvTitleBar)
+                .statusBarDarkFont(isDarkMode)
+                .keyboardEnable(true)
+                .init()
+        } else {
+            ImmersionBar.with(this)
+                .transparentStatusBar()
+                .statusBarDarkFont(isDarkMode)
+                .init()
+        }
     }
 
     abstract fun loadData()
@@ -241,7 +259,7 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
         return false
     }
 
-    open fun initToolBarView(titleBarView: TitleBarView) {
+    open fun initToolBarView(titleBarView: TitleBar) {
 
     }
 
@@ -263,5 +281,9 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
 
     override fun <T> getLifecycleTransformer(): LifecycleTransformer<T> {
         return RxLifecycle.bindUntilEvent(lifecycle(), FragmentEvent.DESTROY_VIEW)
+    }
+
+    open fun isDarkMode(isDarkMode: Boolean) {
+        this.isDarkMode = isDarkMode
     }
 }

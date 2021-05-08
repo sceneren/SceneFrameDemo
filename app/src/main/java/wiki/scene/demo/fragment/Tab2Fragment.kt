@@ -1,16 +1,16 @@
 package wiki.scene.demo.fragment
 
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.aries.ui.view.title.TitleBarView
+import com.hjq.bar.TitleBar
 import wiki.scene.demo.databinding.FragTab2Binding
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_common.router.RouterPath
 
 @Route(path = RouterPath.Main.FRAG_TAB_2)
 class Tab2Fragment : BaseFg<FragTab2Binding>() {
-    override fun initToolBarView(titleBarView: TitleBarView) {
+    override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.setTitleMainText("TAB2")
+        titleBarView.title=("TAB2")
     }
 
     override fun hasTitleBarView(): Boolean {

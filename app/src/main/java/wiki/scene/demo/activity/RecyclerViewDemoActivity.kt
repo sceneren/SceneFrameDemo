@@ -5,9 +5,9 @@ import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.aries.ui.view.title.TitleBarView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
+import com.hjq.bar.TitleBar
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.koin.android.ext.android.inject
 import wiki.scene.demo.adapter.RecyclerViewAdapter
@@ -28,9 +28,9 @@ class RecyclerViewDemoActivity :
     BaseRecyclerViewAc<ActRecyclerViewDemoBinding, wiki.scene.entity.ArticleBean>() {
     private val mAdapter: RecyclerViewAdapter by inject()
 
-    override fun initToolBarView(titleBarView: TitleBarView) {
+    override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.setTitleMainText("首页")
+        titleBarView.title = ("首页")
     }
 
     override fun initRecyclerView() {

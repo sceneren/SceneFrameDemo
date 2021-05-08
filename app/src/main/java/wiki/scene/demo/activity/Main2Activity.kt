@@ -76,10 +76,6 @@ class Main2Activity : FastMainActivity() {
         LogUtils.e("reqPermissionFailure")
     }
 
-    override fun reqPermissionSuccess(permissions: List<String>) {
-        super.reqPermissionSuccess(permissions)
-    }
-
     override fun setTabLayout(tabLayout: CommonTabLayout) {
         super.setTabLayout(tabLayout)
         tabLayout.delegate.textUnSelectColor = Color.parseColor("#5E607D")

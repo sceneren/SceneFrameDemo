@@ -4,9 +4,9 @@ import android.graphics.Color
 import android.util.TypedValue
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.aries.ui.view.title.TitleBarView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
+import com.hjq.bar.TitleBar
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.koin.android.ext.android.inject
 import wiki.scene.demo.adapter.RecyclerViewAdapter
@@ -15,8 +15,8 @@ import wiki.scene.demo.mvp.contract.MvpRecyclerViewActContract
 import wiki.scene.demo.mvp.presenter.MvpRecyclerViewActPresenter
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewAc
-import wiki.scene.lib_common.router.RouterUtil
 import wiki.scene.lib_common.router.RouterPath
+import wiki.scene.lib_common.router.RouterUtil
 
 @Route(path = RouterPath.Main.ACT_MVP_RECYCLERVIEW)
 class MvpRecyclerViewActivity :
@@ -33,9 +33,9 @@ class MvpRecyclerViewActivity :
         mPresenter = MvpRecyclerViewActPresenter(this)
     }
 
-    override fun initToolBarView(titleBarView: TitleBarView) {
+    override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.setTitleMainText("MVP RecyclerView")
+        titleBarView.title = ("MVP RecyclerView")
     }
 
     override fun initRecyclerView() {

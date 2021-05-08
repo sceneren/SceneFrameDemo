@@ -13,11 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
-import com.aries.ui.util.StatusBarUtil
-import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.KeyboardUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.gyf.immersionbar.ImmersionBar
+import com.hjq.bar.OnTitleBarListener
+import com.hjq.bar.TitleBar
 import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
@@ -35,7 +36,6 @@ import wiki.scene.lib_base.R
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.base_util.DoubleClickExitDetector
 import wiki.scene.lib_base.base_util.LanguageUtil
-import wiki.scene.lib_base.base_util.SoftHideKeyBoardUtil
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.impl.IAcView
 import wiki.scene.lib_base.loadsir.EmptyCallback
@@ -50,7 +50,7 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
     private var loadService: LoadService<*>? = null
     protected lateinit var mContext: AppCompatActivity
 
-    private var isDarkMode = false
+    private var isDarkMode = true
     var mSavedInstanceState: Bundle? = null
 
     private val lifecycleSubject = BehaviorSubject.create<ActivityEvent>()
@@ -59,7 +59,6 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         beforeOnCreate()
         super.onCreate(savedInstanceState)
         mSavedInstanceState = savedInstanceState
-        initStatusBarMode()
 
         ARouter.getInstance().inject(this)
         mContext = this
@@ -69,12 +68,13 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
 
         setContentView(binding.root)
 
-        SoftHideKeyBoardUtil.assistActivity(this)
-
         if (hasTitleBarView()) {
             titleBarBinding = LibBaseTitleBarViewBinding.bind(binding.root)
+
             initToolBarView(titleBarBinding!!.libBaseTvTitleBar)
         }
+
+        initImmersionBar()
 
         initEvents()
 
@@ -93,6 +93,21 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
             registerSlideBack(true) {
                 finish()
             }
+        }
+    }
+
+    private fun initImmersionBar() {
+        if (hasTitleBarView()) {
+            ImmersionBar.with(this)
+                .titleBar(titleBarBinding!!.libBaseTvTitleBar)
+                .statusBarDarkFont(isDarkMode)
+                .keyboardEnable(true)
+                .init()
+        } else {
+            ImmersionBar.with(this)
+                .transparentStatusBar()
+                .statusBarDarkFont(isDarkMode)
+                .init()
         }
     }
 
@@ -137,27 +152,42 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
 
     }
 
-    private fun initStatusBarMode() {
-        if (isDarkMode) {
-            StatusBarUtil.setStatusBarDarkMode(this)
-        } else {
-            StatusBarUtil.setStatusBarLightMode(this)
-        }
-    }
-
     override fun beforeOnCreate() {
 
     }
 
     override fun afterOnCreate() {}
 
-    override fun initToolBarView(titleBarView: TitleBarView) {
+    override fun initToolBarView(titleBarView: TitleBar) {
         if (hasTitleBarBack()) {
-            titleBarView.setLeftTextDrawable(R.mipmap.ic_back)
-                .setOnLeftTextClickListener {
-                    onBackPressed()
-                }
+            titleBarView.setLeftIcon(R.mipmap.ic_back)
+                .setOnTitleBarListener(object : OnTitleBarListener {
+                    override fun onLeftClick(view: View) {
+                        onTitleLeftClick()
+                    }
+
+                    override fun onTitleClick(view: View) {
+                        onTitleCenterClick()
+                    }
+
+                    override fun onRightClick(view: View) {
+                        onTitleRightClick()
+                    }
+
+                })
         }
+    }
+
+    open fun onTitleLeftClick() {
+        onBackPressed()
+    }
+
+    open fun onTitleCenterClick() {
+
+    }
+
+    open fun onTitleRightClick() {
+
     }
 
     open fun isDarkMode(isDarkMode: Boolean) {
@@ -242,10 +272,6 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
 
     open fun immersionBarView(): View? {
         return null
-    }
-
-    open fun statusBarDarkMode(): Boolean {
-        return true
     }
 
     open fun fullScreen(): Boolean {

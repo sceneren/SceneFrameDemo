@@ -1,19 +1,20 @@
 package wiki.scene.demo.activity
 
 import android.animation.Animator
+import android.view.View
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.facade.callback.NavCallback
 import com.alibaba.android.arouter.launcher.ARouter
-import com.aries.ui.view.title.TitleBarView
+import com.hjq.bar.TitleBar
 import wiki.scene.demo.databinding.ActSplashBinding
 import wiki.scene.lib_base.base_ac.BaseAc
 import wiki.scene.lib_common.router.RouterPath
 
 class SplashActivity : BaseAc<ActSplashBinding>() {
 
-    override fun initToolBarView(titleBarView: TitleBarView) {
+    override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.height = 0
+        titleBarView.visibility = View.GONE
     }
 
     override fun hasTitleBarBack(): Boolean {

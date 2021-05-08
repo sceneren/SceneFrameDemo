@@ -3,15 +3,16 @@ package wiki.scene.module_web.activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.SizeUtils
+import com.hjq.bar.TitleBar
 import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
 import com.just.agentweb.WebChromeClient
@@ -34,7 +35,7 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
     @Autowired(name = "webUrl")
     var url: String? = null
 
-    override fun initToolBarView(titleBarView: TitleBarView) {
+    override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
         val rightActionView = View.inflate(
             mContext,
@@ -65,15 +66,15 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
                     return@setOnMenuItemClickListener false
                 }
         }
-        val rightViewAction = titleBarView.ViewAction(rightActionView)
-        titleBarView.addRightAction(
-            rightViewAction, 0,
-            ViewGroup.LayoutParams(SizeUtils.dp2px(100F), SizeUtils.dp2px(30F))
-        )
+        val params = FrameLayout.LayoutParams(SizeUtils.dp2px(100F), SizeUtils.dp2px(30F))
+        params.gravity = Gravity.END or Gravity.CENTER_VERTICAL
+        params.marginStart = SizeUtils.dp2px(10F)
+        params.marginEnd = SizeUtils.dp2px(10F)
+        titleBarView.addView(rightActionView, params)
+    }
 
-        titleBarView.setOnLeftTextClickListener {
-            backOrFinish()
-        }
+    override fun onTitleLeftClick() {
+        backOrFinish()
     }
 
     override fun initViews() {
@@ -104,7 +105,7 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
     private val mWebChromeClient: WebChromeClient = object : WebChromeClient() {
         override fun onReceivedTitle(view: WebView, title: String) {
             super.onReceivedTitle(view, title)
-            titleBarBinding?.libBaseTvTitleBar?.setTitleMainText(title)
+            titleBarBinding?.libBaseTvTitleBar?.title = title
         }
     }
 

@@ -5,9 +5,9 @@ import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.aries.ui.view.title.TitleBarView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
+import com.hjq.bar.TitleBar
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import org.koin.android.ext.android.inject
 import wiki.scene.demo.R
@@ -37,9 +37,9 @@ class Tab3Fragment :
         return true
     }
 
-    override fun initToolBarView(titleBarView: TitleBarView) {
+    override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.setTitleMainText("MVP RecyclerView Fragment")
+        titleBarView.title=("MVP RecyclerView Fragment")
     }
 
     override fun initPresenter() {
@@ -59,7 +59,7 @@ class Tab3Fragment :
             RouterUtil.launchWeb(url)
         }
 
-        mAdapter.setOnItemChildClickListener { _, view, position ->
+        mAdapter.setOnItemChildClickListener { _, view, _ ->
             when (view.id) {
                 R.id.ivImage -> {
                     ImagePreviewUtils.preview(

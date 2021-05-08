@@ -3,9 +3,9 @@ package wiki.scene.demo.fragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.aries.ui.view.title.TitleBarView
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
+import com.hjq.bar.TitleBar
 import com.hjq.toast.ToastUtils
 import com.jakewharton.rxbinding4.view.clicks
 import com.luck.picture.lib.entity.LocalMedia
@@ -89,9 +89,9 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
 
     }
 
-    override fun initToolBarView(titleBarView: TitleBarView) {
+    override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.setTitleMainText("主页")
+        titleBarView.title=("主页")
     }
 
     override fun hasTitleBarView(): Boolean {

@@ -21,6 +21,8 @@ dependencies {
 
     api 'com.github.AriesHoo.UIWidget:tab-layout:3.2.25'
     api 'com.github.AriesHoo.UIWidget:widget-core:3.2.25'
+    api 'com.github.getActivity:TitleBar:8.6'
+    api 'com.gyf.immersionbar:immersionbar:3.0.0'
 
     api 'me.jessyan:autosize:1.2.1'
 

@@ -1,10 +1,10 @@
 package wiki.scene.lib_base.impl
 
-import com.aries.ui.view.title.TitleBarView
+import com.hjq.bar.TitleBar
 
 
 interface IAcView {
-    fun initToolBarView(titleBarView: TitleBarView)
+    fun initToolBarView(titleBarView: TitleBar)
     fun initViews()
     fun initEvents()
     fun beforeOnCreate()
