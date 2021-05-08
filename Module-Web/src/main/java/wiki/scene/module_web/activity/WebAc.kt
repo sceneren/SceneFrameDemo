@@ -56,9 +56,14 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
                             this.agentWeb!!.urlLoader.reload()
                         }
                         1 -> {
-                            val i = Intent(Intent.ACTION_VIEW)
-                            i.data = Uri.parse(url)
-                            startActivity(i)
+                            try {
+                                val i = Intent(Intent.ACTION_VIEW)
+                                i.data = Uri.parse(url)
+                                startActivity(i)
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                            }
+
                         }
                     }
                     return@setOnMenuItemClickListener false

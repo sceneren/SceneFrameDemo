@@ -11,6 +11,7 @@ import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.gyf.immersionbar.ImmersionBar
+import com.hjq.bar.OnTitleBarListener
 import com.hjq.bar.TitleBar
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadService
@@ -142,6 +143,8 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
         }
     }
 
+
+
     abstract fun loadData()
 
     open fun initViews() {}
@@ -260,6 +263,31 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
     }
 
     open fun initToolBarView(titleBarView: TitleBar) {
+        titleBarView.setOnTitleBarListener(object : OnTitleBarListener {
+            override fun onLeftClick(view: View?) {
+                onTitleLeftClick()
+            }
+
+            override fun onTitleClick(view: View?) {
+                onTitleCenterClick()
+            }
+
+            override fun onRightClick(view: View?) {
+                onTitleRightClick()
+            }
+
+        })
+    }
+
+    open fun onTitleLeftClick() {
+
+    }
+
+    open fun onTitleCenterClick() {
+
+    }
+
+    open fun onTitleRightClick() {
 
     }
 

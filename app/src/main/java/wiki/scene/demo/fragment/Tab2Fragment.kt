@@ -14,6 +14,11 @@ class Tab2Fragment : BaseFg<FragTab2Binding>() {
         titleBarView.rightTitle = "测试"
     }
 
+    override fun onTitleRightClick() {
+        super.onTitleRightClick()
+        showToast("测试")
+    }
+
     override fun hasTitleBarView(): Boolean {
         return true
     }
