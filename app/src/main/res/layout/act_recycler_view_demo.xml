@@ -13,6 +13,7 @@
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         app:srlEnableLoadMore="false">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -22,5 +23,8 @@
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

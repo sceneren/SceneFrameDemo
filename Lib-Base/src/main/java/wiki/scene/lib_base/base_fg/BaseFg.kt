@@ -20,6 +20,7 @@ import com.trello.rxlifecycle2.android.FragmentEvent
 import com.trello.rxlifecycle2.components.support.RxFragment
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import org.greenrobot.eventbus.EventBus
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.loadsir.EmptyCallback
@@ -84,6 +85,24 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
         }
 
         return rootView
+    }
+
+    open fun allowEventBus(): Boolean {
+        return false
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (allowEventBus()) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (allowEventBus()) {
+            EventBus.getDefault().unregister(this)
+        }
     }
 
     open fun beforeCreateView() {
@@ -155,10 +174,10 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
     }
 
     private fun isVisibleToUser(fragment: BaseFg<out VB>): Boolean {
-        if (fragment.parentFragment != null) {
-            return isVisibleToUser(fragment.parentFragment as BaseFg<VB>) && if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
+        return if (fragment.parentFragment != null) {
+            isVisibleToUser(fragment.parentFragment as BaseFg<VB>) && if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
         } else {
-            return if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
+            if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
         }
     }
 

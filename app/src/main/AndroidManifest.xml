@@ -19,6 +19,7 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true"
         tools:replace="android:networkSecurityConfig"
+        tools:ignore="LockedOrientationActivity"
         tools:targetApi="n">
 
         <meta-data
@@ -48,6 +49,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RecyclerViewDemoActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
 
         <activity

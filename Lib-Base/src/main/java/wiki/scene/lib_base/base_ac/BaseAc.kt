@@ -2,7 +2,6 @@ package wiki.scene.lib_base.base_ac
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.IBinder
@@ -31,16 +30,17 @@ import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.subjects.BehaviorSubject
+import org.greenrobot.eventbus.EventBus
 import wiki.scene.lib_base.R
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.base_util.DoubleClickExitDetector
 import wiki.scene.lib_base.base_util.LanguageUtil
+import wiki.scene.lib_base.base_util.SoftHideKeyBoardUtil
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.impl.IAcView
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
-
 
 abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
     IBaseView {
@@ -64,11 +64,13 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         ARouter.getInstance().inject(this)
         mContext = this
         afterOnCreate()
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //竖屏
         //绑定viewBinding
         binding = this.inflateBindingWithGeneric(layoutInflater)
 
         setContentView(binding.root)
+
+        SoftHideKeyBoardUtil.assistActivity(this)
+
         if (hasTitleBarView()) {
             titleBarBinding = LibBaseTitleBarViewBinding.bind(binding.root)
             initToolBarView(titleBarBinding!!.libBaseTvTitleBar)
@@ -91,6 +93,24 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
             registerSlideBack(true) {
                 finish()
             }
+        }
+    }
+
+    open fun allowEventBus(): Boolean {
+        return false
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (allowEventBus()) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (allowEventBus()) {
+            EventBus.getDefault().unregister(this)
         }
     }
 
@@ -372,4 +392,5 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
     override fun <T> getLifecycleTransformer(): LifecycleTransformer<T> {
         return RxLifecycle.bindUntilEvent(this.lifecycle(), ActivityEvent.DESTROY)
     }
+
 }
