@@ -68,7 +68,7 @@ class Main2Activity : FastMainActivity() {
 
     override fun initEvents() {
         super.initEvents()
-        requestPermissions(Permission.MANAGE_EXTERNAL_STORAGE)
+//        requestPermissions(Permission.MANAGE_EXTERNAL_STORAGE)
     }
 
     override fun reqPermissionFailure(permissions: List<String>) {
