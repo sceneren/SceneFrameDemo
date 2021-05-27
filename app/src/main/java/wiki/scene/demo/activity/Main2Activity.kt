@@ -6,7 +6,6 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.tab.CommonTabLayout
 import com.blankj.utilcode.util.LogUtils
-import com.hjq.permissions.Permission
 import wiki.scene.demo.R
 import wiki.scene.lib_base.base_ac.FastMainActivity
 import wiki.scene.lib_base.delegate.FastTabEntity
@@ -33,6 +32,7 @@ class Main2Activity : FastMainActivity() {
 
         val tab2Fragment = ARouter.getInstance()
             .build(RouterPath.Main.FRAG_TAB_2)
+            .withString("color","#FF00C4")
             .navigation() as Fragment
         mTabEntities.add(
             FastTabEntity(

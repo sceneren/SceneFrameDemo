@@ -1,6 +1,5 @@
 package wiki.scene.lib_base.base_fg
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
+import com.blankj.utilcode.util.LogUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.OnTitleBarListener
@@ -19,26 +19,21 @@ import com.kingja.loadsir.core.LoadSir
 import com.trello.rxlifecycle2.LifecycleTransformer
 import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.FragmentEvent
-import com.trello.rxlifecycle2.components.support.RxFragment
-import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import org.greenrobot.eventbus.EventBus
+import wiki.scene.lib_base.base_fg.fragmentvisibility.RxVisibilityFragment
 import wiki.scene.lib_base.base_mvp.i.IBaseView
 import wiki.scene.lib_base.databinding.LibBaseTitleBarViewBinding
 import wiki.scene.lib_base.loadsir.EmptyCallback
 import wiki.scene.lib_base.loadsir.ErrorCallback
 import wiki.scene.lib_base.loadsir.LoadingCallback
-import wiki.scene.lib_network.ext.changeIO2MainThread
-import java.util.concurrent.TimeUnit
 
-abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
+abstract class BaseFg<VB : ViewBinding> : RxVisibilityFragment(), IBaseView {
+    private val mTag = javaClass.simpleName
+
     private val lifecycleSubject = BehaviorSubject.create<FragmentEvent>()
     protected open lateinit var mContext: Context
     protected open lateinit var mActivity: AppCompatActivity
-    protected open var mIsFirstShow = false
-    protected open var mIsViewLoaded = false
-    protected open var mIsVisibleChanged = false
-    private val mIsInViewPager = false
 
     protected open var mSavedInstanceState: Bundle? = null
 
@@ -63,7 +58,6 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
         super.onAttach(context)
         mActivity = requireActivity() as AppCompatActivity
         mContext = requireContext()
-        mIsFirstShow = true
         ARouter.getInstance().inject(this)
     }
 
@@ -79,12 +73,6 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
         if (rootView.parent != null) {
             parent = rootView.parent as ViewGroup
             parent.removeView(rootView)
-        }
-
-        if (isSingleFragment() && !mIsVisibleChanged) {
-            if (userVisibleHint || isVisible || !isHidden) {
-                onVisibleChanged(true)
-            }
         }
 
         return rootView
@@ -112,14 +100,35 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
 
     }
 
-    protected open fun beforeInitView(savedInstanceState: Bundle?) {
+    protected open fun beforeInitView() {
 
+    }
+
+    override fun onVisibleFirst() {
+        super.onVisibleFirst()
+        LogUtils.e(mTag,"onVisibleFirst")
+        beforeLoadData()
+        loadData()
+    }
+
+    override fun onVisible() {
+        super.onVisible()
+        LogUtils.e(mTag,"onVisible")
+    }
+
+    override fun onInvisible() {
+        super.onInvisible()
+        LogUtils.e(mTag,"onInvisible")
+    }
+
+    override fun onVisibleExceptFirst() {
+        super.onVisibleExceptFirst()
+        LogUtils.e(mTag,"onVisibleExceptFirst")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mIsViewLoaded = true
-        beforeInitView(savedInstanceState)
+        beforeInitView()
         if (hasTitleBarView()) {
             titleBarBinding = LibBaseTitleBarViewBinding.bind(binding.root)
             initToolBarView(titleBarBinding!!.libBaseTvTitleBar)
@@ -142,7 +151,6 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
                 .init()
         }
     }
-
 
 
     abstract fun loadData()
@@ -182,70 +190,6 @@ abstract class BaseFg<VB : ViewBinding> : RxFragment(), IBaseView {
     }
 
     override fun onRetryBtnClick() {}
-
-    override fun getView(): View? {
-        return rootView
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (isAdded && isVisibleToUser(this)) {
-            onVisibleChanged(true)
-        }
-    }
-
-    private fun isVisibleToUser(fragment: BaseFg<out VB>): Boolean {
-        return if (fragment.parentFragment != null) {
-            isVisibleToUser(fragment.parentFragment as BaseFg<VB>) && if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
-        } else {
-            if (fragment.isInViewPager()) fragment.userVisibleHint else fragment.isVisible
-        }
-    }
-
-    @SuppressLint("CheckResult")
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!mIsViewLoaded) {
-            Observable.just(10)
-                .delay(10, TimeUnit.MILLISECONDS)
-                .changeIO2MainThread()
-                .subscribe {
-                    onHiddenChanged(hidden)
-                }
-        } else {
-            onVisibleChanged(!hidden)
-        }
-    }
-
-    open fun isInViewPager(): Boolean {
-        return mIsInViewPager
-    }
-
-    @SuppressLint("CheckResult")
-    protected open fun onVisibleChanged(isVisibleToUser: Boolean) {
-        mIsVisibleChanged = true
-        if (isVisibleToUser) {
-            //避免因视图未加载子类刷新UI抛出异常
-            if (!mIsViewLoaded) {
-                Observable.just(10)
-                    .delay(10, TimeUnit.MILLISECONDS)
-                    .changeIO2MainThread()
-                    .subscribe {
-                        onVisibleChanged(true)
-                    }
-            } else {
-                fastLazyLoad()
-            }
-        }
-    }
-
-    private fun fastLazyLoad() {
-        if (mIsFirstShow && mIsViewLoaded) {
-            mIsFirstShow = false
-            beforeLoadData()
-            loadData()
-        }
-    }
 
     open fun beforeLoadData() {}
 

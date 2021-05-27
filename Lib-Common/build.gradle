@@ -8,6 +8,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.annotation:annotation:1.2.0'
 
+    api 'androidx.fragment:fragment-ktx:1.3.4'
     api 'com.dylanc:viewbinding-ktx:1.1.0'
     api 'com.dylanc:viewbinding-nonreflection-ktx:1.1.0'
     api 'com.dylanc:viewbinding-base-ktx:1.1.0'
