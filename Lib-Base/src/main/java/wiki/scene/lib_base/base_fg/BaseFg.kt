@@ -1,6 +1,7 @@
 package wiki.scene.lib_base.base_fg
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -106,24 +107,24 @@ abstract class BaseFg<VB : ViewBinding> : RxVisibilityFragment(), IBaseView {
 
     override fun onVisibleFirst() {
         super.onVisibleFirst()
-        LogUtils.e(mTag,"onVisibleFirst")
+        LogUtils.e(mTag, "onVisibleFirst")
         beforeLoadData()
         loadData()
     }
 
     override fun onVisible() {
         super.onVisible()
-        LogUtils.e(mTag,"onVisible")
+        LogUtils.e(mTag, "onVisible")
     }
 
     override fun onInvisible() {
         super.onInvisible()
-        LogUtils.e(mTag,"onInvisible")
+        LogUtils.e(mTag, "onInvisible")
     }
 
     override fun onVisibleExceptFirst() {
         super.onVisibleExceptFirst()
-        LogUtils.e(mTag,"onVisibleExceptFirst")
+        LogUtils.e(mTag, "onVisibleExceptFirst")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -142,12 +143,17 @@ abstract class BaseFg<VB : ViewBinding> : RxVisibilityFragment(), IBaseView {
             ImmersionBar.with(this)
                 .titleBar(titleBarBinding!!.libBaseTvTitleBar)
                 .statusBarDarkFont(isDarkMode)
+                .navigationBarDarkIcon(isDarkMode)
+                .navigationBarColorInt(Color.WHITE)
                 .keyboardEnable(true)
                 .init()
         } else {
             ImmersionBar.with(this)
                 .transparentStatusBar()
                 .statusBarDarkFont(isDarkMode)
+                .navigationBarDarkIcon(isDarkMode)
+                .navigationBarColorInt(Color.WHITE)
+                .keyboardEnable(true)
                 .init()
         }
     }

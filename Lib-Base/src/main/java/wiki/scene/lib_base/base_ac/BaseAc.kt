@@ -3,6 +3,7 @@ package wiki.scene.lib_base.base_ac
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.os.IBinder
 import android.view.MotionEvent
@@ -101,12 +102,18 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
             ImmersionBar.with(this)
                 .titleBar(titleBarBinding!!.libBaseTvTitleBar)
                 .statusBarDarkFont(isDarkMode)
+                .navigationBarDarkIcon(isDarkMode)
+                .navigationBarColorInt(Color.WHITE)
                 .keyboardEnable(true)
                 .init()
         } else {
             ImmersionBar.with(this)
                 .transparentStatusBar()
+                .transparentNavigationBar()
                 .statusBarDarkFont(isDarkMode)
+                .navigationBarDarkIcon(isDarkMode)
+                .navigationBarColorInt(Color.WHITE)
+                .keyboardEnable(true)
                 .init()
         }
     }
