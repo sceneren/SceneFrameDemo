@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.hjq.bar.TitleBar
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import org.koin.android.ext.android.inject
+import dagger.hilt.android.AndroidEntryPoint
 import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.ActMvpRecyclerviewBinding
 import wiki.scene.demo.mvp.contract.MvpRecyclerViewActContract
@@ -17,13 +17,16 @@ import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewAc
 import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_common.router.RouterUtil
+import javax.inject.Inject
 
+@AndroidEntryPoint
 @Route(path = RouterPath.Main.ACT_MVP_RECYCLERVIEW)
 class MvpRecyclerViewActivity :
     BaseMvpRecyclerViewAc<ActMvpRecyclerviewBinding, wiki.scene.entity.ArticleBean, MvpRecyclerViewActPresenter>(),
     MvpRecyclerViewActContract.IView {
 
-    private val mAdapter: RecyclerViewAdapter by inject()
+    @Inject
+    lateinit var mAdapter: RecyclerViewAdapter
 
     override fun injectReturnFirstPage(): Int {
         return 1

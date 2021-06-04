@@ -4,8 +4,9 @@ import com.chad.library.adapter.base.module.LoadMoreModule
 import wiki.scene.demo.databinding.ActRecyclerViewDemoItemBinding
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.glide.GlideUtil
+import javax.inject.Inject
 
-class RecyclerViewAdapter :
+class RecyclerViewAdapter @Inject constructor() :
     BaseBindingQuickAdapter<wiki.scene.entity.ArticleBean, ActRecyclerViewDemoItemBinding>(
         ActRecyclerViewDemoItemBinding::inflate
     ), LoadMoreModule {

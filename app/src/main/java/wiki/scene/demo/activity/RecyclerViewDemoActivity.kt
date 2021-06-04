@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.hjq.bar.TitleBar
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import org.koin.android.ext.android.inject
+import dagger.hilt.android.AndroidEntryPoint
 import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.ActRecyclerViewDemoBinding
 import wiki.scene.entity.ArticleListRes
@@ -22,11 +22,14 @@ import wiki.scene.lib_network.ext.bindLifecycle
 import wiki.scene.lib_network.ext.transformData
 import wiki.scene.lib_network.manager.ApiManager
 import wiki.scene.lib_network.observer.BaseObserver
+import javax.inject.Inject
 
+@AndroidEntryPoint
 @Route(path = RouterPath.Main.ACT_RECYCLERVIEW)
 class RecyclerViewDemoActivity :
     BaseRecyclerViewAc<ActRecyclerViewDemoBinding, wiki.scene.entity.ArticleBean>() {
-    private val mAdapter: RecyclerViewAdapter by inject()
+    @Inject
+    lateinit var mAdapter: RecyclerViewAdapter
 
     override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)

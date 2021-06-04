@@ -6,11 +6,13 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.aries.ui.view.tab.CommonTabLayout
 import com.blankj.utilcode.util.LogUtils
+import dagger.hilt.android.AndroidEntryPoint
 import wiki.scene.demo.R
 import wiki.scene.lib_base.base_ac.FastMainActivity
 import wiki.scene.lib_base.delegate.FastTabEntity
 import wiki.scene.lib_common.router.RouterPath
 
+@AndroidEntryPoint
 @Route(path = RouterPath.Main.ACT_MAIN_2)
 class Main2Activity : FastMainActivity() {
     private var mTabEntities = mutableListOf<FastTabEntity>()

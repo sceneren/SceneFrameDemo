@@ -5,6 +5,7 @@ if (isRunModule.toBoolean()) {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+//apply plugin: 'dagger.hilt.android.plugin'
 
 android {
 
@@ -56,4 +57,7 @@ dependencies {
     implementation project(':Lib-Network')
     implementation project(':Lib-Aop')
     kapt rootProject.ext.dependencies.arouterCompiler
+
+    //implementation "com.google.dagger:hilt-android:$hilt_version"
+    //kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 }

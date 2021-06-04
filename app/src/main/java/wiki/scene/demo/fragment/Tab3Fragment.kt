@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.hjq.bar.TitleBar
 import com.scwang.smart.refresh.layout.api.RefreshLayout
-import org.koin.android.ext.android.inject
+import dagger.hilt.android.AndroidEntryPoint
 import wiki.scene.demo.R
 import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.FragTab3Binding
@@ -21,13 +21,16 @@ import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewFg
 import wiki.scene.lib_base.priview.ImagePreviewUtils
 import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_common.router.RouterUtil
+import javax.inject.Inject
 
+@AndroidEntryPoint
 @Route(path = RouterPath.Main.FRAG_TAB_3)
 class Tab3Fragment :
     BaseMvpRecyclerViewFg<FragTab3Binding, ArticleBean, Tab3Presenter>(),
     Tab3Contract.IView {
 
-    private val mAdapter: RecyclerViewAdapter by inject()
+    @Inject
+    lateinit var mAdapter: RecyclerViewAdapter
 
     override fun injectReturnFirstPage(): Int {
         return 1
@@ -39,7 +42,7 @@ class Tab3Fragment :
 
     override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.title=("MVP RecyclerView Fragment")
+        titleBarView.title = ("MVP RecyclerView Fragment")
     }
 
     override fun initPresenter() {

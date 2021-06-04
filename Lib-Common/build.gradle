@@ -41,11 +41,6 @@ dependencies {
 
     debugApi 'com.squareup.leakcanary:leakcanary-android:2.7'
 
-    // Koin AndroidX Scope features
-    api "org.koin:koin-androidx-scope:$koin_version"
-    // Koin AndroidX Experimental features
-    api "org.koin:koin-androidx-ext:$koin_version"
-
     api 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
     api 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
