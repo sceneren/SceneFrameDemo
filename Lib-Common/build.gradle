@@ -18,7 +18,7 @@ dependencies {
 
     api 'com.airbnb.android:lottie:3.6.1'
 
-    api 'com.github.fondesa:recycler-view-divider:3.4.0'
+    api 'com.github.fondesa:recycler-view-divider:3.5.0'
 
     api 'com.github.AriesHoo.UIWidget:tab-layout:3.2.25'
     api 'com.github.AriesHoo.UIWidget:widget-core:3.2.25'
