@@ -26,8 +26,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 @Route(path = RouterPath.Main.FRAG_TAB_3)
 class Tab3Fragment :
-    BaseMvpRecyclerViewFg<FragTab3Binding, ArticleBean, Tab3Presenter>(),
-    Tab3Contract.IView {
+    BaseMvpRecyclerViewFg<FragTab3Binding, ArticleBean, Tab3Presenter>(), Tab3Contract.IView {
 
     @Inject
     lateinit var mAdapter: RecyclerViewAdapter

@@ -27,7 +27,8 @@ dependencies {
 
     api 'me.jessyan:autosize:1.2.1'
 
-    api 'com.kongzue.dialogx:DialogX:0.0.34'
+    api 'com.github.kongzue.DialogX:DialogX:0.0.39'
+
     api 'com.github.kongzue.dialogx:DialogXIOSStyle:0.0.34'
 
     api 'com.scwang.smart:refresh-layout-kernel:2.0.3'      //核心必须依赖
