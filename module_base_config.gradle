@@ -5,6 +5,7 @@ if (isRunModule.toBoolean()) {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'android-aspectjx'
 //apply plugin: 'dagger.hilt.android.plugin'
 
 android {

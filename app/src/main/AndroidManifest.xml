@@ -29,6 +29,10 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
+        <meta-data
+            android:name="isBeta"
+            android:value="true" />
+
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"

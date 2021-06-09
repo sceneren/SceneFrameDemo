@@ -49,6 +49,13 @@
                 android:text="选择图片"
                 android:textAllCaps="false" />
 
+            <Button
+                android:id="@+id/btn_is_beta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="当前是否是测试环境"
+                android:textAllCaps="false" />
+
             <EditText
                 android:id="@+id/et_text"
                 android:layout_width="match_parent"

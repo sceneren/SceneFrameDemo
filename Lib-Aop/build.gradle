@@ -4,6 +4,15 @@ android {
     resourcePrefix "lib_aop_"
 }
 
+aspectjx {
+    exclude 'androidx'
+    exclude 'com.google'
+    exclude 'com.squareup'
+    exclude 'com.alipay'
+    exclude 'org.apache'
+    exclude 'versions.9'
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api "org.aspectj:aspectjrt:1.9.5"

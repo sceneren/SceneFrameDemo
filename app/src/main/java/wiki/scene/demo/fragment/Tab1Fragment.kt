@@ -7,10 +7,11 @@ import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.LogUtils
 import com.hjq.bar.TitleBar
 import com.hjq.toast.ToastUtils
-import com.jakewharton.rxbinding4.view.clicks
 import com.luck.picture.lib.entity.LocalMedia
 import wiki.scene.demo.databinding.FragTab1Binding
 import wiki.scene.lib_base.base_fg.BaseFg
+import wiki.scene.lib_base.base_util.EnvironmentUtil
+import wiki.scene.lib_base.ext.clicks
 import wiki.scene.lib_base.picture.selector.OnChooseImageListener
 import wiki.scene.lib_base.picture.selector.PictureSelectorUtil
 import wiki.scene.lib_common.router.RouterPath
@@ -33,23 +34,20 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
     override fun initViews() {
         super.initViews()
         binding.btnTab
-            .clicks()
-            .subscribe {
+            .clicks {
                 ARouter.getInstance()
                     .build(RouterPath.Main.ACT_MAIN)
                     .navigation()
             }
         binding.btnTest
-            .clicks()
-            .subscribe {
+            .clicks {
                 ARouter.getInstance()
                     .build(RouterPath.Main.ACT_RECYCLERVIEW)
                     .navigation()
             }
 
         binding.btnRecyclerViewStickyHeader
-            .clicks()
-            .subscribe {
+            .clicks {
                 ApiManager.getInstance()
                     .loginApi()
                     .logout()
@@ -69,16 +67,14 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
             }
 
         binding.btnMvpRecyclerView
-            .clicks()
-            .subscribe {
+            .clicks {
                 ARouter.getInstance()
                     .build(RouterPath.Main.ACT_MVP_RECYCLERVIEW)
                     .navigation()
             }
 
         binding.btnChooseImage
-            .clicks()
-            .subscribe {
+            .clicks {
                 PictureSelectorUtil.select(this, object : OnChooseImageListener() {
                     override fun onResult(result: MutableList<LocalMedia>?) {
                         LogUtils.e(GsonUtils.toJson(result))
@@ -87,11 +83,16 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
                 })
             }
 
+        binding.btnIsBeta
+            .clicks {
+                showToast("当前是否是测试环境：${EnvironmentUtil.isBeta()}")
+            }
+
     }
 
     override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.title=("主页")
+        titleBarView.title = ("主页")
     }
 
     override fun hasTitleBarView(): Boolean {
