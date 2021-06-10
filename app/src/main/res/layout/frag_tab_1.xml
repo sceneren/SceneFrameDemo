@@ -56,6 +56,12 @@
                 android:text="当前是否是测试环境"
                 android:textAllCaps="false" />
 
+            <Button
+                android:id="@+id/btn_aop_check_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AOP检查登录" />
+
             <EditText
                 android:id="@+id/et_text"
                 android:layout_width="match_parent"

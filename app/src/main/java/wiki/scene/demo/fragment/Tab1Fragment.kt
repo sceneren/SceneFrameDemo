@@ -9,6 +9,7 @@ import com.hjq.bar.TitleBar
 import com.hjq.toast.ToastUtils
 import com.luck.picture.lib.entity.LocalMedia
 import wiki.scene.demo.databinding.FragTab1Binding
+import wiki.scene.lib_aop.checklogin.annotation.CheckLogin
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_base.base_util.EnvironmentUtil
 import wiki.scene.lib_base.ext.clicks
@@ -85,9 +86,24 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
 
         binding.btnIsBeta
             .clicks {
-                showToast("当前是否是测试环境：${EnvironmentUtil.isBeta()}")
+                showBetaMode()
             }
 
+
+        binding.btnAopCheckLogin
+            .clicks {
+                testNeedLogin()
+            }
+
+    }
+
+    private fun showBetaMode() {
+        showToast("当前是否是测试环境：${EnvironmentUtil.isBeta()}")
+    }
+
+    @CheckLogin
+    private fun testNeedLogin() {
+        showToast("测试需要登录")
     }
 
     override fun initToolBarView(titleBarView: TitleBar) {

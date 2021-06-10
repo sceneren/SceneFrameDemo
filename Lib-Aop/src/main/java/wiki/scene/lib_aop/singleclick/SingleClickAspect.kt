@@ -43,7 +43,7 @@ class SingleClickAspect {
     //直接setOnclickListener 拦截点击事件
     @Around("execution(* android.view.View.OnClickListener.onClick(..))")
     @Throws(Throwable::class)
-    open fun clickFilterHook(joinPoint: ProceedingJoinPoint) {
+    fun clickFilterHook(joinPoint: ProceedingJoinPoint) {
         //大于指定时间
         if (System.currentTimeMillis() - sLastClick >= FILTER_TIME_MILLS) {
             doClick(joinPoint)
@@ -87,10 +87,10 @@ class SingleClickAspect {
     }
 
     //标志不过滤点击
-    @Before("execution(@wiki.scene.lib_aop.singleclick.annotation.SingleClick * *(..))")
+    @Before("execution(@wiki.scene.lib_aop.singleclick.annotation.UnSingleClick * *(..))")
     @Throws(Throwable::class)
     fun beforeUncheckClick(joinPoint: JoinPoint?) {
-        LogUtils.e("beforeUncheckClick")
+        LogUtils.e("UncheckClick")
         //修改为不需要过滤点击
         checkClick = false
     }

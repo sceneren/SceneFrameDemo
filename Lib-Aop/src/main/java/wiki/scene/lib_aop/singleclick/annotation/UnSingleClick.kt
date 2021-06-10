@@ -10,4 +10,4 @@ package wiki.scene.lib_aop.singleclick.annotation
     AnnotationTarget.TYPE
 )
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
-annotation class SingleClick()
+annotation class UnSingleClick()
