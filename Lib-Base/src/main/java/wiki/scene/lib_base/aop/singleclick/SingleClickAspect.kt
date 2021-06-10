@@ -1,4 +1,4 @@
-package wiki.scene.lib_aop.singleclick
+package wiki.scene.lib_base.aop.singleclick
 
 import android.view.View
 import com.blankj.utilcode.util.LogUtils
@@ -87,7 +87,7 @@ class SingleClickAspect {
     }
 
     //标志不过滤点击
-    @Before("execution(@wiki.scene.lib_aop.singleclick.annotation.UnSingleClick * *(..))")
+    @Before("execution(@wiki.scene.lib_base.aop.singleclick.annotation.UnSingleClick * *(..))")
     @Throws(Throwable::class)
     fun beforeUncheckClick(joinPoint: JoinPoint?) {
         LogUtils.e("UncheckClick")

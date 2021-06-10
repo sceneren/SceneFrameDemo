@@ -56,7 +56,6 @@ dependencies {
     implementation project(':Lib-Base')
 //    implementation project(':library-widget')
     implementation project(':Lib-Network')
-    implementation project(':Lib-Aop')
     kapt rootProject.ext.dependencies.arouterCompiler
 
     //implementation "com.google.dagger:hilt-android:$hilt_version"

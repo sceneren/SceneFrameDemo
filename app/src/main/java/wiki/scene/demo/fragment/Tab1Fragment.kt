@@ -9,7 +9,7 @@ import com.hjq.bar.TitleBar
 import com.hjq.toast.ToastUtils
 import com.luck.picture.lib.entity.LocalMedia
 import wiki.scene.demo.databinding.FragTab1Binding
-import wiki.scene.lib_aop.checklogin.annotation.CheckLogin
+import wiki.scene.lib_base.aop.checklogin.annotation.CheckLogin
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_base.base_util.EnvironmentUtil
 import wiki.scene.lib_base.ext.clicks

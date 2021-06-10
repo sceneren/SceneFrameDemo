@@ -1,4 +1,4 @@
-package wiki.scene.lib_aop.checklogin.annotation
+package wiki.scene.lib_base.aop.checklogin.annotation
 
 /**
  *

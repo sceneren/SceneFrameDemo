@@ -6,6 +6,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    api project(':Lib-DB')
+    api project(':Lib-Network')
+
     api rootProject.ext.dependencies.appcompat
 
     api rootProject.ext.dependencies.swipebacklayout
@@ -32,9 +36,6 @@ dependencies {
 
     api 'me.wangyuwei:ParticleView:1.0.4'
 
-    api project(':Lib-DB')
-    api project(':Lib-Network')
-
     implementation 'com.github.ParfoisMeng:SlideBack:1.1.2'
 
     api rootProject.ext.dependencies.mmkv
@@ -44,4 +45,5 @@ dependencies {
 
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.1'
     api 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+
 }

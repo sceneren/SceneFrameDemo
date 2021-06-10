@@ -81,7 +81,7 @@ aspectjx {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation project(':Lib-Aop')
+    implementation project(':Lib-Base')
     implementation project(':Module-Web')
     kapt rootProject.ext.dependencies.arouterCompiler
     implementation 'androidx.multidex:multidex:2.0.1'
