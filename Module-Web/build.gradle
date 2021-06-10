@@ -6,7 +6,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    api project(':Lib-Base')
     kapt rootProject.ext.dependencies.arouterCompiler
-    api 'com.just.agentweb:agentweb-androidx:4.1.4' // (必选)
+    api 'com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx' // (必选)
 }

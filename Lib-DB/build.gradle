@@ -8,5 +8,4 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     api rootProject.ext.dependencies.room
     kapt rootProject.ext.dependencies.roomCompiler
-    debugApi 'com.amitshekhar.android:debug-db:1.0.6'
 }

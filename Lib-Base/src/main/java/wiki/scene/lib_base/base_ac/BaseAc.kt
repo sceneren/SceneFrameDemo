@@ -66,9 +66,9 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         afterOnCreate()
         //绑定viewBinding
         binding = this.inflateBindingWithGeneric(layoutInflater)
-
+        beforeSetContentView()
         setContentView(binding.root)
-
+        afterSetContentView()
         if (hasTitleBarView()) {
             titleBarBinding = LibBaseTitleBarViewBinding.bind(binding.root)
 
@@ -77,11 +77,11 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
 
         initImmersionBar()
 
-        initEvents()
-
         beforeInitView()
 
         initViews()
+
+        initListener()
 
         afterInitViews()
 
@@ -95,6 +95,14 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
                 finish()
             }
         }
+    }
+
+    override fun beforeSetContentView() {
+
+    }
+
+    override fun afterSetContentView() {
+
     }
 
     private fun initImmersionBar() {
@@ -201,7 +209,7 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         this.isDarkMode = isDarkMode
     }
 
-    override fun initEvents() {
+    override fun initListener() {
 
     }
 

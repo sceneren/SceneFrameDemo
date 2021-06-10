@@ -4,12 +4,14 @@ import com.hjq.bar.TitleBar
 
 
 interface IAcView {
-    fun initToolBarView(titleBarView: TitleBar)
-    fun initViews()
-    fun initEvents()
     fun beforeOnCreate()
     fun afterOnCreate()
+    fun beforeSetContentView()
+    fun afterSetContentView()
+    fun initToolBarView(titleBarView: TitleBar)
     fun beforeInitView()
-    fun loadData()
+    fun initViews()
+    fun initListener()
     fun afterInitViews()
+    fun loadData()
 }

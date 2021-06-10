@@ -68,8 +68,8 @@ class Main2Activity : FastMainActivity() {
         return true
     }
 
-    override fun initEvents() {
-        super.initEvents()
+    override fun initListener() {
+        super.initListener()
 //        requestPermissions(Permission.MANAGE_EXTERNAL_STORAGE)
     }
 

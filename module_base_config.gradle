@@ -54,10 +54,6 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':Lib-Base')
-//    implementation project(':library-widget')
     implementation project(':Lib-Network')
     kapt rootProject.ext.dependencies.arouterCompiler
-
-    //implementation "com.google.dagger:hilt-android:$hilt_version"
-    //kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 }
