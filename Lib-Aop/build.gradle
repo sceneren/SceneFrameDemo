@@ -19,5 +19,4 @@ dependencies {
     api rootProject.ext.dependencies.arouterApi
     kapt rootProject.ext.dependencies.arouterCompiler
     api project(':Lib-Base')
-    api rootProject.ext.dependencies.xxPermissions
 }
