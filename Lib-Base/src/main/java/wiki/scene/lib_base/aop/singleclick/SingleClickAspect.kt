@@ -1,6 +1,5 @@
 package wiki.scene.lib_base.aop.singleclick
 
-import android.view.View
 import com.blankj.utilcode.util.LogUtils
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.ProceedingJoinPoint
@@ -23,7 +22,10 @@ class SingleClickAspect {
 
     companion object {
         //拦截所有两次点击时间间隔小于一秒的点击事件
-        private const val FILTER_TIME_MILLS = 1000L
+        private const val FILTER_TIME_MILLS = 500L
+        private const val AROUND_ARGS = "execution(* android.view.View.OnClickListener.onClick(..))"
+        private const val BEFORE_ARGS =
+            "execution(@wiki.scene.lib_base.aop.singleclick.annotation.UnSingleClick * *(..))"
     }
 
     private val mTag = this.javaClass.simpleName
@@ -31,32 +33,23 @@ class SingleClickAspect {
     //上次点击的时间
     private var sLastClick = 0L
 
-    //上次点击事件View
-    private var lastView: View? = null
-
     //是否过滤点击 默认是
     private var checkClick = true
 
 
-    //---- add content -----
-    //拦截所有* android.view.View.OnClickListener.onClick(..) 事件
-    //直接setOnclickListener 拦截点击事件
-    @Around("execution(* android.view.View.OnClickListener.onClick(..))")
+    /**
+     * 直接setOnclickListener 拦截点击事件
+     */
+    @Around(AROUND_ARGS)
     @Throws(Throwable::class)
     fun clickFilterHook(joinPoint: ProceedingJoinPoint) {
-        //大于指定时间
-        if (System.currentTimeMillis() - sLastClick >= FILTER_TIME_MILLS) {
+
+        if (System.currentTimeMillis() - sLastClick >= FILTER_TIME_MILLS || !checkClick) {
+            //大于指定时间
             doClick(joinPoint)
         } else {
-            //---- update content -----  判断是否需要过滤点击
-            //小于指定秒数 但是不是同一个view 可以点击  或者不过滤点击
-            if (!checkClick || lastView == null || lastView !== joinPoint.args[0]) {
-                //---- update content -----  判断是否需要过滤点击
-                doClick(joinPoint)
-            } else {
-                //大于指定秒数 且是同一个view
-                LogUtils.e(mTag, "Filter duplicate clicks")
-            }
+            //小于指定时间
+            LogUtils.e(mTag, "Filter duplicate clicks")
         }
     }
 
@@ -70,12 +63,8 @@ class SingleClickAspect {
             joinPoint.proceed()
             return
         }
-        //记录点击的 view
-        lastView = joinPoint.args[0] as View
-        //---- add content -----
         //修改默认过滤点击
         checkClick = true
-        //---- add content -----
         //记录点击事件
         sLastClick = System.currentTimeMillis()
         //执行点击事件
@@ -87,7 +76,7 @@ class SingleClickAspect {
     }
 
     //标志不过滤点击
-    @Before("execution(@wiki.scene.lib_base.aop.singleclick.annotation.UnSingleClick * *(..))")
+    @Before(BEFORE_ARGS)
     @Throws(Throwable::class)
     fun beforeUncheckClick(joinPoint: JoinPoint?) {
         LogUtils.e("UncheckClick")
