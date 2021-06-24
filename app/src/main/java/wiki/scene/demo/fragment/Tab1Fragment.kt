@@ -13,6 +13,7 @@ import wiki.scene.lib_base.aop.checklogin.annotation.CheckLogin
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_base.base_util.EnvironmentUtil
 import wiki.scene.lib_base.ext.clicks
+import wiki.scene.lib_base.mmkv.MMkvHelper
 import wiki.scene.lib_base.picture.selector.OnChooseImageListener
 import wiki.scene.lib_base.picture.selector.PictureSelectorUtil
 import wiki.scene.lib_common.router.RouterPath
@@ -93,6 +94,17 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
         binding.btnAopCheckLogin
             .clicks {
                 testNeedLogin()
+            }
+
+        binding.btnSet2Tab
+            .clicks {
+                MMkvHelper.getInstance()
+
+            }
+
+        binding.btnSet3Tab
+            .clicks {
+
             }
 
     }

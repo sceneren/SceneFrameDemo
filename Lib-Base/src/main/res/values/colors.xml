@@ -9,9 +9,9 @@
     <color name="lib_base_tab_divider_color">#FF0000</color>
 
     <!--主页tab背景色-->
-    <color name="lib_base_colorTabBackground">#FCFCFC</color>
+    <color name="lib_base_colorTabBackground">#FFFFFF</color>
     <!--主页上划线颜色-->
-    <color name="lib_base_colorTabUnderline">#d6d6d6</color>
+    <color name="lib_base_colorTabUnderline">#D6D6D6</color>
     <!--主页tab文字默认颜色-->
     <color name="lib_base_colorTabTextUnSelect">#909090</color>
     <!--主页tab文字选中颜色-->

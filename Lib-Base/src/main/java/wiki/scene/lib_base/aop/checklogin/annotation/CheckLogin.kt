@@ -5,9 +5,9 @@ package wiki.scene.lib_base.aop.checklogin.annotation
  * @Description:    登录拦截
  * @Author:         scene
  * @CreateDate:     2021/6/9 16:03
- * @UpdateUser:     更新者：
+ * @UpdateUser:
  * @UpdateDate:     2021/6/9 16:03
- * @UpdateRemark:   更新说明：
+ * @UpdateRemark:
  * @Version:        1.0.0
  */
 @Target(

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/lib_base_title_bar_view" />
@@ -20,8 +21,7 @@
                 android:id="@+id/btnTab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="中间凸出的TabLayout"
-                android:textColor="@color/white" />
+                android:text="中间凸出的TabLayout" />
 
             <Button
                 android:id="@+id/btnTest"
@@ -61,6 +61,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="AOP检查登录" />
+
+            <Button
+                android:id="@+id/btn_set_3_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="设置3个tab" />
+
+            <Button
+                android:id="@+id/btn_set_2_tab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="设置2个tab" />
 
             <EditText
                 android:id="@+id/et_text"

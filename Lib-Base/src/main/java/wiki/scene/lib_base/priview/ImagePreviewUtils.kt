@@ -16,9 +16,9 @@ import wiki.scene.lib_base.R
  * @Description:    查看大图
  * @Author:         scene
  * @CreateDate:     2020/10/13 4:39 PM
- * @UpdateUser:     更新者：
+ * @UpdateUser:
  * @UpdateDate:     2020/10/13 4:39 PM
- * @UpdateRemark:   更新说明：
+ * @UpdateRemark:
  * @Version:        1.0.0
  */
 object ImagePreviewUtils {

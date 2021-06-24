@@ -12,9 +12,9 @@ import org.aspectj.lang.annotation.Before
  * @Description:    防止重复点击注解
  * @Author:         scene
  * @CreateDate:     2021/6/9 16:02
- * @UpdateUser:     更新者：
+ * @UpdateUser:
  * @UpdateDate:     2021/6/9 16:02
- * @UpdateRemark:   更新说明：
+ * @UpdateRemark:
  * @Version:        1.0.0
  */
 @Aspect

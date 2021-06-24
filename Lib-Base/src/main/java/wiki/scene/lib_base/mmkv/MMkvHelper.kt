@@ -8,10 +8,14 @@ import java.io.Serializable
 import java.util.*
 
 /**
- * FileName: MMkvHelper
- * Created by zlx on 2020/9/21 14:40
- * Email: 1170762202@qq.com
- * Description:
+ *
+ * @Description:    MMkvHelper
+ * @Author:         scene
+ * @CreateDate:     2021/6/24 16:00
+ * @UpdateUser:
+ * @UpdateDate:     2021/6/24 16:00
+ * @UpdateRemark:
+ * @Version:        1.0.0
  */
 class MMkvHelper private constructor() : Serializable {
     private val mmkv = MMKV.defaultMMKV()
@@ -24,7 +28,6 @@ class MMkvHelper private constructor() : Serializable {
     }
 
     private object SingletonHolder {
-        //静态内部类
         val mInstance: MMkvHelper = MMkvHelper()
     }
 
@@ -35,12 +38,12 @@ class MMkvHelper private constructor() : Serializable {
     /**
      * 保存用户信息
      */
-    fun saveUserInfo(userInfo: wiki.scene.entity.UserInfo?) {
+    fun saveUserInfo(userInfo: UserInfo?) {
         mmkv?.encode(MMKVKey.USER_INFO, userInfo)
     }
 
-    val userInfo: wiki.scene.entity.UserInfo?
-        get() = mmkv?.decodeParcelable(MMKVKey.USER_INFO, wiki.scene.entity.UserInfo::class.java)
+    val userInfo: UserInfo?
+        get() = mmkv?.decodeParcelable(MMKVKey.USER_INFO, UserInfo::class.java)
 
     fun saveLanguage(locale: Locale?) {
         mmkv?.encode(MMKVKey.LANGUAGE, GsonUtils.toJson(locale))
