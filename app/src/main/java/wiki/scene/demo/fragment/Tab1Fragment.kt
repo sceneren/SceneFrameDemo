@@ -65,14 +65,14 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
                     .navigation()
             }
 
-        binding.btnRecyclerViewStickyHeader
+        binding.btnTestDataNull
             .clicks {
                 ApiManager.getInstance()
                     .loginApi()
                     .logout()
                     .transformData()
                     .bindLifecycle(getLifecycleTransformer())
-                    .subscribe(object : BaseLoadingObserver<String>(true) {
+                    .subscribe(object : BaseLoadingObserver<String>(canNull = true) {
                         override fun onSuccess(data: String) {
                             super.onSuccess(data)
                             ToastUtils.show("成功：$data")
