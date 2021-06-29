@@ -119,6 +119,7 @@ abstract class BaseFg<VB : ViewBinding> : RxVisibilityFragment(), IBaseView {
         }
         initImmersionBar()
         initViews()
+        initListener()
     }
 
     private fun initImmersionBar() {
@@ -246,5 +247,9 @@ abstract class BaseFg<VB : ViewBinding> : RxVisibilityFragment(), IBaseView {
 
     open fun isDarkMode(isDarkMode: Boolean) {
         this.isDarkMode = isDarkMode
+    }
+
+    open fun initListener() {
+
     }
 }

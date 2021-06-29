@@ -6,14 +6,19 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 /**
- * Created by zlx on 2020/9/23 10:29
- * Email: 1170762202@qq.com
- * Description: 搜索历史
+ *
+ * @Description:    搜索历史
+ * @Author:         scene
+ * @CreateDate:     2021/6/29 15:23
+ * @UpdateUser:
+ * @UpdateDate:     2021/6/29 15:23
+ * @UpdateRemark:
+ * @Version:        1.0.0
  */
-@Entity(indices = [Index(value = ["name"],unique = true)])
+@Entity(indices = [Index(value = ["name"], unique = true)])
 data class SearchHistoryEntity(
     @PrimaryKey(autoGenerate = true)
-    val id:Int,
-    val name:String,
-    val insertTime:Date
+    val id: Long = 0L,
+    val name: String,
+    val insertTime: Date = Date()
 )

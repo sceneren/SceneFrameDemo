@@ -63,22 +63,21 @@
                 android:text="AOP检查登录" />
 
             <Button
-                android:id="@+id/btn_set_3_tab"
+                android:id="@+id/btn_query_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="设置3个tab" />
+                android:text="查询搜索历史记录" />
 
             <Button
-                android:id="@+id/btn_set_2_tab"
+                android:id="@+id/btn_insert_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="设置2个tab" />
+                android:text="添加搜索历史记录" />
 
             <EditText
                 android:id="@+id/et_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="200dp"
                 android:hint="请输入内容" />
 
         </LinearLayout>

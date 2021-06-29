@@ -1,5 +1,6 @@
 package wiki.scene.lib_db.manager
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Room
 import androidx.room.migration.Migration
@@ -7,10 +8,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import java.io.Serializable
 
 /**
- * @date: 2019\9\4 0004
- * @author: zlx
- * @email: 1170762202@qq.com
- * @description:
+ *
+ * @Description:    DB工具类
+ * @Author:         scene
+ * @CreateDate:     2021/6/29 15:39
+ * @UpdateUser:
+ * @UpdateDate:     2021/6/29 15:39
+ * @UpdateRemark:
+ * @Version:        1.0.0
  */
 class DbUtil private constructor() : Serializable {
 
@@ -44,10 +49,12 @@ class DbUtil private constructor() : Serializable {
     }
 
     private object SingletonHolder {
+        @SuppressLint("StaticFieldLeak")
         val mInstance: DbUtil = DbUtil()
     }
 
-    private fun readResolve(): Any {//防止单例对象在反序列化时重新生成对象
+    private fun readResolve(): Any {
+        //防止单例对象在反序列化时重新生成对象
         return SingletonHolder.mInstance
     }
 
@@ -56,7 +63,7 @@ class DbUtil private constructor() : Serializable {
     private var context: Context? = null
     private var dbName: String? = null
 
-    fun init(context: Context, dbName: String?) {
+    fun init(context: Context, dbName: String) {
         this.context = context.applicationContext
         this.dbName = dbName
         appDataBase = null

@@ -20,5 +20,5 @@ import wiki.scene.lib_db.entity.SearchHistoryEntity
 @TypeConverters(value = [DateConverter::class])
 @Database(entities = [SearchHistoryEntity::class], version = 1)
 abstract class AppDataBase : RoomDatabase() {
-    abstract fun searchHistoryDao(): SearchHistoryDao?
+    abstract fun searchHistoryDao(): SearchHistoryDao
 }
