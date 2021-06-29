@@ -34,12 +34,63 @@ class GlideEngine private constructor() : ImageEngine {
         GlideUtil.loadImage(imageView, url)
     }
 
+
+    /**
+     * 加载网络图片适配长图方案
+     * */
     override fun loadImage(
         context: Context,
         url: String,
         imageView: ImageView,
         longImageView: SubsamplingScaleImageView?,
         callback: OnImageCompleteCallback?
+    ) {
+        loadLongImage(context, url, imageView, longImageView, callback)
+    }
+
+
+    override fun loadImage(
+        context: Context,
+        url: String,
+        imageView: ImageView,
+        longImageView: SubsamplingScaleImageView
+    ) {
+        loadLongImage(context, url, imageView, longImageView)
+    }
+
+    override fun loadFolderImage(context: Context, url: String, imageView: ImageView) {
+        Glide.with(context)
+            .asBitmap()
+            .load(url)
+            .override(180, 180)
+            .centerCrop()
+            .sizeMultiplier(0.5f)
+            .apply(RequestOptions().placeholder(R.drawable.picture_image_placeholder))
+            .into(object : BitmapImageViewTarget(imageView) {
+                override fun setResource(resource: Bitmap?) {
+                    val circularBitmapDrawable: RoundedBitmapDrawable =
+                        RoundedBitmapDrawableFactory.create(context.resources, resource)
+                    circularBitmapDrawable.cornerRadius = 8F
+                    imageView.setImageDrawable(circularBitmapDrawable)
+                }
+            })
+    }
+
+    override fun loadAsGifImage(context: Context, url: String, imageView: ImageView) {
+        GlideUtil.loadImage(imageView, url)
+    }
+
+    override fun loadGridImage(context: Context, url: String, imageView: ImageView) {
+        GlideUtil.loadSizeImage(imageView, url, 200, 200)
+    }
+
+
+    private fun loadLongImage(
+        context: Context,
+        url: String,
+        imageView: ImageView,
+        longImageView: SubsamplingScaleImageView?,
+        callback: OnImageCompleteCallback? = null
     ) {
         Glide.with(context)
             .asBitmap()
@@ -82,82 +133,6 @@ class GlideEngine private constructor() : ImageEngine {
                     }
                 }
             })
-    }
-
-    /**
-     * 加载网络图片适配长图方案
-     * */
-    override fun loadImage(
-        context: Context,
-        url: String,
-        imageView: ImageView,
-        longImageView: SubsamplingScaleImageView
-    ) {
-        Glide.with(context)
-            .asBitmap()
-            .load(url)
-            .into(object : ImageViewTarget<Bitmap?>(imageView) {
-                override fun setResource(resource: Bitmap?) {
-                    if (resource != null) {
-                        val eqLongImage = MediaUtils.isLongImg(
-                            resource.width,
-                            resource.height
-                        )
-                        longImageView.visibility = if (eqLongImage) View.VISIBLE else View.GONE
-                        imageView.visibility = if (eqLongImage) View.GONE else View.VISIBLE
-                        if (eqLongImage) {
-                            // 加载长图
-                            longImageView.isQuickScaleEnabled = true
-                            longImageView.isZoomEnabled = true
-                            longImageView.setDoubleTapZoomDuration(100)
-                            longImageView.setMinimumScaleType(SubsamplingScaleImageView.SCALE_TYPE_CENTER_CROP)
-                            longImageView.setDoubleTapZoomDpi(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER)
-                            longImageView.setImage(
-                                ImageSource.bitmap(resource),
-                                ImageViewState(0F, PointF(0F, 0F), 0)
-                            )
-                        } else {
-                            // 普通图片
-                            imageView.setImageBitmap(resource)
-                        }
-                    }
-                }
-            })
-
-    }
-
-    override fun loadFolderImage(context: Context, url: String, imageView: ImageView) {
-        Glide.with(context)
-            .asBitmap()
-            .load(url)
-            .override(180, 180)
-            .centerCrop()
-            .sizeMultiplier(0.5f)
-            .apply(RequestOptions().placeholder(R.drawable.picture_image_placeholder))
-            .into(object : BitmapImageViewTarget(imageView) {
-                override fun setResource(resource: Bitmap?) {
-                    val circularBitmapDrawable: RoundedBitmapDrawable =
-                        RoundedBitmapDrawableFactory.create(context.resources, resource)
-                    circularBitmapDrawable.cornerRadius = 8F
-                    imageView.setImageDrawable(circularBitmapDrawable)
-                }
-            })
-    }
-
-    override fun loadAsGifImage(context: Context, url: String, imageView: ImageView) {
-        Glide.with(context)
-            .asGif()
-            .load(url)
-            .into(imageView)
-    }
-
-    override fun loadGridImage(context: Context, url: String, imageView: ImageView) {
-        Glide.with(context)
-            .load(url)
-            .override(200, 200)
-            .centerCrop()
-            .apply(RequestOptions().placeholder(R.drawable.picture_image_placeholder))
-            .into(imageView)
     }
 
 }

@@ -117,6 +117,15 @@ object GlideUtil {
             .into(iv)
     }
 
+    fun loadSizeImage(iv: ImageView, url: String, width: Int, height: Int) {
+        Glide.with(iv.context)
+            .load(url)
+            .override(width, height)
+            .centerCrop()
+            .apply(RequestOptions().placeholder(R.drawable.picture_image_placeholder))
+            .into(iv)
+    }
+
     /**
      * 加载圆形图片
      */
@@ -134,5 +143,13 @@ object GlideUtil {
             .into(iv)
     }
 
+
+    fun getBitmap(context: Context, imagePath: String): Bitmap? {
+        return Glide.with(context)
+            .asBitmap()
+            .load(imagePath)
+            .submit()
+            .get()
+    }
 
 }

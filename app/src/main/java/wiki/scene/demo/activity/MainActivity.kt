@@ -170,4 +170,9 @@ class MainActivity : BaseAc<ActMainBinding>() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
+
 }
