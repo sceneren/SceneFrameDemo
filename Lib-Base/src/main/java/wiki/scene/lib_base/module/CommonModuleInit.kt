@@ -33,6 +33,8 @@ import wiki.scene.lib_db.manager.DbUtil
  */
 class CommonModuleInit : IModuleInit {
     override fun onInitAhead(application: Application): Boolean {
+        initMMKV(application)
+        initARouter(application)
         initToast(application)
         initPermission()
         initDialogX(application)
@@ -40,8 +42,6 @@ class CommonModuleInit : IModuleInit {
         initSmartRefreshLayout(application)
         initLoadMoreView()
 
-        initARouter(application)
-        initMMKV(application)
         initLoadSir()
         initDB(application)
         initTitleBar()
@@ -70,10 +70,10 @@ class CommonModuleInit : IModuleInit {
     }
 
     private fun initSmartRefreshLayout(application: Application) {
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context: Context?, layout: RefreshLayout ->
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator { _: Context?, _: RefreshLayout ->
             ClassicsHeader(application)
         }
-        SmartRefreshLayout.setDefaultRefreshFooterCreator { context: Context?, layout: RefreshLayout ->
+        SmartRefreshLayout.setDefaultRefreshFooterCreator { _: Context?, _: RefreshLayout ->
             ClassicsFooter(application)
         }
     }

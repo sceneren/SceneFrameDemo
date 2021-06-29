@@ -9,8 +9,6 @@ class App : BaseApplication() {
 
     override fun onCreate() {
         super.onCreate()
-
         ModuleLifecycleConfig.getInstance().initModuleAhead(this)
-
     }
 }

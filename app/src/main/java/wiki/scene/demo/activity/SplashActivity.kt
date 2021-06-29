@@ -7,7 +7,9 @@ import com.alibaba.android.arouter.facade.callback.NavCallback
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.bar.TitleBar
 import wiki.scene.demo.databinding.ActSplashBinding
+import wiki.scene.lib_base.BaseApplication
 import wiki.scene.lib_base.base_ac.BaseAc
+import wiki.scene.lib_base.config.ModuleLifecycleConfig
 import wiki.scene.lib_common.router.RouterPath
 
 class SplashActivity : BaseAc<ActSplashBinding>() {
@@ -19,6 +21,12 @@ class SplashActivity : BaseAc<ActSplashBinding>() {
 
     override fun hasTitleBarBack(): Boolean {
         return false
+    }
+
+    override fun afterSetContentView() {
+        super.afterSetContentView()
+        //在这初始化后面的东西
+        ModuleLifecycleConfig.getInstance().initModuleAfter(BaseApplication.getInstance())
     }
 
     override fun initViews() {
