@@ -8,10 +8,14 @@ import wiki.scene.lib_db.dao.SearchHistoryDao
 import wiki.scene.lib_db.entity.SearchHistoryEntity
 
 /**
- * @date: 2019\9\4 0004
- * @author: zlx
- * @email: 1170762202@qq.com
- * @description:
+ *
+ * @Description:   搜索历史
+ * @Author:         scene
+ * @CreateDate:     2021/6/29 15:09
+ * @UpdateUser:
+ * @UpdateDate:     2021/6/29 15:09
+ * @UpdateRemark:
+ * @Version:        1.0.0
  */
 @TypeConverters(value = [DateConverter::class])
 @Database(entities = [SearchHistoryEntity::class], version = 1)

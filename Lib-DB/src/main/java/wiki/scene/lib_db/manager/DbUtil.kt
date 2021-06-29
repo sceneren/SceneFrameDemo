@@ -1,7 +1,6 @@
 package wiki.scene.lib_db.manager
 
 import android.content.Context
-import android.text.TextUtils
 import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
@@ -45,7 +44,6 @@ class DbUtil private constructor() : Serializable {
     }
 
     private object SingletonHolder {
-        //静态内部类
         val mInstance: DbUtil = DbUtil()
     }
 
@@ -66,7 +64,7 @@ class DbUtil private constructor() : Serializable {
 
     fun getAppDataBase(): AppDataBase {
         if (appDataBase == null) {
-            if (TextUtils.isEmpty(dbName)) {
+            if (dbName.isNullOrEmpty()) {
                 throw NullPointerException("dbName is null")
             }
             appDataBase = Room.databaseBuilder(context!!, AppDataBase::class.java, dbName!!)

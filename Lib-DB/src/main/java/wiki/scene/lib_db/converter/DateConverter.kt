@@ -1,6 +1,5 @@
 package wiki.scene.lib_db.converter
 
-import android.util.Log
 import androidx.room.TypeConverter
 import java.util.*
 
@@ -17,7 +16,6 @@ class DateConverter {
         if (newValue == null) {
             newValue = Date()
         }
-        Log.i("DateConverter", "converterDate=" + newValue.time + "")
         return newValue.time
     }
 }

@@ -7,9 +7,14 @@ import androidx.room.Query
 import wiki.scene.lib_db.entity.SearchHistoryEntity
 
 /**
- * Created by zlx on 2020/9/23 10:32
- * Email: 1170762202@qq.com
- * Description:
+ *
+ * @Description:    搜索历史
+ * @Author:         scene
+ * @CreateDate:     2021/6/29 15:09
+ * @UpdateUser:
+ * @UpdateDate:     2021/6/29 15:09
+ * @UpdateRemark:
+ * @Version:        1.0.0
  */
 @Dao
 interface SearchHistoryDao {
