@@ -34,7 +34,7 @@ class Main2Activity : FastMainActivity() {
 
         val tab2Fragment = ARouter.getInstance()
             .build(RouterPath.Main.FRAG_TAB_2)
-            .withString("color","#FF00C4")
+            .withString("color", "#FF00C4")
             .navigation() as Fragment
         mTabEntities.add(
             FastTabEntity(
@@ -66,11 +66,6 @@ class Main2Activity : FastMainActivity() {
 
     override fun isDoubleClickExit(): Boolean {
         return true
-    }
-
-    override fun initListener() {
-        super.initListener()
-//        requestPermissions(Permission.MANAGE_EXTERNAL_STORAGE)
     }
 
     override fun reqPermissionFailure(permissions: List<String>) {
