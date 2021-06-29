@@ -1,6 +1,6 @@
-package wiki.scene.lib_base.mmkv;
+package wiki.scene.lib_base.mmkv
 
-public class MMKVKey {
-    public static final String USER_INFO = "USER_INFO";
-    public static final String LANGUAGE = "LANGUAGE";
+object MMKVKey {
+    const val USER_INFO = "USER_INFO"
+    const val LANGUAGE = "LANGUAGE"
 }

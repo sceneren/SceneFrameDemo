@@ -1,6 +1,7 @@
 package wiki.scene.lib_base.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -14,6 +15,13 @@ abstract class BaseBindingQuickAdapter<T, VB : ViewBinding>(
 
     override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int) =
         BaseBindingHolder(inflate(LayoutInflater.from(parent.context), parent, false))
+
+    fun addChildClickViews(vararg views: View) {
+        for (view in views) {
+            addChildClickViewIds(view.id)
+        }
+    }
+
 
     class BaseBindingHolder(private val binding: ViewBinding) : BaseViewHolder(binding.root) {
 

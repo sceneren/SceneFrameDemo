@@ -29,7 +29,14 @@ import wiki.scene.lib_common.toast.CustomToastStyle
 import wiki.scene.lib_db.manager.DbUtil
 
 /**
- * 在 ModuleLifecycleReflects 里面
+ *
+ * @Description:    初始化实际实现
+ * @Author:         scene
+ * @CreateDate:     2021/6/29 14:58
+ * @UpdateUser:
+ * @UpdateDate:     2021/6/29 14:58
+ * @UpdateRemark:
+ * @Version:        1.0.0
  */
 class CommonModuleInit : IModuleInit {
     override fun onInitAhead(application: Application): Boolean {
