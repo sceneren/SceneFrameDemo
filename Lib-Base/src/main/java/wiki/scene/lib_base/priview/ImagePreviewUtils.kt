@@ -7,7 +7,6 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
-import com.kongzue.dialogx.DialogX
 import com.kongzue.dialogx.dialogs.BottomMenu
 import wiki.scene.lib_base.R
 
@@ -85,8 +84,6 @@ object ImagePreviewUtils {
             }
             false
         }.setCancelButton(R.string.lib_base_cancel)
-            .theme = DialogX.THEME.LIGHT
-
     }
 
 

@@ -109,6 +109,7 @@ class CommonModuleInit : IModuleInit {
     private fun initDialogX(application: Application) {
         DialogX.init(application)
         DialogX.globalStyle = IOSStyle()
+        DialogX.globalTheme = DialogX.THEME.LIGHT
         TipDialog.overrideCancelable = BOOLEAN.TRUE
     }
 
