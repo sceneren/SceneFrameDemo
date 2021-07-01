@@ -18,12 +18,6 @@
             android:padding="@dimen/dp_16">
 
             <Button
-                android:id="@+id/btnTab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="中间凸出的TabLayout" />
-
-            <Button
                 android:id="@+id/btnTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -52,12 +52,7 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
 
     override fun initListener() {
         super.initListener()
-        binding.btnTab
-            .clicks {
-                ARouter.getInstance()
-                    .build(RouterPath.Main.ACT_MAIN)
-                    .navigation()
-            }
+
         binding.btnTest
             .clicks {
                 ARouter.getInstance()

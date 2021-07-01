@@ -1,43 +1,44 @@
 package wiki.scene.lib_base.base_ac
 
-import android.os.Bundle
-import com.aries.ui.view.tab.CommonTabLayout
+import android.util.SparseArray
+import androidx.core.util.isEmpty
+import androidx.fragment.app.Fragment
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 import wiki.scene.lib_base.databinding.LibBaseFastActMainBinding
-import wiki.scene.lib_base.delegate.FastMainTabDelegate
-import wiki.scene.lib_base.impl.IFastMainView
+import wiki.scene.lib_base.indicator.adapter.BottomCommonNavigatorAdapter
+import wiki.scene.lib_base.indicator.adapter.ViewPager2Adapter
+import wiki.scene.lib_base.indicator.entity.CustomBottomTabInfo
+import wiki.scene.lib_base.indicator.ext.bind
 
-abstract class FastMainActivity : BaseAc<LibBaseFastActMainBinding>(), IFastMainView {
-    var mFastMainTabDelegate: FastMainTabDelegate? = null
+abstract class FastMainActivity : BaseAc<LibBaseFastActMainBinding>() {
+    override fun initViews() {
+        super.initViews()
+        if (getFragmentList().isEmpty() || getTabList().isEmpty() || getFragmentList().size() != getTabList().size) {
+            throw Exception("tabList or fragmentList error!")
+        }
+        val viewPager2Adapter = ViewPager2Adapter(this, getFragmentList())
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        mFastMainTabDelegate?.onSaveInstanceState(outState)
-        super.onSaveInstanceState(outState)
+        binding.viewPager2.adapter = viewPager2Adapter
+        binding.viewPager2.isUserInputEnabled = false
+
+        val commonNavigator = CommonNavigator(this)
+        commonNavigator.isAdjustMode = true
+
+        commonNavigator.adapter = BottomCommonNavigatorAdapter(getTabList(), binding.viewPager2)
+
+        binding.magicIndicator.navigator = commonNavigator
+        binding.magicIndicator.bind(binding.viewPager2)
     }
 
-    override fun beforeInitView() {
-        super.beforeInitView()
-        mFastMainTabDelegate = FastMainTabDelegate(binding.root, this, this)
-    }
-
-    override fun getSavedInstanceState(): Bundle? {
-        return mSavedInstanceState
-    }
-
-    override fun isDoubleClickExit(): Boolean {
-        return true
-    }
-
-    override fun onDestroy() {
-        mFastMainTabDelegate?.onDestroy()
-        super.onDestroy()
-    }
-
-    override fun setTabLayout(tabLayout: CommonTabLayout) {
-
-    }
-
-    override fun canSwipeBack(): Boolean {
+    override fun hasTitleBarView(): Boolean {
         return false
     }
 
+    override fun onBackPressed() {
+        
+    }
+
+    abstract fun getFragmentList(): SparseArray<Fragment>
+
+    abstract fun getTabList(): List<CustomBottomTabInfo>
 }

@@ -38,7 +38,7 @@ class SplashActivity : BaseAc<ActSplashBinding>() {
 
             override fun onAnimationEnd(animation: Animator?) {
                 ARouter.getInstance()
-                    .build(RouterPath.Main.ACT_MAIN_2)
+                    .build(RouterPath.Main.ACT_MAIN)
                     .navigation(this@SplashActivity, object : NavCallback() {
                         override fun onArrival(postcard: Postcard?) {
                             finish()

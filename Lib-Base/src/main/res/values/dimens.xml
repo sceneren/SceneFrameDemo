@@ -12,4 +12,8 @@
     <dimen name="lib_base_dp_tab_text_size">10sp</dimen>
     <!--主页tab 上划线宽度-->
     <dimen name="lib_base_dp_tab_underline">0.5dp</dimen>
+    <!--主页tab间距-->
+    <dimen name="lib_base_dp_tab_padding">0dp</dimen>
+    <!--主页tab divider 高度-->
+    <dimen name="lib_base_dp_tab_divider_height">0dp</dimen>
 </resources>
