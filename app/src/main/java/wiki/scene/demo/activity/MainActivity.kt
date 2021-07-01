@@ -1,5 +1,6 @@
 package wiki.scene.demo.activity
 
+import android.graphics.Color
 import android.util.SparseArray
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -47,5 +48,11 @@ class MainActivity : FastMainActivity() {
         return listOf(customBottomTabInfo1, customBottomTabInfo2, customBottomTabInfo3)
     }
 
+    override fun getDividerColor(): Int {
+        return Color.parseColor("#666666")
+    }
 
+    override fun getDividerHeight(): Int {
+        return 1
+    }
 }

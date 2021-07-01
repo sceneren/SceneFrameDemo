@@ -6,8 +6,9 @@
     <color name="lib_base_white">#FFFFFF</color>
     <color name="lib_base_main_text_light">#333333</color>
     <color name="lib_base_bg">#FFFFFF</color>
-    <color name="lib_base_tab_divider_color">#FF0000</color>
 
+    <!--主页Tab的divider颜色-->
+    <color name="lib_base_tab_divider_color">#00000000</color>
     <!--主页tab背景色-->
     <color name="lib_base_colorTabBackground">#FFFFFF</color>
     <!--主页上划线颜色-->
