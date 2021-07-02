@@ -7,8 +7,9 @@ import com.hjq.permissions.OnPermissionCallback
 import com.hjq.permissions.Permission
 import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
-import com.kongzue.dialogx.dialogs.BottomMenu
 import wiki.scene.lib_base.R
+import wiki.scene.lib_common.dialog.CustomBottomMenu
+import wiki.scene.lib_common.dialog.callback.MenuItemClickListener
 
 /**
  *
@@ -75,15 +76,17 @@ object ImagePreviewUtils {
     }
 
     private fun showLongClickDialog(activity: AppCompatActivity, imagePath: String) {
-        BottomMenu.show(
-            StringUtils.getStringArray(R.array.lib_base_preview_image_long_click)
-        ) { dialog, _, index ->
-            if (index == 0) {
-                dialog.dismiss()
-                DownloadImageUtil.instance.downloadImage(activity, imagePath)
-            }
-            false
-        }.setCancelButton(R.string.lib_base_cancel)
+
+        CustomBottomMenu.show(StringUtils.getStringArray(R.array.lib_base_preview_image_long_click),
+            object : MenuItemClickListener {
+                override fun onClickMenuItemClick(index: Int, name: String) {
+                    if (index == 0) {
+                        DownloadImageUtil.instance.downloadImage(activity, imagePath)
+                    }
+                }
+
+            })
+
     }
 
 

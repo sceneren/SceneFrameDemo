@@ -44,7 +44,7 @@ class DownloadImageUtil private constructor() {
             observer.compose(activity.bindToLifecycle())
         }
 
-        observer.subscribe(object : BaseLoadingObserver<Boolean>() {
+        observer.subscribe(object : BaseLoadingObserver<Boolean>(R.string.lib_base_downloading) {
             override fun onSuccess(data: Boolean) {
                 super.onSuccess(data)
                 ToastUtils.show(R.string.lib_base_saved_successfully)

@@ -7,4 +7,5 @@
     <string name="lib_base_save_picture">保存图片</string>
     <string name="lib_base_cancel">取消</string>
     <string name="lib_base_permission_denied">授权失败</string>
+    <string name="lib_base_downloading">下载中...</string>
 </resources>

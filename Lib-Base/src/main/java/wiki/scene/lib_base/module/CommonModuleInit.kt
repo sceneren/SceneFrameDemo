@@ -18,6 +18,7 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.tencent.mmkv.MMKV
+import me.jessyan.autosize.AutoSizeCompat
 import me.jessyan.autosize.AutoSizeConfig
 import wiki.scene.lib_base.BaseApplication
 import wiki.scene.lib_base.BuildConfig
@@ -113,6 +114,7 @@ class CommonModuleInit : IModuleInit {
     }
 
     private fun initDialogX(application: Application) {
+        AutoSizeCompat.autoConvertDensityOfGlobal(application.resources)
         DialogX.init(application)
         DialogX.globalStyle = IOSStyle()
         DialogX.globalTheme = DialogX.THEME.LIGHT

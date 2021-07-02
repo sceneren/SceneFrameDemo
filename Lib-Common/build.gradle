@@ -20,7 +20,6 @@ dependencies {
 
     api 'com.github.fondesa:recycler-view-divider:3.5.0'
 
-    api 'com.github.AriesHoo.UIWidget:tab-layout:3.2.25'
     api 'com.github.AriesHoo.UIWidget:widget-core:3.2.25'
     api 'com.github.getActivity:TitleBar:8.6'
     api 'com.gyf.immersionbar:immersionbar:3.0.0'

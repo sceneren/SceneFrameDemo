@@ -436,9 +436,9 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         return RxLifecycle.bindUntilEvent(this.lifecycle(), ActivityEvent.DESTROY)
     }
 
-    override fun getResources(): Resources {
-        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources())
-        return super.getResources()
-    }
+//    override fun getResources(): Resources {
+//        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources())
+//        return super.getResources()
+//    }
 
 }
