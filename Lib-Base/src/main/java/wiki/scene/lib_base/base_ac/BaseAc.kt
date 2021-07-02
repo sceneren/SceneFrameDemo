@@ -3,6 +3,7 @@ package wiki.scene.lib_base.base_ac
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.os.IBinder
@@ -32,6 +33,7 @@ import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.subjects.BehaviorSubject
+import me.jessyan.autosize.AutoSizeCompat
 import org.greenrobot.eventbus.EventBus
 import wiki.scene.lib_base.R
 import wiki.scene.lib_base.base_mvp.i.IBaseView
@@ -52,7 +54,7 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
     protected lateinit var mContext: AppCompatActivity
 
     private var isDarkMode = true
-    var mSavedInstanceState: Bundle? = null
+    private var mSavedInstanceState: Bundle? = null
 
     private val lifecycleSubject = BehaviorSubject.create<ActivityEvent>()
 
@@ -432,6 +434,11 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
 
     override fun <T> getLifecycleTransformer(): LifecycleTransformer<T> {
         return RxLifecycle.bindUntilEvent(this.lifecycle(), ActivityEvent.DESTROY)
+    }
+
+    override fun getResources(): Resources {
+        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources())
+        return super.getResources()
     }
 
 }

@@ -18,6 +18,7 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.tencent.mmkv.MMKV
+import me.jessyan.autosize.AutoSizeConfig
 import wiki.scene.lib_base.BaseApplication
 import wiki.scene.lib_base.BuildConfig
 import wiki.scene.lib_base.adapters.loadmore.CustomLoadMoreView
@@ -40,6 +41,7 @@ import wiki.scene.lib_db.manager.DbUtil
  */
 class CommonModuleInit : IModuleInit {
     override fun onInitAhead(application: Application): Boolean {
+        initAutoSize()
         initMMKV(application)
         initARouter(application)
         initToast(application)
@@ -58,6 +60,10 @@ class CommonModuleInit : IModuleInit {
     override fun onInitAfter(application: BaseApplication): Boolean {
 
         return false
+    }
+
+    private fun initAutoSize() {
+        AutoSizeConfig.getInstance().isExcludeFontScale = true
     }
 
     private fun initMMKV(application: Application) {

@@ -7,9 +7,14 @@ import android.webkit.WebView
 import com.just.agentweb.IWebLayout
 
 /**
- * Created by zlx on 2020/9/24 14:11
- * Email: 1170762202@qq.com
- * Description:
+ *
+ * @Description:    web实现类
+ * @Author:         scene
+ * @CreateDate:     2021/7/2 09:54
+ * @UpdateUser:
+ * @UpdateDate:     2021/7/2 09:54
+ * @UpdateRemark:
+ * @Version:        1.0.0
  */
 class WebLayout(activity: Activity) : IWebLayout<WebView, ViewGroup> {
 
