@@ -6,3 +6,4 @@ include ':Lib-Base'
 include ':Module-Web'
 include ':app'
 rootProject.name = "SceneFrameDemo"
+include ':Module-Scan'

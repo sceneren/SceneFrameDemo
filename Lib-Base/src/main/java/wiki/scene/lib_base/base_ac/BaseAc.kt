@@ -3,7 +3,6 @@ package wiki.scene.lib_base.base_ac
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.os.IBinder
@@ -33,7 +32,6 @@ import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import io.reactivex.subjects.BehaviorSubject
-import me.jessyan.autosize.AutoSizeCompat
 import org.greenrobot.eventbus.EventBus
 import wiki.scene.lib_base.R
 import wiki.scene.lib_base.base_mvp.i.IBaseView
@@ -62,6 +60,10 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         beforeOnCreate()
         super.onCreate(savedInstanceState)
         mSavedInstanceState = savedInstanceState
+
+        if (allowEventBus() && !EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
 
         ARouter.getInstance().inject(this)
         mContext = this
@@ -132,20 +134,6 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         return false
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (allowEventBus()) {
-            EventBus.getDefault().register(this)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (allowEventBus()) {
-            EventBus.getDefault().unregister(this)
-        }
-    }
-
     /**
      * 如果界面没有引用titleBarView的话要重写此方法返回false
      */
@@ -177,7 +165,7 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
 
     override fun initToolBarView(titleBarView: TitleBar) {
         if (hasTitleBarBack()) {
-            titleBarView.setLeftIcon(R.mipmap.ic_back)
+            titleBarView.setLeftIcon(R.drawable.ic_back)
                 .setOnTitleBarListener(object : OnTitleBarListener {
                     override fun onLeftClick(view: View) {
                         onTitleLeftClick()
@@ -411,6 +399,9 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
     }
 
     override fun onDestroy() {
+        if (allowEventBus() && EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
         super.onDestroy()
         unregisterSlideBack()
         mSavedInstanceState = null
@@ -435,10 +426,5 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
     override fun <T> getLifecycleTransformer(): LifecycleTransformer<T> {
         return RxLifecycle.bindUntilEvent(this.lifecycle(), ActivityEvent.DESTROY)
     }
-
-//    override fun getResources(): Resources {
-//        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources())
-//        return super.getResources()
-//    }
 
 }

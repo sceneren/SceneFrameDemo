@@ -5,11 +5,14 @@ import android.util.SparseArray
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.blankj.utilcode.util.LogUtils
 import dagger.hilt.android.AndroidEntryPoint
+import org.greenrobot.eventbus.Subscribe
 import wiki.scene.demo.R
 import wiki.scene.lib_base.base_ac.FastMainActivity
 import wiki.scene.lib_base.indicator.entity.CustomBottomTabInfo
 import wiki.scene.lib_common.router.RouterPath
+import wiki.scene.module_scan.event.OnScanResultEvent
 
 @AndroidEntryPoint
 @Route(path = RouterPath.Main.ACT_MAIN)
@@ -54,5 +57,16 @@ class MainActivity : FastMainActivity() {
 
     override fun getDividerHeight(): Int {
         return 1
+    }
+
+    override fun allowEventBus(): Boolean {
+        return true
+    }
+
+    @Subscribe
+    fun onEvent(event: OnScanResultEvent?) {
+        event?.let {
+            LogUtils.e(event.tag + "====" + event.result)
+        }
     }
 }

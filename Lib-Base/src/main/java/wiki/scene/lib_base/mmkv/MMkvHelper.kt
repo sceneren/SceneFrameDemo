@@ -62,6 +62,10 @@ class MMkvHelper private constructor() : Serializable {
             }
         }
 
+    fun isLogin(): Boolean {
+        return userInfo != null
+    }
+
     fun logout() {
         mmkv!!.remove(MMKVKey.USER_INFO)
     }

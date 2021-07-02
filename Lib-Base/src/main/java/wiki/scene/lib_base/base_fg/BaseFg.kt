@@ -82,20 +82,6 @@ abstract class BaseFg<VB : ViewBinding> : RxVisibilityFragment(), IBaseView {
         return false
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (allowEventBus()) {
-            EventBus.getDefault().register(this)
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (allowEventBus()) {
-            EventBus.getDefault().unregister(this)
-        }
-    }
-
     open fun beforeCreateView() {
 
     }
@@ -106,6 +92,9 @@ abstract class BaseFg<VB : ViewBinding> : RxVisibilityFragment(), IBaseView {
 
     override fun onVisibleFirst() {
         super.onVisibleFirst()
+        if (allowEventBus() && !EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
         beforeLoadData()
         loadData()
     }
@@ -185,6 +174,11 @@ abstract class BaseFg<VB : ViewBinding> : RxVisibilityFragment(), IBaseView {
 
 
     override fun onDestroyView() {
+        if (allowEventBus()) {
+            if (EventBus.getDefault().isRegistered(this)) {
+                EventBus.getDefault().unregister(this)
+            }
+        }
         super.onDestroyView()
         _binding = null
     }

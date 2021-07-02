@@ -1,6 +1,8 @@
 package wiki.scene.lib_common.router
 
 object RouterPath {
+    const val NEED_LOGIN = 1001
+
     //登陆
     private const val LOGIN = "/module_login"
 
@@ -31,5 +33,11 @@ object RouterPath {
         const val ACT_MVP_RECYCLERVIEW = "$MAIN/MvpRecyclerViewActivity"
     }
 
+
+    private const val SCAN = "/module_scan"
+
+    object Scan {
+        const val ACT_SCAN = "$SCAN/ScanActivity"
+    }
 
 }

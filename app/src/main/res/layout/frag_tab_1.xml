@@ -57,6 +57,12 @@
                 android:text="AOP检查登录" />
 
             <Button
+                android:id="@+id/btn_scan_qrcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="扫描二维码" />
+
+            <Button
                 android:id="@+id/btn_query_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

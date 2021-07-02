@@ -83,6 +83,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':Lib-Base')
     implementation project(':Module-Web')
+    implementation project(':Module-Scan')
     kapt rootProject.ext.dependencies.arouterCompiler
     implementation 'androidx.multidex:multidex:2.0.1'
 

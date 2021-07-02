@@ -10,6 +10,7 @@ import com.hjq.bar.TitleBar
 import com.hjq.toast.ToastUtils
 import com.luck.picture.lib.entity.LocalMedia
 import io.reactivex.Observable
+import org.greenrobot.eventbus.Subscribe
 import wiki.scene.demo.databinding.FragTab1Binding
 import wiki.scene.lib_base.aop.checklogin.annotation.CheckLogin
 import wiki.scene.lib_base.base_fg.BaseFg
@@ -26,6 +27,7 @@ import wiki.scene.lib_network.ext.changeIO2MainThread
 import wiki.scene.lib_network.ext.transformData
 import wiki.scene.lib_network.manager.ApiManager
 import wiki.scene.lib_network.observer.BaseLoadingObserver
+import wiki.scene.module_scan.event.OnScanResultEvent
 
 @Route(path = RouterPath.Main.FRAG_TAB_1)
 class Tab1Fragment : BaseFg<FragTab1Binding>() {
@@ -36,6 +38,10 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
     @JvmField
     @Autowired
     var name = ""
+
+    override fun allowEventBus(): Boolean {
+        return true
+    }
 
     override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
@@ -108,6 +114,14 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
                 testNeedLogin()
             }
 
+        binding.btnScanQrcode
+            .clicks {
+                ARouter.getInstance()
+                    .build(RouterPath.Scan.ACT_SCAN)
+                    .withString("tag", this.javaClass.simpleName)
+                    .navigation()
+            }
+
         binding.btnQueryHistory
             .clicks {
                 Observable.create<List<SearchHistoryEntity>> {
@@ -171,5 +185,14 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
     @CheckLogin
     private fun testNeedLogin() {
         showToast("测试需要登录")
+    }
+
+    @Subscribe
+    fun onScanResult(event: OnScanResultEvent?) {
+        event?.let {
+            if (event.tag == this.javaClass.simpleName) {
+                showToast(event.result)
+            }
+        }
     }
 }

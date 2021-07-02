@@ -1,0 +1,11 @@
+apply from: "../module_base_config.gradle"
+
+android {
+    resourcePrefix "module_scan_"
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    kapt rootProject.ext.dependencies.arouterCompiler
+    implementation 'com.github.bingoogolapple.BGAQRCode-Android:zxing:1.3.8'
+}
