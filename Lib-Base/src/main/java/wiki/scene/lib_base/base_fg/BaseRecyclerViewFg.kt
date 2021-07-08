@@ -67,7 +67,7 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
     }
 
     override fun onLoadMore() {
-        getListData(false, currentPageNo)
+        getListData(false, currentPageNo + 1)
     }
 
     open fun isAllowRefresh(): Boolean {
@@ -119,6 +119,16 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
         }
     }
 
+    override fun loadListDataSuccess(isFirst: Boolean, list: MutableList<T>) {
+        if (isFirst) {
+            showSuccess()
+        } else {
+            injectRefreshLayout().finishRefresh(true)
+        }
+        injectAdapter().setNewInstance(list)
+    }
+
+
     override fun loadListDataFail(isFirst: Boolean, loadPage: Int) {
         if (isFirst) {
             showError()
@@ -128,6 +138,14 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
             } else {
                 injectAdapter().loadMoreModule.loadMoreFail()
             }
+        }
+    }
+
+    override fun loadListDataFail(isFirst: Boolean) {
+        if (isFirst) {
+            showError()
+        } else {
+            injectRefreshLayout().finishRefresh(false)
         }
     }
 

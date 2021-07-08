@@ -12,5 +12,12 @@ interface IRecyclerViewBaseView<T> : IBaseView {
         list: MutableList<T>
     )
 
+    fun loadListDataSuccess(
+        isFirst: Boolean,
+        list: MutableList<T>
+    )
+
     fun loadListDataFail(isFirst: Boolean, loadPage: Int)
+
+    fun loadListDataFail(isFirst: Boolean)
 }
