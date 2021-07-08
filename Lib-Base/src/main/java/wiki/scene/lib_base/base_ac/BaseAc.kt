@@ -17,6 +17,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.KeyboardUtils
 import com.dylanc.viewbinding.base.inflateBindingWithGeneric
+import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
 import com.hjq.bar.OnTitleBarListener
 import com.hjq.bar.TitleBar
@@ -51,7 +52,6 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
     private var loadService: LoadService<*>? = null
     protected lateinit var mContext: AppCompatActivity
 
-    private var isDarkMode = true
     private var mSavedInstanceState: Bundle? = null
 
     private val lifecycleSubject = BehaviorSubject.create<ActivityEvent>()
@@ -110,24 +110,29 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
     }
 
     private fun initImmersionBar() {
+        val immersionBar = ImmersionBar.with(this)
+        if (fullScreen()) {
+            immersionBar.hideBar(BarHide.FLAG_HIDE_NAVIGATION_BAR)
+        }
         if (hasTitleBarView()) {
-            ImmersionBar.with(this)
-                .titleBar(titleBarBinding!!.libBaseTvTitleBar)
-                .statusBarDarkFont(isDarkMode)
-                .navigationBarDarkIcon(isDarkMode)
+            immersionBar.titleBar(titleBarBinding!!.libBaseTvTitleBar)
+                .statusBarDarkFont(isDarkMode())
+                .navigationBarDarkIcon(isDarkMode())
                 .navigationBarColorInt(Color.WHITE)
-                .keyboardEnable(true)
+                .keyboardEnable(keyboardEnable())
                 .init()
         } else {
-            ImmersionBar.with(this)
-                .transparentStatusBar()
-                .transparentNavigationBar()
-                .statusBarDarkFont(isDarkMode)
-                .navigationBarDarkIcon(isDarkMode)
+            immersionBar.transparentStatusBar()
+                .statusBarDarkFont(isDarkMode())
+                .navigationBarDarkIcon(isDarkMode())
                 .navigationBarColorInt(Color.WHITE)
-                .keyboardEnable(true)
+                .keyboardEnable(keyboardEnable())
                 .init()
         }
+    }
+
+    open fun keyboardEnable(): Boolean {
+        return false
     }
 
     open fun allowEventBus(): Boolean {
@@ -195,8 +200,8 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
 
     }
 
-    open fun isDarkMode(isDarkMode: Boolean) {
-        this.isDarkMode = isDarkMode
+    open fun isDarkMode(): Boolean {
+        return true
     }
 
     override fun initListener() {

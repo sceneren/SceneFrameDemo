@@ -56,4 +56,8 @@ abstract class FastMainActivity : BaseAc<LibBaseFastActMainBinding>() {
     open fun getDividerHeight(): Int {
         return 0
     }
+
+    override fun canSwipeBack(): Boolean {
+        return false
+    }
 }

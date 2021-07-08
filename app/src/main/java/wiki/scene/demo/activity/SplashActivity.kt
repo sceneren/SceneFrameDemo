@@ -19,6 +19,10 @@ class SplashActivity : BaseAc<ActSplashBinding>() {
         titleBarView.visibility = View.GONE
     }
 
+    override fun fullScreen(): Boolean {
+        return true
+    }
+
     override fun hasTitleBarBack(): Boolean {
         return false
     }
