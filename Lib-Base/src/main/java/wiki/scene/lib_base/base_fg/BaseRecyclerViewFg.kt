@@ -42,8 +42,8 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
         super.initViews()
         initRecyclerView()
         injectRefreshLayout().setEnableLoadMore(false)
-        injectAdapter().setEmptyView(R.layout.lib_base_layout_empty)
-
+        injectAdapter().setEmptyView(injectEmptyView())
+        injectAdapter().isUseEmpty = false
         if (isAllowLoadMore()) {
             injectAdapter().loadMoreModule.setOnLoadMoreListener(this)
         }
@@ -76,6 +76,10 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
 
     open fun isAllowLoadMore(): Boolean {
         return true
+    }
+
+    open fun injectEmptyView(): Int {
+        return R.layout.lib_base_layout_empty
     }
 
     abstract fun initRecyclerView()
@@ -117,6 +121,7 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
         } else {
             injectAdapter().addData(list)
         }
+        injectAdapter().isUseEmpty = true
     }
 
     override fun loadListDataSuccess(isFirst: Boolean, list: MutableList<T>) {
@@ -126,6 +131,7 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
             injectRefreshLayout().finishRefresh(true)
         }
         injectAdapter().setNewInstance(list)
+        injectAdapter().isUseEmpty = true
     }
 
 
