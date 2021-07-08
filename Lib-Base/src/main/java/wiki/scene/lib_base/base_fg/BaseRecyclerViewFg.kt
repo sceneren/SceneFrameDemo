@@ -44,6 +44,8 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
         injectRefreshLayout().setEnableLoadMore(false)
         injectAdapter().setEmptyView(injectEmptyView())
         injectAdapter().isUseEmpty = false
+        injectAdapter().headerWithEmptyEnable = injectHeaderWithEmptyEnable()
+
         if (isAllowLoadMore()) {
             injectAdapter().loadMoreModule.setOnLoadMoreListener(this)
         }
@@ -81,6 +83,11 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
     open fun injectEmptyView(): Int {
         return R.layout.lib_base_layout_empty
     }
+
+    open fun injectHeaderWithEmptyEnable(): Boolean {
+        return true
+    }
+
 
     abstract fun initRecyclerView()
 
