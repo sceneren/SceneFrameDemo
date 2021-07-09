@@ -131,6 +131,7 @@ abstract class BaseAc<VB : ViewBinding> : RxAppCompatActivity(), IAcView,
         }
     }
 
+    //处理软键盘把titleBar顶界面的问题
     open fun keyboardEnable(): Boolean {
         return false
     }

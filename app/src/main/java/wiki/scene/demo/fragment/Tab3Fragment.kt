@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.fondesa.recyclerviewdivider.BaseDividerItemDecoration
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.hjq.bar.TitleBar
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -20,7 +22,6 @@ import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewFg
 import wiki.scene.lib_base.priview.ImagePreviewUtils
 import wiki.scene.lib_common.router.RouterPath
-import wiki.scene.lib_common.router.RouterUtil
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -44,23 +45,26 @@ class Tab3Fragment :
         titleBarView.title = ("MVP RecyclerView Fragment")
     }
 
+    override fun injectRecyclerView(): RecyclerView {
+        return binding.recyclerView
+    }
+
+    override fun injectLayoutManager(): RecyclerView.LayoutManager {
+        return LinearLayoutManager(mContext)
+    }
+
+    override fun injectDivider(): BaseDividerItemDecoration {
+        return mContext.dividerBuilder().size(10, TypedValue.COMPLEX_UNIT_DIP)
+            .color(Color.RED)
+            .build()
+    }
+
     override fun initPresenter() {
         mPresenter = Tab3Presenter(this)
     }
 
-    override fun initRecyclerView() {
-        binding.recyclerView.adapter = mAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(mContext)
-        mContext.dividerBuilder().size(10, TypedValue.COMPLEX_UNIT_DIP)
-            .color(Color.RED)
-            .build()
-            .addTo(binding.recyclerView)
 
-        mAdapter.setOnItemClickListener { _, _, position ->
-            val url = mAdapter.data[position].link
-            RouterUtil.launchWeb(url)
-        }
-
+    override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
         mAdapter.setOnItemChildClickListener { _, view, _ ->
             when (view.id) {
                 R.id.ivImage -> {
@@ -71,9 +75,6 @@ class Tab3Fragment :
                 }
             }
         }
-    }
-
-    override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
         return mAdapter
     }
 
@@ -88,4 +89,6 @@ class Tab3Fragment :
     override fun injectLoadServiceView(): View {
         return binding.refreshLayout
     }
+
+
 }

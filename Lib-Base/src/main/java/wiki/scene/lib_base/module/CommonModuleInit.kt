@@ -13,7 +13,6 @@ import com.kongzue.dialogx.DialogX
 import com.kongzue.dialogx.dialogs.TipDialog
 import com.kongzue.dialogx.interfaces.BaseDialog.BOOLEAN
 import com.kongzue.dialogx.style.IOSStyle
-import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -84,11 +83,9 @@ class CommonModuleInit : IModuleInit {
     }
 
     private fun initSmartRefreshLayout(application: Application) {
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator { _: Context?, _: RefreshLayout ->
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator { _: Context?, refreshLayout: RefreshLayout ->
+            refreshLayout.setEnableLoadMore(false)
             ClassicsHeader(application)
-        }
-        SmartRefreshLayout.setDefaultRefreshFooterCreator { _: Context?, _: RefreshLayout ->
-            ClassicsFooter(application)
         }
     }
 

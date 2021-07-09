@@ -1,63 +1,89 @@
 package wiki.scene.lib_base.base_fg
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnLoadMoreListener
+import com.fondesa.recyclerviewdivider.BaseDividerItemDecoration
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import wiki.scene.lib_base.R
 import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.i.IRecyclerViewBaseView
+import wiki.scene.lib_common.constant.Constant
 
 /**
  * 普通分页列表封装
  */
 abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefreshListener,
     OnLoadMoreListener, IRecyclerViewBaseView<T> {
-    open var currentPageNo = 0
+    open var currentPageNo = Constant.API_PAGE_REQUEST_START
     private var hasMore = false
 
     /**
      * 返回的第一页的page
      */
     open fun injectReturnFirstPage(): Int {
-        return 0
+        return Constant.API_PAGE_RESPONSE_START
     }
 
     /**
      * 请求第一页的page
      */
     open fun injectRequestFirstPage(): Int {
-        return 0
+        return Constant.API_PAGE_REQUEST_START
     }
+
+    abstract fun injectRecyclerView(): RecyclerView
+
+    abstract fun injectLayoutManager(): RecyclerView.LayoutManager
+
+    abstract fun injectDivider(): BaseDividerItemDecoration
 
     abstract fun injectAdapter(): BaseQuickAdapter<T, BaseBindingQuickAdapter.BaseBindingHolder>
 
     abstract fun injectRefreshLayout(): RefreshLayout
 
-    abstract fun getListData(isFirst: Boolean, loadPage: Int)
-
     override fun initViews() {
         super.initViews()
-        initRecyclerView()
         injectRefreshLayout().setEnableLoadMore(false)
-        injectAdapter().setEmptyView(injectEmptyView())
-        injectAdapter().isUseEmpty = false
-        injectAdapter().headerWithEmptyEnable = injectHeaderWithEmptyEnable()
+        if (enableRefresh()) {
+            injectRefreshLayout().setOnRefreshListener(this)
+        }
 
-        if (isAllowLoadMore()) {
+        initRecyclerView()
+        injectRecyclerView().layoutManager = injectLayoutManager()
+        injectDivider().addTo(injectRecyclerView())
+        injectRecyclerView().adapter = injectAdapter()
+        injectAdapter().setEmptyView(injectEmptyView())
+        injectAdapter().headerWithEmptyEnable = injectHeaderWithEmptyEnable()
+        injectAdapter().isUseEmpty = false
+
+        if (injectHeaderView() != 0) {
+            val headerView = LayoutInflater.from(mContext)
+                .inflate(injectHeaderView(), injectRecyclerView().parent as ViewGroup, false)
+            initHeaderView(headerView)
+            injectAdapter().addHeaderView(headerView)
+        }
+
+        if (enableLoadMore()) {
             injectAdapter().loadMoreModule.setOnLoadMoreListener(this)
         }
 
-        if (isAllowRefresh()) {
-            injectRefreshLayout().setOnRefreshListener(this)
-        }
+    }
+
+    open fun initRecyclerView() {
+
     }
 
     override fun loadData() {
         getListData(true, injectRequestFirstPage())
     }
+
+    abstract fun getListData(isFirst: Boolean, loadPage: Int)
 
     override fun onRetryBtnClick() {
         super.onRetryBtnClick()
@@ -72,11 +98,11 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
         getListData(false, currentPageNo + 1)
     }
 
-    open fun isAllowRefresh(): Boolean {
+    open fun enableRefresh(): Boolean {
         return true
     }
 
-    open fun isAllowLoadMore(): Boolean {
+    open fun enableLoadMore(): Boolean {
         return true
     }
 
@@ -89,7 +115,14 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
     }
 
 
-    abstract fun initRecyclerView()
+    open fun injectHeaderView(): Int {
+        return 0
+    }
+
+    open fun initHeaderView(headerView: View) {
+
+    }
+
 
     override fun loadListDataStart(isFirst: Boolean) {
         if (isFirst) {

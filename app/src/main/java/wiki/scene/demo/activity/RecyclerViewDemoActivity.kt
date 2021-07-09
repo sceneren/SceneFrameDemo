@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.fondesa.recyclerviewdivider.BaseDividerItemDecoration
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.hjq.bar.TitleBar
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -36,20 +38,18 @@ class RecyclerViewDemoActivity :
         titleBarView.title = ("首页")
     }
 
-    override fun initRecyclerView() {
-        binding.recyclerView.adapter = mAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(mContext)
-        dividerBuilder().size(10, TypedValue.COMPLEX_UNIT_DIP)
+    override fun injectRecyclerView(): RecyclerView {
+        return binding.recyclerView
+    }
+
+    override fun injectLayoutManager(): RecyclerView.LayoutManager {
+        return LinearLayoutManager(mContext)
+    }
+
+    override fun injectDivider(): BaseDividerItemDecoration {
+        return dividerBuilder().size(10, TypedValue.COMPLEX_UNIT_DIP)
             .color(Color.RED)
             .build()
-            .addTo(binding.recyclerView)
-
-        mAdapter.setOnItemClickListener { _, _, position ->
-
-            val url = mAdapter.data[position].link
-            RouterUtil.launchWeb(url)
-        }
-
     }
 
     override fun injectRequestFirstPage(): Int {
@@ -61,9 +61,17 @@ class RecyclerViewDemoActivity :
     }
 
     override fun injectAdapter(): BaseQuickAdapter<wiki.scene.entity.ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
+        mAdapter.setOnItemClickListener { _, _, position ->
+
+            val url = mAdapter.data[position].link
+            RouterUtil.launchWeb(url)
+        }
         return mAdapter
     }
 
+    override fun keyboardEnable(): Boolean {
+        return true
+    }
     override fun injectRefreshLayout(): RefreshLayout {
         return binding.refreshLayout
     }
@@ -99,5 +107,6 @@ class RecyclerViewDemoActivity :
     override fun injectLoadServiceView(): View {
         return binding.refreshLayout
     }
+
 
 }
