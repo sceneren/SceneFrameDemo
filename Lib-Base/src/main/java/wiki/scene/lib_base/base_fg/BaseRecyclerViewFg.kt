@@ -151,15 +151,17 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
         } else {
             injectRefreshLayout().finishRefresh(true)
         }
-        if (hasMore) {
-            injectAdapter().loadMoreModule.loadMoreComplete()
-        } else {
-            injectAdapter().loadMoreModule.loadMoreEnd()
-        }
+
         if (currentPageNo == injectReturnFirstPage()) {
             injectAdapter().setNewInstance(list)
         } else {
             injectAdapter().addData(list)
+        }
+
+        if (hasMore) {
+            injectAdapter().loadMoreModule.loadMoreComplete()
+        } else {
+            injectAdapter().loadMoreModule.loadMoreEnd()
         }
         injectAdapter().isUseEmpty = true
     }
