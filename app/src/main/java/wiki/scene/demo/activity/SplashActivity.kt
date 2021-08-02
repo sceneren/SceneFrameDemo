@@ -1,11 +1,10 @@
 package wiki.scene.demo.activity
 
 import android.animation.Animator
-import android.view.View
-import com.alibaba.android.arouter.facade.Postcard
-import com.alibaba.android.arouter.facade.callback.NavCallback
+import androidx.core.view.isGone
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hjq.bar.TitleBar
+import com.kongzue.dialogx.impl.AnimatorListenerEndCallBack
 import wiki.scene.demo.databinding.ActSplashBinding
 import wiki.scene.lib_base.BaseApplication
 import wiki.scene.lib_base.base_ac.BaseAc
@@ -16,7 +15,7 @@ class SplashActivity : BaseAc<ActSplashBinding>() {
 
     override fun initToolBarView(titleBarView: TitleBar) {
         super.initToolBarView(titleBarView)
-        titleBarView.visibility = View.GONE
+        titleBarView.isGone = true
     }
 
     override fun fullScreen(): Boolean {
@@ -35,26 +34,11 @@ class SplashActivity : BaseAc<ActSplashBinding>() {
 
     override fun initViews() {
         super.initViews()
-        binding.lottieView.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
-
-            }
-
+        binding.lottieView.addAnimatorListener(object : AnimatorListenerEndCallBack() {
             override fun onAnimationEnd(animation: Animator?) {
                 ARouter.getInstance()
                     .build(RouterPath.Main.ACT_MAIN)
-                    .navigation(this@SplashActivity, object : NavCallback() {
-                        override fun onArrival(postcard: Postcard?) {
-                            finish()
-                        }
-
-                    })
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-
-            override fun onAnimationRepeat(animation: Animator?) {
+                    .navigation()
             }
 
         })
