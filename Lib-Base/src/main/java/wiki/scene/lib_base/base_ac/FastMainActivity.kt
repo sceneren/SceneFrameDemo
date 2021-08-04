@@ -27,6 +27,7 @@ abstract class FastMainActivity : BaseAc<LibBaseFastActMainBinding>() {
 
         binding.viewPager2.adapter = viewPager2Adapter
         binding.viewPager2.isUserInputEnabled = false
+        binding.viewPager2.offscreenPageLimit = getFragmentList().size()
 
         val commonNavigator = CommonNavigator(this)
         commonNavigator.isAdjustMode = true
