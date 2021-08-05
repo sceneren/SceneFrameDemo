@@ -19,23 +19,25 @@ abstract class FastMainActivity : BaseAc<LibBaseFastActMainBinding>() {
             throw Exception("tabList or fragmentList error!")
         }
         binding.dividerView.setBackgroundColor(getDividerColor())
-
         val layoutParams = binding.dividerView.layoutParams
         layoutParams.height = getDividerHeight()
 
         val viewPager2Adapter = ViewPager2Adapter(this, getFragmentList())
+        binding.viewPager2.run {
+            adapter = viewPager2Adapter
+            isUserInputEnabled = false
+            offscreenPageLimit = getFragmentList().size()
+        }
 
-        binding.viewPager2.adapter = viewPager2Adapter
-        binding.viewPager2.isUserInputEnabled = false
-        binding.viewPager2.offscreenPageLimit = getFragmentList().size()
+        val commonNavigator = CommonNavigator(this).apply {
+            isAdjustMode = true
+            adapter = BottomCommonNavigatorAdapter(getTabList(), binding.viewPager2)
+        }
 
-        val commonNavigator = CommonNavigator(this)
-        commonNavigator.isAdjustMode = true
-
-        commonNavigator.adapter = BottomCommonNavigatorAdapter(getTabList(), binding.viewPager2)
-
-        binding.magicIndicator.navigator = commonNavigator
-        binding.magicIndicator.bind(binding.viewPager2)
+        binding.magicIndicator.run {
+            navigator = commonNavigator
+            bind(binding.viewPager2)
+        }
     }
 
     override fun hasTitleBarView(): Boolean {
