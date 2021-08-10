@@ -16,7 +16,7 @@ abstract class FastMainActivity : BaseAc<LibBaseFastActMainBinding>() {
     override fun initViews() {
         super.initViews()
         if (getFragmentList().isEmpty() || getTabList().isEmpty() || getFragmentList().size() != getTabList().size) {
-            throw Exception("tabList or fragmentList error!")
+            throw Exception("tabList(size = ${getTabList().size}) or fragmentList(size = ${getFragmentList().size()} error!")
         }
         binding.dividerView.setBackgroundColor(getDividerColor())
         val layoutParams = binding.dividerView.layoutParams
