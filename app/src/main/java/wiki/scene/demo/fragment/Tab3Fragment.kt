@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.d.lib.slidelayout.SlideLayout
 import com.fondesa.recyclerviewdivider.BaseDividerItemDecoration
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.hjq.bar.TitleBar
@@ -22,6 +23,7 @@ import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.BaseMvpRecyclerViewFg
 import wiki.scene.lib_base.priview.ImagePreviewUtils
 import wiki.scene.lib_common.router.RouterPath
+import wiki.scene.lib_common.router.RouterUtil
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,7 +57,7 @@ class Tab3Fragment :
 
     override fun injectDivider(): BaseDividerItemDecoration {
         return mContext.dividerBuilder().size(10, TypedValue.COMPLEX_UNIT_DIP)
-            .color(Color.RED)
+            .color(Color.parseColor("#F5F5F5"))
             .build()
     }
 
@@ -65,7 +67,7 @@ class Tab3Fragment :
 
 
     override fun injectAdapter(): BaseQuickAdapter<ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
-        mAdapter.setOnItemChildClickListener { _, view, _ ->
+        mAdapter.setOnItemChildClickListener { _, view, position ->
             when (view.id) {
                 R.id.ivImage -> {
                     ImagePreviewUtils.preview(
@@ -73,7 +75,20 @@ class Tab3Fragment :
                         mutableListOf("https://pic.rmb.bdstatic.com/bjh/down/2331bb86e656e5a574d211113d154325.gif")
                     )
                 }
+                R.id.tvDelete -> {
+                    //实际移除item的时候需要设置SlideLayout的isOpen为false
+                    val slideLayout =
+                        mAdapter.getViewByPosition(position, R.id.slideLayout) as SlideLayout
+
+                    slideLayout.close()
+
+                    mAdapter.removeAt(position)
+                    showToast("删除")
+                }
             }
+        }
+        mAdapter.setOnItemClickListener { _, _, position ->
+            RouterUtil.launchWeb(mAdapter.data[position].link)
         }
         return mAdapter
     }

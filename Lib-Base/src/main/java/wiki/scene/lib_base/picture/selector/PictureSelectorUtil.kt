@@ -19,6 +19,7 @@ object PictureSelectorUtil {
             .imageEngine(GlideEngine.instance)
             .isEnableCrop(crop)
             .isCompress(compress)
+            .isCamera(true)
             .maxSelectNum(maxSelectCount)
             .forResult(listener)
     }
@@ -35,6 +36,7 @@ object PictureSelectorUtil {
             .imageEngine(GlideEngine.instance)
             .isEnableCrop(crop)
             .isCompress(compress)
+            .isCamera(true)
             .maxSelectNum(maxSelectCount)
             .forResult(listener)
     }
