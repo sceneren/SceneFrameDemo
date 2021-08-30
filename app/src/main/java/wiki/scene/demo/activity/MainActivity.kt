@@ -22,8 +22,6 @@ class MainActivity : FastMainActivity() {
         fragments.append(
             0, ARouter.getInstance()
                 .build(RouterPath.Main.FRAG_TAB_1)
-                .withInt("type", 1)
-                .withString("name", "Test")
                 .navigation() as Fragment
         )
         fragments.append(

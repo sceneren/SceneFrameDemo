@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -17,10 +18,23 @@
             android:orientation="vertical"
             android:padding="@dimen/dp_16">
 
+            <com.zhpan.bannerview.BannerViewPager
+                android:id="@+id/bannerViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:bvp_auto_play="true"
+                app:bvp_can_loop="true"
+                app:bvp_indicator_checked_color="#FF0000"
+                app:bvp_indicator_normal_color="@color/white"
+                app:bvp_indicator_slide_mode="scale"
+                app:bvp_indicator_style="round_rect"
+                app:bvp_indicator_radius="8dp"/>
+
             <Button
                 android:id="@+id/btnTest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="测试RecyclerView" />
 
             <Button

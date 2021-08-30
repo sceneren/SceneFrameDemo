@@ -5,6 +5,9 @@
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.17037037037037037" />
         <entry key="app/src/main/res/layout/act_recycler_view_demo_item.xml" value="0.11481481481481481" />
+        <entry key="app/src/main/res/layout/frag_tab_1.xml" value="0.14814814814814814" />
+        <entry key="app/src/main/res/layout/frag_tab_1_banner_item.xml" value="0.22395833333333334" />
+        <entry key="app/src/main/res/layout/frag_tab_2.xml" value="0.14814814814814814" />
       </map>
     </option>
   </component>

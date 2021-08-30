@@ -1,6 +1,5 @@
 package wiki.scene.demo.fragment
 
-import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
@@ -9,15 +8,21 @@ import com.blankj.utilcode.util.TimeUtils
 import com.hjq.bar.TitleBar
 import com.hjq.toast.ToastUtils
 import com.luck.picture.lib.entity.LocalMedia
+import com.zhpan.bannerview.BannerViewPager
 import io.reactivex.Observable
 import org.greenrobot.eventbus.Subscribe
+import wiki.scene.demo.adapter.Tab1BannerAdapter
 import wiki.scene.demo.databinding.FragTab1Binding
+import wiki.scene.demo.mvp.contract.Tab1FragmentContract
+import wiki.scene.demo.mvp.presenter.Tab1FragmentPresenter
+import wiki.scene.entity.BannerInfo
 import wiki.scene.lib_base.aop.checklogin.annotation.CheckLogin
-import wiki.scene.lib_base.base_fg.BaseFg
+import wiki.scene.lib_base.base_mvp.BaseMvpFg
 import wiki.scene.lib_base.base_util.EnvironmentUtil
 import wiki.scene.lib_base.ext.clicks
 import wiki.scene.lib_base.picture.selector.OnChooseImageListener
 import wiki.scene.lib_base.picture.selector.PictureSelectorUtil
+import wiki.scene.lib_common.ext.toPx
 import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_db.entity.SearchHistoryEntity
 import wiki.scene.lib_db.manager.DbUtil
@@ -30,14 +35,8 @@ import wiki.scene.lib_network.observer.BaseLoadingObserver
 import wiki.scene.module_scan.event.OnScanResultEvent
 
 @Route(path = RouterPath.Main.FRAG_TAB_1)
-class Tab1Fragment : BaseFg<FragTab1Binding>() {
-    @JvmField
-    @Autowired
-    var type = 0
-
-    @JvmField
-    @Autowired
-    var name = ""
+class Tab1Fragment : BaseMvpFg<FragTab1Binding, Tab1FragmentPresenter>(),
+    Tab1FragmentContract.IView {
 
     override fun allowEventBus(): Boolean {
         return true
@@ -52,9 +51,15 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
         return true
     }
 
-    override fun loadData() {
-
+    override fun initViews() {
+        super.initViews()
+        initBanner()
     }
+
+    override fun loadData() {
+        mPresenter?.banner()
+    }
+
 
     override fun initListener() {
         super.initListener()
@@ -178,6 +183,16 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
             }
     }
 
+    private fun initBanner() {
+        (binding.bannerViewPager as BannerViewPager<BannerInfo>)
+            .run {
+                adapter = Tab1BannerAdapter()
+                setLifecycleRegistry(lifecycle)
+                setIndicatorHeight(6.toPx())
+                setIndicatorSliderWidth(6.toPx(), 16.toPx())
+            }.create()
+    }
+
     private fun showBetaMode() {
         showToast("当前是否是测试环境：${EnvironmentUtil.isBeta()}")
     }
@@ -194,5 +209,13 @@ class Tab1Fragment : BaseFg<FragTab1Binding>() {
                 showToast(event.result)
             }
         }
+    }
+
+    override fun initPresenter() {
+        mPresenter = Tab1FragmentPresenter(this)
+    }
+
+    override fun bindBanner(data: MutableList<BannerInfo>) {
+        binding.bannerViewPager.refreshData(data)
     }
 }

@@ -25,4 +25,5 @@ interface ArticleApi {
      */
     @GET(ApiConstant.Article.ARTICLE)
     fun listArticle(@Path("page") page: Int): Observable<BaseResponse<ArticleListRes>>
+
 }

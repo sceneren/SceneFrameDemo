@@ -85,7 +85,6 @@ dependencies {
     implementation project(':Module-Web')
     implementation project(':Module-Scan')
     kapt rootProject.ext.dependencies.arouterCompiler
-    implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
