@@ -41,22 +41,16 @@
         app:qrcv_topOffset="150dp"
         app:qrcv_verticalBias="-1" />
 
-    <com.aries.ui.view.radius.RadiusRelativeLayout
+    <com.hjq.shape.view.ShapeImageView
         android:id="@+id/layoutBack"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
         android:layout_marginStart="15dp"
+        android:scaleType="center"
+        android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="@+id/lib_base_tvTitleBar"
         app:layout_constraintStart_toStartOf="parent"
-        app:rv_backgroundColor="#30FFFFFF"
-        app:rv_radiusHalfHeightEnable="true">
-
-        <ImageView
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
-            android:scaleType="center"
-            android:src="@drawable/ic_back" />
-    </com.aries.ui.view.radius.RadiusRelativeLayout>
-
+        app:shape="oval"
+        app:shape_solidColor="#CCFFFFFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

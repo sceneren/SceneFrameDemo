@@ -1,5 +1,6 @@
 package wiki.scene.demo.adapter
 
+import com.blankj.utilcode.util.SizeUtils
 import com.zhpan.bannerview.BaseBannerAdapter
 import com.zhpan.bannerview.BaseViewHolder
 import wiki.scene.demo.R
@@ -20,6 +21,12 @@ class Tab1BannerAdapter : BaseBannerAdapter<BannerInfo>() {
                 itemViewBinding.imageView,
                 data.imagePath,
                 R.drawable.ic_default_image
+            )
+
+            GlideUtil.loadRoundImage(
+                itemViewBinding.imageView,
+                data.imagePath,
+                SizeUtils.dp2px(10F), R.drawable.ic_default_image
             )
         }
     }

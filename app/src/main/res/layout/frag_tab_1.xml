@@ -12,11 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.hjq.shape.layout.ShapeLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="vertical"
-            android:padding="@dimen/dp_16">
+            app:shape_radius="10dp"
+            app:shape_solidColor="#82B1FF"
+            app:shape_strokeColor="#FF8A80"
+            app:shape_strokeWidth="1dp">
 
             <com.zhpan.bannerview.BannerViewPager
                 android:id="@+id/bannerViewPager"
@@ -26,9 +30,9 @@
                 app:bvp_can_loop="true"
                 app:bvp_indicator_checked_color="#FF0000"
                 app:bvp_indicator_normal_color="@color/white"
+                app:bvp_indicator_radius="8dp"
                 app:bvp_indicator_slide_mode="scale"
-                app:bvp_indicator_style="round_rect"
-                app:bvp_indicator_radius="8dp"/>
+                app:bvp_indicator_style="round_rect" />
 
             <Button
                 android:id="@+id/btnTest"
@@ -94,7 +98,8 @@
                 android:layout_height="wrap_content"
                 android:hint="请输入内容" />
 
-        </LinearLayout>
+
+        </com.hjq.shape.layout.ShapeLinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 

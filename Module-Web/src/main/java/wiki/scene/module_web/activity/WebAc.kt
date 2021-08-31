@@ -14,9 +14,8 @@ import com.just.agentweb.AgentWeb
 import com.just.agentweb.DefaultWebClient
 import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
+import com.kongzue.dialogx.dialogs.BottomMenu
 import wiki.scene.lib_base.base_ac.BaseAc
-import wiki.scene.lib_common.dialog.CustomBottomMenu
-import wiki.scene.lib_common.dialog.callback.MenuItemClickListener
 import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_common.title.addCustomRightView
 import wiki.scene.module_web.R
@@ -49,8 +48,9 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
 
         actionBinding.rlMore.setOnClickListener {
 
-            CustomBottomMenu.show(arrayOf("刷新", "使用浏览器打开"), object : MenuItemClickListener {
-                override fun onClickMenuItemClick(index: Int, name: String) {
+            BottomMenu.show(arrayOf("刷新", "使用浏览器打开"))
+                .setCancelButton("取消")
+                .setOnMenuItemClickListener { _, _, index ->
                     when (index) {
                         0 -> {
                             this@WebAc.agentWeb!!.urlLoader.reload()
@@ -66,9 +66,8 @@ class WebAc : BaseAc<ModuleWebAcWebBinding>() {
 
                         }
                     }
+                    false
                 }
-
-            })
         }
         titleBarView.addCustomRightView(rightActionView, 100F, 30F)
     }
