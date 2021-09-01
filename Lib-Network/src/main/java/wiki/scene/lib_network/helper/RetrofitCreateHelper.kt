@@ -6,6 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import wiki.scene.lib_network.BuildConfig
 import java.io.Serializable
 import java.util.concurrent.TimeUnit
 
@@ -52,8 +53,13 @@ class RetrofitCreateHelper private constructor() : Serializable {
 
         val httpLoggingInterceptor = HttpLoggingInterceptor() {
             LogUtils.e(it)
+        }.apply {
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
         }
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         return OkHttpClient().newBuilder()
             .readTimeout(TIMEOUT_CONNECTION.toLong(), TimeUnit.SECONDS) //设置读取超时时间

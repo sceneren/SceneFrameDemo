@@ -1,5 +1,6 @@
 package wiki.scene.demo.fragment
 
+import android.os.SystemClock
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
@@ -10,6 +11,12 @@ import com.hjq.toast.ToastUtils
 import com.luck.picture.lib.entity.LocalMedia
 import com.zhpan.bannerview.BannerViewPager
 import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.Subscribe
 import wiki.scene.demo.adapter.Tab1BannerAdapter
 import wiki.scene.demo.databinding.FragTab1Binding
@@ -54,6 +61,19 @@ class Tab1Fragment : BaseMvpFg<FragTab1Binding, Tab1FragmentPresenter>(),
     override fun initViews() {
         super.initViews()
         initBanner()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            flow {
+                for (i in 1..10) {
+                    SystemClock.sleep(1000)
+                    emit("当前是第${i}次")
+                }
+            }.flowOn(Dispatchers.IO)
+                .collect {
+                    LogUtils.e(it)
+                }
+
+        }
     }
 
     override fun loadData() {
