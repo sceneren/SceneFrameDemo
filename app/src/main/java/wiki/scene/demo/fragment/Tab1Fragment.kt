@@ -36,6 +36,7 @@ import wiki.scene.lib_db.manager.DbUtil
 import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
 import wiki.scene.lib_network.ext.changeIO2MainThread
+import wiki.scene.lib_network.ext.loadingCollect
 import wiki.scene.lib_network.ext.transformData
 import wiki.scene.lib_network.manager.ApiManager
 import wiki.scene.lib_network.observer.BaseLoadingObserver
@@ -69,6 +70,7 @@ class Tab1Fragment : BaseMvpFg<FragTab1Binding, Tab1FragmentPresenter>(),
                     emit("当前是第${i}次")
                 }
             }.flowOn(Dispatchers.IO)
+                .loadingCollect()
                 .collect {
                     LogUtils.e(it)
                 }
