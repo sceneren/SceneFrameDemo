@@ -1,9 +1,12 @@
 package wiki.scene.demo.fragment
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.blankj.utilcode.util.ImageUtils
 import com.hjq.bar.TitleBar
+import wiki.scene.demo.R
 import wiki.scene.demo.databinding.FragTab2Binding
 import wiki.scene.lib_base.base_fg.BaseFg
 import wiki.scene.lib_common.router.RouterPath
@@ -31,7 +34,6 @@ class Tab2Fragment : BaseFg<FragTab2Binding>() {
 
     override fun initViews() {
         super.initViews()
-        binding.iv360.setBackgroundColor(Color.parseColor(color))
     }
 
     override fun loadData() {

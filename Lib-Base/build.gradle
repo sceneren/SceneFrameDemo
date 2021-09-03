@@ -24,7 +24,7 @@ dependencies {
 
     api 'org.aspectj:aspectjrt:1.9.5'
 
-    api 'androidx.constraintlayout:constraintlayout:2.0.4'
+    api 'androidx.constraintlayout:constraintlayout:2.1.0'
 
     api 'com.github.zhpanvip:bannerviewpager:3.5.4'
     //全局加载视图框架

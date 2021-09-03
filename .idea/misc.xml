@@ -7,6 +7,7 @@
         <entry key="Lib-Common/src/main/res/layout/lib_common_custom_bottom_menu.xml" value="0.11041666666666666" />
         <entry key="Lib-Common/src/main/res/layout/lib_common_custom_bottom_menu_item.xml" value="0.12129629629629629" />
         <entry key="Module-Scan/src/main/res/layout/module_scan_act_scan.xml" value="0.165" />
+        <entry key="app/src/main/res/drawable/xx.xml" value="0.15" />
         <entry key="app/src/main/res/layout/act_recycler_view_demo_item.xml" value="0.11481481481481481" />
         <entry key="app/src/main/res/layout/frag_tab_1.xml" value="0.14814814814814814" />
         <entry key="app/src/main/res/layout/frag_tab_1_banner_item.xml" value="0.22395833333333334" />
