@@ -2,7 +2,6 @@ package wiki.scene.demo.activity
 
 import android.graphics.Color
 import android.util.TypedValue
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -102,10 +101,5 @@ class RecyclerViewDemoActivity :
                 }
             })
     }
-
-    override fun injectLoadServiceView(): View {
-        return binding.refreshLayout
-    }
-
 
 }

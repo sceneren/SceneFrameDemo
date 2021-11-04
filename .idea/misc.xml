@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/xx.xml" value="0.15" />
         <entry key="app/src/main/res/layout/act_count_down_timer_recyclerview.xml" value="0.22395833333333334" />
         <entry key="app/src/main/res/layout/act_count_down_timer_recyclerview_item.xml" value="0.22395833333333334" />
+        <entry key="app/src/main/res/layout/act_recycler_view_demo.xml" value="0.1259259259259259" />
         <entry key="app/src/main/res/layout/act_recycler_view_demo_item.xml" value="0.11481481481481481" />
         <entry key="app/src/main/res/layout/act_sticky_recyclerview.xml" value="0.1259259259259259" />
         <entry key="app/src/main/res/layout/act_sticky_recyclerview_item.xml" value="0.1259259259259259" />

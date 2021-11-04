@@ -63,19 +63,19 @@ class Tab1Fragment : BaseMvpFg<FragTab1Binding, Tab1FragmentPresenter>(),
         super.initViews()
         initBanner()
 
-        GlobalScope.launch(Dispatchers.Main) {
-            flow {
-                for (i in 1..10) {
-                    SystemClock.sleep(1000)
-                    emit("当前是第${i}次")
-                }
-            }.flowOn(Dispatchers.IO)
-                .loadingCollect()
-                .collect {
-                    LogUtils.e(it)
-                }
-
-        }
+//        GlobalScope.launch(Dispatchers.Main) {
+//            flow {
+//                for (i in 1..10) {
+//                    SystemClock.sleep(1000)
+//                    emit("当前是第${i}次")
+//                }
+//            }.flowOn(Dispatchers.IO)
+//                .loadingCollect()
+//                .collect {
+//                    LogUtils.e(it)
+//                }
+//
+//        }
     }
 
     override fun loadData() {
