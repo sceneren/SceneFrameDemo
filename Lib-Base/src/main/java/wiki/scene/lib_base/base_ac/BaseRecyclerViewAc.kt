@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnLoadMoreListener
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.fondesa.recyclerviewdivider.BaseDividerItemDecoration
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import wiki.scene.lib_base.R
-import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.i.IRecyclerViewBaseView
 import wiki.scene.lib_common.constant.Constant
 
@@ -41,9 +41,11 @@ abstract class BaseRecyclerViewAc<VB : ViewBinding, T> : BaseAc<VB>(), OnRefresh
 
     abstract fun injectLayoutManager(): RecyclerView.LayoutManager
 
-    abstract fun injectDivider(): BaseDividerItemDecoration
+    open fun injectDivider(): BaseDividerItemDecoration? {
+        return null
+    }
 
-    abstract fun injectAdapter(): BaseQuickAdapter<T, BaseBindingQuickAdapter.BaseBindingHolder>
+    abstract fun injectAdapter(): BaseQuickAdapter<T, out BaseViewHolder>
 
     abstract fun injectRefreshLayout(): RefreshLayout
 
@@ -53,9 +55,8 @@ abstract class BaseRecyclerViewAc<VB : ViewBinding, T> : BaseAc<VB>(), OnRefresh
             injectRefreshLayout().setOnRefreshListener(this)
         }
 
-        initRecyclerView()
         injectRecyclerView().layoutManager = injectLayoutManager()
-        injectDivider().addTo(injectRecyclerView())
+        injectDivider()?.addTo(injectRecyclerView())
         injectRecyclerView().adapter = injectAdapter()
         injectAdapter().setEmptyView(injectEmptyView())
         injectAdapter().headerWithEmptyEnable = injectHeaderWithEmptyEnable()
@@ -71,6 +72,8 @@ abstract class BaseRecyclerViewAc<VB : ViewBinding, T> : BaseAc<VB>(), OnRefresh
         if (enableLoadMore()) {
             injectAdapter().loadMoreModule.setOnLoadMoreListener(this)
         }
+
+        initRecyclerView()
     }
 
     open fun initRecyclerView() {

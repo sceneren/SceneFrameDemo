@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnLoadMoreListener
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.fondesa.recyclerviewdivider.BaseDividerItemDecoration
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import wiki.scene.lib_base.R
-import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_mvp.i.IRecyclerViewBaseView
 import wiki.scene.lib_common.constant.Constant
 
@@ -43,7 +43,7 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
 
     abstract fun injectDivider(): BaseDividerItemDecoration
 
-    abstract fun injectAdapter(): BaseQuickAdapter<T, BaseBindingQuickAdapter.BaseBindingHolder>
+    abstract fun injectAdapter(): BaseQuickAdapter<T, out BaseViewHolder>
 
     abstract fun injectRefreshLayout(): RefreshLayout
 
@@ -54,7 +54,7 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
             injectRefreshLayout().setOnRefreshListener(this)
         }
 
-        initRecyclerView()
+
         injectRecyclerView().layoutManager = injectLayoutManager()
         injectDivider().addTo(injectRecyclerView())
         injectRecyclerView().adapter = injectAdapter()
@@ -72,6 +72,8 @@ abstract class BaseRecyclerViewFg<VB : ViewBinding, T> : BaseFg<VB>(), OnRefresh
         if (enableLoadMore()) {
             injectAdapter().loadMoreModule.setOnLoadMoreListener(this)
         }
+
+        initRecyclerView()
 
     }
 

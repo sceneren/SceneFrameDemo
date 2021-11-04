@@ -105,5 +105,4 @@ class Tab3Fragment :
         return binding.refreshLayout
     }
 
-
 }

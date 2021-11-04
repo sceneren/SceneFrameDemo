@@ -55,7 +55,7 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".activity.RecyclerViewStickyHeaderActivity"
+            android:name=".activity.StickyRecyclerViewActivity"
             android:screenOrientation="portrait" />
 
         <activity

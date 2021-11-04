@@ -6,7 +6,6 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.fondesa.recyclerviewdivider.BaseDividerItemDecoration
 import com.fondesa.recyclerviewdivider.dividerBuilder
 import com.hjq.bar.TitleBar
@@ -15,7 +14,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import wiki.scene.demo.adapter.RecyclerViewAdapter
 import wiki.scene.demo.databinding.ActRecyclerViewDemoBinding
 import wiki.scene.entity.ArticleListRes
-import wiki.scene.lib_base.adapters.BaseBindingQuickAdapter
 import wiki.scene.lib_base.base_ac.BaseRecyclerViewAc
 import wiki.scene.lib_common.router.RouterPath
 import wiki.scene.lib_common.router.RouterUtil
@@ -60,7 +58,7 @@ class RecyclerViewDemoActivity :
         return 1
     }
 
-    override fun injectAdapter(): BaseQuickAdapter<wiki.scene.entity.ArticleBean, BaseBindingQuickAdapter.BaseBindingHolder> {
+    override fun injectAdapter(): RecyclerViewAdapter {
         mAdapter.setOnItemClickListener { _, _, position ->
 
             val url = mAdapter.data[position].link
@@ -72,6 +70,7 @@ class RecyclerViewDemoActivity :
     override fun keyboardEnable(): Boolean {
         return true
     }
+
     override fun injectRefreshLayout(): RefreshLayout {
         return binding.refreshLayout
     }

@@ -93,6 +93,13 @@ class Tab1Fragment : BaseMvpFg<FragTab1Binding, Tab1FragmentPresenter>(),
                     .navigation()
             }
 
+        binding.btnStickyRecyclerViewTest
+            .clicks {
+                ARouter.getInstance()
+                    .build(RouterPath.Main.ACT_RECYCLERVIEW_STICKY_HEADER)
+                    .navigation()
+            }
+
         binding.btnTestDataNull
             .clicks {
                 ApiManager.getInstance()

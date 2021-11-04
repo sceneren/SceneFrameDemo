@@ -23,7 +23,7 @@ abstract class BaseBindingQuickAdapter<T, VB : ViewBinding>(
     }
 
 
-    class BaseBindingHolder(private val binding: ViewBinding) : BaseViewHolder(binding.root) {
+    open class BaseBindingHolder(private val binding: ViewBinding) : BaseViewHolder(binding.root) {
 
         @Suppress("UNCHECKED_CAST")
         fun <VB : ViewBinding> getViewBinding() = binding as VB
