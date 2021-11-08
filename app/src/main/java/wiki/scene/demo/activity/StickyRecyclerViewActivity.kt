@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 /**
  *
- * @Description:    《慎用》列表分组吸顶，目前问题是如果需要响应吸顶的点击事件的话会导致下拉刷新功能被挡住
+ * @Description:    列表分组吸顶,注意看布局文件
  * @Author:         scene
  * @CreateDate:     2021/11/4 14:54
  * @UpdateUser:

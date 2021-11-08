@@ -8,12 +8,13 @@
 
     <include layout="@layout/lib_base_title_bar_view" />
 
-    <FrameLayout
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/refreshLayout"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -22,12 +23,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-        <!--需要响应吸顶的才加这个东西-->
-        <FrameLayout
-            android:id="@+id/layout_sticky_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
+            <!--需要响应吸顶的才加这个东西-->
+            <FrameLayout
+                android:id="@+id/layout_sticky_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </LinearLayout>
