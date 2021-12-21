@@ -8,6 +8,9 @@
     <application>
         <activity
             android:name=".activity.WebAc"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
     </application>
 

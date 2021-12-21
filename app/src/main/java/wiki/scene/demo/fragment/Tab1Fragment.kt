@@ -1,6 +1,6 @@
 package wiki.scene.demo.fragment
 
-import android.os.SystemClock
+import android.annotation.SuppressLint
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.GsonUtils
@@ -11,12 +11,7 @@ import com.hjq.toast.ToastUtils
 import com.luck.picture.lib.entity.LocalMedia
 import com.zhpan.bannerview.BannerViewPager
 import io.reactivex.Observable
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
+import io.reactivex.disposables.Disposable
 import org.greenrobot.eventbus.Subscribe
 import wiki.scene.demo.adapter.Tab1BannerAdapter
 import wiki.scene.demo.databinding.FragTab1Binding
@@ -36,11 +31,11 @@ import wiki.scene.lib_db.manager.DbUtil
 import wiki.scene.lib_network.exception.NetException
 import wiki.scene.lib_network.ext.bindLifecycle
 import wiki.scene.lib_network.ext.changeIO2MainThread
-import wiki.scene.lib_network.ext.loadingCollect
 import wiki.scene.lib_network.ext.transformData
 import wiki.scene.lib_network.manager.ApiManager
 import wiki.scene.lib_network.observer.BaseLoadingObserver
 import wiki.scene.module_scan.event.OnScanResultEvent
+import java.util.concurrent.TimeUnit
 
 @Route(path = RouterPath.Main.FRAG_TAB_1)
 class Tab1Fragment : BaseMvpFg<FragTab1Binding, Tab1FragmentPresenter>(),
@@ -62,20 +57,6 @@ class Tab1Fragment : BaseMvpFg<FragTab1Binding, Tab1FragmentPresenter>(),
     override fun initViews() {
         super.initViews()
         initBanner()
-
-//        GlobalScope.launch(Dispatchers.Main) {
-//            flow {
-//                for (i in 1..10) {
-//                    SystemClock.sleep(1000)
-//                    emit("当前是第${i}次")
-//                }
-//            }.flowOn(Dispatchers.IO)
-//                .loadingCollect()
-//                .collect {
-//                    LogUtils.e(it)
-//                }
-//
-//        }
     }
 
     override fun loadData() {
@@ -83,14 +64,53 @@ class Tab1Fragment : BaseMvpFg<FragTab1Binding, Tab1FragmentPresenter>(),
     }
 
 
+    private var timerDisposable: Disposable? = null
+    private var eventDisposable: Disposable? = null
+
+    @SuppressLint("CheckResult")
     override fun initListener() {
         super.initListener()
 
         binding.btnTest
             .clicks {
-                ARouter.getInstance()
-                    .build(RouterPath.Main.ACT_RECYCLERVIEW)
-                    .navigation()
+//                ARouter.getInstance()
+//                    .build(RouterPath.Main.ACT_RECYCLERVIEW)
+//                    .navigation()
+                timerDisposable = Observable.intervalRange(1L, 10L, 0L, 1L, TimeUnit.SECONDS)
+                    .compose(bindToLifecycle())
+                    .changeIO2MainThread()
+                    .subscribe({
+                        LogUtils.e("timerDisposable===》$it")
+                        binding.tvTime.text = "$it"
+                    }, {
+
+                    }, {
+                        LogUtils.e("timerDisposable===>OnCompleted")
+                        eventDisposable?.run {
+                            if (!this.isDisposed) {
+                                dispose()
+                            }
+                        }
+                    })
+
+                eventDisposable = Observable.create<String> {
+                    for (i in 0 until 5) {
+                        Thread.sleep(3000L * i)
+                        it.onNext("onNext===>$i")
+                    }
+                }
+                    .compose(bindToLifecycle())
+                    .changeIO2MainThread()
+                    .subscribe (
+                        {
+                            LogUtils.e("eventDisposable==>${it}")
+                        },{
+                            it.printStackTrace()
+                        },{
+                            LogUtils.e("eventDisposable===>OnCompleted")
+                        }
+                    )
+
             }
 
         binding.btnStickyRecyclerViewTest
